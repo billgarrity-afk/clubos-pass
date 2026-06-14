@@ -210,11 +210,15 @@ body{font-family:'DM Sans',sans-serif;background:var(--green-dark);color:var(--c
 
 /* mobile */
 @media(max-width:900px){
-  .demo-layout{ grid-template-columns:1fr; gap:40px; }
-  .phone-frame-wrap{ position:static; align-items:center; width:100%; }
-  .clubos-phone{ margin:0 auto; }
+  .demo-layout{ grid-template-columns:1fr; gap:36px; }
+  .phone-frame-wrap{ position:static !important; align-items:center; width:100%; }
+  .clubos-phone{ margin:0 auto; width:min(300px, 88vw); height:min(620px, 185vw); }
   .tap-hint{ justify-content:center; }
   .phone-hint-row{ text-align:center; }
+  .scenarios{ margin-top:8px; }
+  .scenario-card, .progression-card{ padding:20px 22px; }
+  .sc-desc{ font-size:13px; }
+  .note-body{ font-size:13px; }
 }
 
 .page-footer{margin-top:72px;padding-top:28px;border-top:1px solid rgba(201,168,76,0.15);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
@@ -587,19 +591,15 @@ setInterval(function(){
   try{ var c=document.getElementById('phClock'); if(c) c.textContent=phTime(); }catch(e){}
 },1000);
 
-try{ loadScene('checkin'); }catch(e){
-  var s=document.getElementById('phoneScreen');
-  if(s) s.innerHTML='<div style="color:rgba(242,238,230,0.3);padding:20px;font-size:12px;">Loading…</div>';
-}
+// Always show all cards immediately — no scroll-gating on mobile
+document.querySelectorAll('.fade-in').forEach(function(el){ el.classList.add('visible'); });
 
-try{
-  var obs=new IntersectionObserver(function(entries){
-    entries.forEach(function(e,i){
-      if(e.isIntersecting){ setTimeout(function(){ e.target.classList.add('visible'); },i*90); obs.unobserve(e.target); }
-    });
-  },{threshold:0.12});
-  document.querySelectorAll('.fade-in').forEach(function(el){ obs.observe(el); });
-}catch(e){ document.querySelectorAll('.fade-in').forEach(function(el){ el.classList.add('visible'); }); }
+// Init on DOM ready
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded', function(){ loadScene('checkin'); });
+} else {
+  loadScene('checkin');
+}
 </script>
 </body>
 </html>
