@@ -8,598 +8,613 @@
 <title>ClubOS Pass — Member Experience</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --cream:#FAF7F2; --green-dark:#0D1F17; --green-mid:#1A3A2A; --green-acc:#2D5A3D;
-  --gold:#C9A84C; --gold-dim:#8B6B28; --gray:#6B7280; --separator:rgba(201,168,76,0.22);
-  --p-bg:#0C0F0D; --p-card:#111714; --p-raise:#182018;
-  --p-green:#3DBE72; --p-green-dim:rgba(61,190,114,0.12); --p-green-line:rgba(61,190,114,0.22);
-  --p-gold:#C9A84C; --p-gold-dim:rgba(201,168,76,0.13); --p-gold-line:rgba(201,168,76,0.28);
-  --p-white:#F2EEE6; --p-dim:rgba(242,238,230,0.5); --p-faint:rgba(242,238,230,0.15);
-  --p-sep:rgba(242,238,230,0.07); --p-red:#D94F4F;
+:root{
+  --cream:#FAF7F2;--green-dark:#0D1F17;--green-mid:#1A3A2A;
+  --gold:#C9A84C;--gold-dim:#8B6B28;
+  --p-bg:#0C0F0D;--p-card:#111714;--p-raise:#182018;
+  --p-green:#3DBE72;--p-gdim:rgba(61,190,114,0.12);--p-gline:rgba(61,190,114,0.22);
+  --p-gold:#C9A84C;--p-qdim:rgba(201,168,76,0.13);--p-qline:rgba(201,168,76,0.28);
+  --p-white:#F2EEE6;--p-dim:rgba(242,238,230,0.5);--p-sep:rgba(242,238,230,0.07);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{font-family:'DM Sans',sans-serif;background:var(--green-dark);color:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh;}
 
-/* clickable hint on scenario cards */
-.scenario-card{ user-select:none; }
-.scenario-card:active{ transform:scale(0.99); }
-.tap-hint{ font-size:13px; color:rgba(201,168,76,0.5); letter-spacing:1px; margin-bottom:20px; display:flex; align-items:center; gap:10px; }
-.tap-hint::before{ content:''; display:block; width:24px; height:1px; background:rgba(201,168,76,0.3); }
-.tap-hint::after{ content:''; display:block; width:24px; height:1px; background:rgba(201,168,76,0.3); }
-
+/* PAGE */
 .page{max-width:1100px;margin:0 auto;padding:72px 48px 80px;}
-@media(max-width:900px){.page{padding:60px 24px 60px;}}
+@media(max-width:700px){.page{padding:48px 20px 60px;}}
 
-.wordmark{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:500;letter-spacing:0.5px;margin-bottom:60px;display:inline-block;}
+.wordmark{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:500;margin-bottom:56px;display:inline-block;}
 .wordmark .club{color:rgba(250,247,242,0.4);}.wordmark .os{color:var(--gold);font-style:italic;}
-.eyebrow{font-size:12px;letter-spacing:4px;text-transform:uppercase;color:rgba(201,168,76,0.65);font-weight:500;margin-bottom:18px;}
-.headline{font-family:'Cormorant Garamond',serif;font-size:clamp(2.6rem,5vw,4.2rem);font-weight:500;color:var(--cream);line-height:1.1;max-width:720px;margin-bottom:20px;}
+.eyebrow{font-size:12px;letter-spacing:4px;text-transform:uppercase;color:rgba(201,168,76,0.65);font-weight:500;margin-bottom:16px;}
+.headline{font-family:'Cormorant Garamond',serif;font-size:clamp(2.6rem,7vw,4.2rem);font-weight:500;color:var(--cream);line-height:1.1;margin-bottom:18px;}
 .headline em{font-style:italic;color:var(--gold);}
-.subhead{font-size:1.1rem;color:rgba(250,247,242,0.5);max-width:560px;line-height:1.8;font-weight:300;margin-bottom:48px;}
+.subhead{font-size:1.05rem;color:rgba(250,247,242,0.5);max-width:560px;line-height:1.8;font-weight:300;margin-bottom:48px;}
 
-/* hint above phone */
-.phone-hint-row{ margin-bottom:16px; }
+/* LAYOUT */
+.demo-layout{display:grid;grid-template-columns:300px 1fr;gap:56px;align-items:start;}
+@media(max-width:900px){.demo-layout{grid-template-columns:1fr;gap:32px;}}
 
-.demo-layout{display:grid;grid-template-columns:320px 1fr;gap:64px;align-items:start;}
-@media(max-width:900px){.demo-layout{grid-template-columns:1fr;}}
+/* PHONE WRAP */
+.phone-wrap{position:sticky;top:32px;}
+@media(max-width:900px){.phone-wrap{position:static;display:flex;flex-direction:column;align-items:center;}}
 
-/* ── PHONE ── */
-.phone-frame-wrap{position:sticky;top:48px;display:flex;flex-direction:column;align-items:flex-start;gap:18px;}
-.clubos-phone{width:300px;height:620px;background:var(--p-bg);border-radius:42px;border:2.5px solid var(--p-gold-line);box-shadow:0 0 0 1px rgba(255,255,255,0.05),0 28px 72px rgba(0,0,0,0.65),inset 0 1px 0 rgba(255,255,255,0.06);overflow:hidden;position:relative;flex-shrink:0;font-family:'DM Sans',sans-serif;}
-.phone-notch{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:76px;height:5px;background:rgba(201,168,76,0.2);border-radius:3px;z-index:20;}
-.phone-screen{position:absolute;inset:0;overflow:hidden;display:flex;flex-direction:column;}
-.phone-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(250,247,242,0.25);font-family:'DM Mono',monospace;}
+.tap-hint{font-size:12px;color:rgba(201,168,76,0.5);letter-spacing:1px;margin-bottom:14px;display:flex;align-items:center;gap:10px;white-space:nowrap;}
+.tap-hint::before,.tap-hint::after{content:'';display:block;width:20px;height:1px;background:rgba(201,168,76,0.28);flex-shrink:0;}
+@media(max-width:900px){.tap-hint{justify-content:center;}}
 
-/* ── SCAN INTRO SCENE ── */
-.scan-scene{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;background:var(--p-bg);padding:28px 20px;text-align:center;}
-.scan-eyebrow{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(201,168,76,0.5);font-family:'DM Mono',monospace;margin-bottom:20px;}
-.scan-tv-label{font-size:11px;color:rgba(242,238,230,0.35);margin-bottom:14px;letter-spacing:0.5px;}
-.scan-qr-wrap{position:relative;width:110px;height:110px;margin:0 auto 24px;}
-.scan-qr-box{width:110px;height:110px;background:var(--p-white);border-radius:10px;display:flex;align-items:center;justify-content:center;position:relative;z-index:2;}
-.scan-qr-inner{display:grid;grid-template-columns:repeat(7,11px);grid-template-rows:repeat(7,11px);gap:2px;padding:8px;}
-.scan-qr-cell{border-radius:2px;}
-.scan-ring{position:absolute;inset:-6px;border-radius:16px;border:2px solid var(--p-gold);animation:scanring 2s ease-in-out infinite;}
-@keyframes scanring{0%,100%{opacity:0.4;transform:scale(1);}50%{opacity:1;transform:scale(1.04);}}
-.scan-beam{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--p-gold),transparent);animation:scanbeam 1.8s ease-in-out infinite;z-index:3;border-radius:1px;}
-@keyframes scanbeam{0%{top:14px;opacity:0;}15%{opacity:1;}85%{opacity:1;}100%{top:96px;opacity:0;}}
-.scan-headline{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--p-white);font-weight:600;line-height:1.2;margin-bottom:10px;}
-.scan-sub{font-size:11px;color:var(--p-dim);line-height:1.6;margin-bottom:28px;max-width:220px;}
-.scan-cta{background:var(--p-gold);color:var(--green-dark);border:none;border-radius:22px;padding:11px 28px;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:transform 0.15s;font-family:'DM Sans',sans-serif;}
-.scan-cta:active{transform:scale(0.97);}
-.scan-no-app{margin-top:14px;font-size:10px;color:rgba(242,238,230,0.25);letter-spacing:0.5px;}
+/* PHONE FRAME */
+.phone{width:280px;height:580px;background:var(--p-bg);border-radius:40px;border:2px solid var(--p-qline);box-shadow:0 0 0 1px rgba(255,255,255,0.05),0 24px 64px rgba(0,0,0,0.7);overflow:hidden;position:relative;flex-shrink:0;}
+.phone-notch{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:70px;height:4px;background:rgba(201,168,76,0.2);border-radius:3px;z-index:30;}
 
-/* ── PHONE HEADER ── */
-.ph-header{background:var(--p-card);border-bottom:1.5px solid var(--p-gold-line);padding:24px 14px 10px;flex-shrink:0;}
-.ph-header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
-.ph-club-name{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:var(--p-white);letter-spacing:0.5px;}
-.ph-club-sub{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--p-gold);margin-top:1px;}
-.ph-present-pill{display:flex;align-items:center;gap:4px;background:var(--p-green-dim);border:1px solid var(--p-green-line);border-radius:12px;padding:3px 9px;font-size:9px;font-weight:700;color:var(--p-green);letter-spacing:1px;text-transform:uppercase;}
-.ph-live-dot{width:5px;height:5px;border-radius:50%;background:var(--p-green);box-shadow:0 0 5px var(--p-green);animation:phpulse 2s ease infinite;}
-@keyframes phpulse{0%,100%{opacity:1}50%{opacity:0.3}}
-.ph-day-strip{background:var(--p-gold-dim);border:1px solid var(--p-gold-line);border-radius:6px;padding:5px 10px;display:flex;align-items:center;justify-content:space-between;}
-.ph-day-label{font-size:9px;color:var(--p-white);font-weight:500;}
-.ph-day-sub{font-size:8px;color:var(--p-dim);letter-spacing:1px;text-transform:uppercase;}
-.ph-clock{font-family:'DM Mono',monospace;font-size:14px;color:var(--p-white);}
+/* ALL SCENES — hidden by default, shown via .active */
+.scene{position:absolute;inset:0;display:none;flex-direction:column;background:var(--p-bg);overflow:hidden;}
+.scene.active{display:flex;}
 
-.ph-body{flex:1;overflow-y:auto;padding:8px 0 72px;}
+/* PHONE HEADER */
+.ph-hdr{background:var(--p-card);border-bottom:1.5px solid var(--p-qline);padding:22px 13px 9px;flex-shrink:0;}
+.ph-hdr-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;}
+.ph-club{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;color:var(--p-white);}
+.ph-sub{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--p-gold);margin-top:1px;}
+.present-pill{display:flex;align-items:center;gap:4px;background:var(--p-gdim);border:1px solid var(--p-gline);border-radius:10px;padding:3px 8px;font-size:9px;font-weight:700;color:var(--p-green);letter-spacing:1px;text-transform:uppercase;}
+.live-dot{width:5px;height:5px;border-radius:50%;background:var(--p-green);animation:pulse 2s ease infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.ph-strip{background:var(--p-qdim);border:1px solid var(--p-qline);border-radius:5px;padding:4px 9px;display:flex;align-items:center;justify-content:space-between;}
+.ph-strip-label{font-size:9px;color:var(--p-white);font-weight:500;}
+.ph-strip-sub{font-size:7px;color:var(--p-dim);letter-spacing:1px;text-transform:uppercase;}
+.ph-clock{font-family:'DM Mono',monospace;font-size:13px;color:var(--p-white);}
+
+/* PHONE BODY */
+.ph-body{flex:1;overflow-y:auto;padding:8px 0 68px;}
 .ph-body::-webkit-scrollbar{display:none;}
 
-/* ── SPONSOR STRIP ── */
-.ph-sponsor-strip{position:absolute;bottom:52px;left:0;right:0;background:rgba(10,14,11,0.95);border-top:1px solid rgba(201,168,76,0.1);border-bottom:1px solid rgba(201,168,76,0.1);padding:4px 14px;display:flex;align-items:center;justify-content:space-between;z-index:5;}
-.ph-sponsor-label{font-size:8px;color:rgba(242,238,230,0.2);letter-spacing:1.5px;text-transform:uppercase;}
-.ph-sponsor-name{font-family:'Cormorant Garamond',serif;font-size:13px;color:rgba(201,168,76,0.55);font-weight:500;letter-spacing:0.5px;}
+/* SPONSOR STRIP */
+.ph-sponsor{position:absolute;bottom:46px;left:0;right:0;background:rgba(10,14,11,0.96);border-top:1px solid rgba(201,168,76,0.1);padding:3px 13px;display:flex;align-items:center;justify-content:space-between;z-index:5;}
+.ph-sp-label{font-size:7px;color:rgba(242,238,230,0.2);letter-spacing:1.5px;text-transform:uppercase;}
+.ph-sp-name{font-family:'Cormorant Garamond',serif;font-size:12px;color:rgba(201,168,76,0.5);font-weight:500;}
 
-/* ── BOTTOM NAV ── */
-.ph-nav{position:absolute;bottom:0;left:0;right:0;background:rgba(10,14,11,0.97);border-top:1.5px solid var(--p-gold-line);display:flex;padding:6px 0 8px;z-index:10;}
-.ph-nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;}
-.ph-nav-icon{font-size:14px;}
-.ph-nav-label{font-size:7px;color:var(--p-dim);letter-spacing:0.5px;font-weight:600;text-transform:uppercase;}
-.ph-nav-item.active .ph-nav-label{color:var(--p-gold);}
+/* NAV */
+.ph-nav{position:absolute;bottom:0;left:0;right:0;background:rgba(10,14,11,0.97);border-top:1.5px solid var(--p-qline);display:flex;padding:5px 0 7px;z-index:10;}
+.ph-nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:1px;}
+.ph-nav-icon{font-size:13px;}
+.ph-nav-lbl{font-size:6px;color:var(--p-dim);letter-spacing:0.5px;font-weight:600;text-transform:uppercase;}
+.ph-nav-item.on .ph-nav-lbl{color:var(--p-gold);}
 
-/* ── SHARED ── */
-.ph-sec-head{display:flex;align-items:center;justify-content:space-between;padding:0 12px;margin-bottom:5px;margin-top:10px;}
-.ph-sec-title{font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--p-white);font-weight:600;letter-spacing:0.5px;}
-.ph-sec-sub{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--p-dim);}
-.ph-card{margin:0 10px 10px;background:var(--p-card);border:1px solid var(--p-sep);border-radius:10px;overflow:hidden;}
+/* SHARED COMPONENTS */
+.ph-sec{display:flex;align-items:center;justify-content:space-between;padding:0 11px;margin:9px 0 4px;}
+.ph-sec-t{font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--p-white);font-weight:600;}
+.ph-sec-s{font-size:7px;letter-spacing:2px;text-transform:uppercase;color:var(--p-dim);}
+.ph-card{margin:0 9px 9px;background:var(--p-card);border:1px solid var(--p-sep);border-radius:9px;overflow:hidden;}
 
-/* CHECK-IN */
-.ph-checkin-hero{margin:10px;background:linear-gradient(145deg,#0F1F14,#162B1C);border:1.5px solid var(--p-green-line);border-radius:12px;padding:18px 14px;position:relative;overflow:hidden;}
-.ph-checkin-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--p-green),transparent);opacity:0.6;}
-.ph-checkin-badge{display:inline-flex;align-items:center;gap:5px;background:var(--p-green-dim);border:1px solid var(--p-green-line);border-radius:3px;padding:3px 9px;font-size:9px;font-weight:700;color:var(--p-green);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;}
-.ph-checkin-time{font-family:'DM Mono',monospace;font-size:38px;color:var(--p-green);letter-spacing:2px;line-height:1;margin-bottom:6px;}
-.ph-checkin-hole{font-size:11px;color:var(--p-gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;}
-.ph-checkin-member{font-size:15px;color:var(--p-white);font-weight:500;margin-bottom:4px;}
-.ph-checkin-detail{font-size:12px;color:var(--p-dim);line-height:1.5;}
-.ph-notice{margin:0 10px 10px;background:var(--p-raise);border-left:3px solid var(--p-gold);border-radius:0 8px 8px 0;padding:10px 12px;}
-.ph-notice.green{border-left-color:var(--p-green);}
-.ph-notice-title{font-size:12px;font-weight:600;color:var(--p-white);margin-bottom:3px;}
-.ph-notice-body{font-size:11px;color:var(--p-dim);line-height:1.5;}
-.ph-today-row{display:flex;align-items:center;gap:10px;padding:9px 12px;border-bottom:1px solid var(--p-sep);}
-.ph-today-row:last-child{border-bottom:none;}
-.ph-today-icon{font-size:16px;width:28px;text-align:center;flex-shrink:0;}
-.ph-today-name{font-size:12px;font-weight:500;color:var(--p-white);}
-.ph-today-detail{font-size:10px;color:var(--p-dim);margin-top:1px;}
-.ph-today-time{font-family:'DM Mono',monospace;font-size:10px;color:var(--p-gold);margin-left:auto;flex-shrink:0;}
+.row{display:flex;align-items:center;gap:9px;padding:8px 11px;border-bottom:1px solid var(--p-sep);}
+.row:last-child{border-bottom:none;}
+.row-icon{font-size:15px;width:26px;text-align:center;flex-shrink:0;}
+.row-name{font-size:11px;font-weight:500;color:var(--p-white);}
+.row-detail{font-size:9px;color:var(--p-dim);margin-top:1px;}
+.row-right{font-family:'DM Mono',monospace;font-size:9px;color:var(--p-gold);margin-left:auto;flex-shrink:0;}
 
-/* DISCOVER */
-.ph-discover-hero{margin:10px 10px 8px;background:var(--p-card);border:1px solid var(--p-sep);border-radius:10px;padding:14px;display:flex;gap:12px;align-items:flex-start;}
-.ph-discover-icon{font-size:28px;flex-shrink:0;margin-top:2px;}
-.ph-discover-title{font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--p-white);font-weight:600;line-height:1.2;margin-bottom:4px;}
-.ph-discover-body{font-size:11px;color:var(--p-dim);line-height:1.5;}
-.ph-discover-tag{display:inline-block;margin-top:8px;font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--p-gold);background:var(--p-gold-dim);padding:3px 8px;border-radius:12px;border:1px solid var(--p-gold-line);}
-.ph-lesson-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--p-sep);cursor:pointer;}
-.ph-lesson-row:last-child{border-bottom:none;}
-.ph-lesson-icon{width:36px;height:36px;border-radius:8px;background:var(--p-raise);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
-.ph-lesson-name{font-size:12px;font-weight:600;color:var(--p-white);}
-.ph-lesson-detail{font-size:10px;color:var(--p-dim);margin-top:2px;}
-.ph-lesson-badge{margin-left:auto;font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px;flex-shrink:0;white-space:nowrap;}
-.ph-lesson-badge.new{background:var(--p-green-dim);color:var(--p-green);border:1px solid var(--p-green-line);}
-.ph-lesson-badge.live{background:rgba(201,168,76,0.12);color:var(--p-gold);border:1px solid var(--p-gold-line);}
+.notice{margin:0 9px 9px;background:var(--p-raise);border-left:3px solid var(--p-green);border-radius:0 7px 7px 0;padding:9px 11px;}
+.notice-t{font-size:11px;font-weight:600;color:var(--p-white);margin-bottom:2px;}
+.notice-b{font-size:10px;color:var(--p-dim);line-height:1.5;}
 
-/* EVENTS */
-.ph-event-card{margin:0 10px 10px;background:var(--p-card);border:1px solid var(--p-sep);border-radius:10px;padding:12px 14px;display:flex;gap:12px;align-items:flex-start;}
-.ph-event-date{background:var(--p-gold);border-radius:6px;padding:6px 10px;text-align:center;flex-shrink:0;min-width:44px;}
-.ph-event-month{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--green-dark);}
-.ph-event-day{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--green-dark);font-weight:600;line-height:1;margin-top:1px;}
-.ph-event-name{font-size:13px;font-weight:600;color:var(--p-white);margin-bottom:3px;line-height:1.3;}
-.ph-event-detail{font-size:11px;color:var(--p-dim);line-height:1.4;margin-bottom:6px;}
-.ph-event-tags{display:flex;gap:5px;flex-wrap:wrap;}
-.ph-event-pill{font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:2px 7px;border-radius:10px;color:var(--p-gold);border:1px solid rgba(201,168,76,0.3);}
-.ph-rsvp-btn{margin:4px 10px 10px;background:var(--p-gold);color:var(--green-dark);border:none;border-radius:8px;padding:11px;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;width:calc(100% - 20px);cursor:pointer;text-align:center;display:block;}
+/* ── SCENE: QR SCAN ── */
+.scan-scene-inner{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:24px 20px;text-align:center;}
+.scan-eyebrow{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(201,168,76,0.55);font-family:'DM Mono',monospace;margin-bottom:8px;}
+.scan-location{font-size:13px;color:rgba(242,238,230,0.7);margin-bottom:6px;font-weight:500;}
+.scan-subloc{font-size:10px;color:rgba(242,238,230,0.35);margin-bottom:18px;letter-spacing:0.5px;}
+.scan-qr-wrap{position:relative;width:104px;height:104px;margin:0 auto 20px;}
+.scan-qr{width:104px;height:104px;background:var(--p-white);border-radius:9px;display:flex;align-items:center;justify-content:center;position:relative;z-index:2;padding:7px;}
+.scan-ring{position:absolute;inset:-7px;border-radius:14px;border:2px solid var(--p-gold);animation:scanring 2s ease-in-out infinite;}
+@keyframes scanring{0%,100%{opacity:0.35;transform:scale(1);}50%{opacity:1;transform:scale(1.05);}}
+.scan-beam{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--p-gold),transparent);animation:scanbeam 1.8s ease-in-out infinite;z-index:3;border-radius:1px;}
+@keyframes scanbeam{0%{top:12px;opacity:0;}15%{opacity:1;}85%{opacity:1;}100%{top:92px;opacity:0;}}
+.scan-headline{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--p-white);font-weight:600;line-height:1.2;margin-bottom:8px;}
+.scan-sub{font-size:11px;color:var(--p-dim);line-height:1.6;margin-bottom:6px;max-width:210px;}
+.scan-noapp{font-size:9px;color:rgba(242,238,230,0.22);letter-spacing:0.5px;margin-bottom:18px;}
+.scan-open-btn{background:var(--p-gold);color:#0D1F17;border:none;border-radius:20px;padding:10px 24px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.scan-camera-row{display:flex;align-items:center;gap:7px;margin-top:14px;padding:8px 14px;background:rgba(255,255,255,0.04);border:1px solid rgba(201,168,76,0.15);border-radius:20px;cursor:pointer;}
+.scan-camera-icon{font-size:14px;}
+.scan-camera-label{font-size:10px;color:rgba(242,238,230,0.5);letter-spacing:0.5px;}
 
-/* RUBY */
-.ph-chat-header{background:rgba(8,18,11,0.98);padding:6px 12px;border-bottom:1px solid rgba(201,168,76,0.15);display:flex;align-items:center;gap:8px;flex-shrink:0;}
-.ph-chat-avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(145deg,#254A30,#162B1C);border:1.5px solid var(--p-gold);display:flex;align-items:center;justify-content:center;font-size:14px;}
-.ph-chat-name{font-size:12px;font-weight:600;color:var(--p-white);}
-.ph-chat-sub{font-size:9px;color:rgba(201,168,76,0.75);display:flex;align-items:center;gap:4px;}
-.ph-chat-dot{width:5px;height:5px;border-radius:50%;background:var(--p-green);animation:phpulse 2s infinite;}
-.ph-messages{flex:1;overflow:hidden;padding:8px 10px;display:flex;flex-direction:column;gap:7px;}
-.ph-msg{display:flex;gap:6px;align-items:flex-end;}
-.ph-msg.user{flex-direction:row-reverse;}
-.ph-bubble{max-width:80%;padding:8px 11px;border-radius:12px;font-size:11px;line-height:1.55;}
-.ph-msg.ruby .ph-bubble{background:rgba(255,255,255,0.07);color:var(--p-white);border:1px solid rgba(201,168,76,0.18);border-bottom-left-radius:3px;}
-.ph-msg.user .ph-bubble{background:var(--p-gold);color:var(--green-dark);font-weight:500;border-bottom-right-radius:3px;}
-.ph-bubble b{color:var(--p-gold);}
-.ph-msg.user .ph-bubble b{color:var(--green-dark);}
-.ph-chips{padding:5px 8px;display:flex;flex-wrap:wrap;gap:4px;border-top:1px solid rgba(255,255,255,0.06);}
-.ph-chip{background:rgba(255,255,255,0.05);border:1px solid rgba(201,168,76,0.2);border-radius:14px;padding:4px 9px;font-size:9.5px;color:rgba(242,238,230,0.7);white-space:nowrap;cursor:pointer;}
-.ph-input-bar{padding:5px 8px 12px;display:flex;gap:6px;}
-.ph-input{flex:1;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.09);border-radius:20px;padding:6px 11px;font-size:10px;color:var(--p-white);font-family:'DM Sans',sans-serif;outline:none;}
-.ph-input::placeholder{color:rgba(242,238,230,0.25);}
-.ph-send{width:30px;height:30px;border-radius:50%;background:var(--p-gold);border:none;color:var(--green-dark);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+/* QR grid */
+.qr-grid{display:grid;grid-template-columns:repeat(17,4px);grid-template-rows:repeat(17,4px);gap:1px;}
+.qb{border-radius:1px;}.qb.d{background:#0C0F0D;}.qb.l{background:#F2EEE6;}
 
-/* PROFILE */
-.ph-profile-hero{margin:10px;padding:16px 14px;background:var(--p-card);border:1px solid var(--p-sep);border-radius:12px;display:flex;align-items:center;gap:14px;}
-.ph-avatar-ring{width:52px;height:52px;border-radius:50%;background:linear-gradient(145deg,#1F3525,#0F1F14);border:1.5px solid var(--p-gold-line);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
-.ph-profile-name{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--p-white);font-weight:600;line-height:1;margin-bottom:3px;}
-.ph-profile-sub{font-size:10px;color:var(--p-gold);letter-spacing:1px;margin-bottom:6px;}
-.ph-anon-badge{display:inline-flex;align-items:center;gap:5px;background:var(--p-green-dim);border:1px solid var(--p-green-line);border-radius:10px;padding:3px 8px;font-size:9px;color:var(--p-green);font-weight:600;letter-spacing:1px;text-transform:uppercase;}
-.ph-stat-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin:0 10px 10px;}
-.ph-stat-box{background:var(--p-card);border:1px solid var(--p-sep);border-radius:8px;padding:10px 8px;text-align:center;}
-.ph-stat-val{font-family:'DM Mono',monospace;font-size:18px;color:var(--p-white);font-weight:600;line-height:1;}
-.ph-stat-label{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--p-dim);margin-top:3px;}
-.ph-pref-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--p-sep);}
-.ph-pref-row:last-child{border-bottom:none;}
-.ph-pref-icon{font-size:15px;width:26px;text-align:center;flex-shrink:0;}
-.ph-pref-name{font-size:12px;color:var(--p-white);flex:1;}
-.ph-pref-val{font-size:11px;color:var(--p-dim);}
-.ph-privacy-note{margin:0 10px 10px;padding:10px 12px;background:var(--p-green-dim);border:1px solid var(--p-green-line);border-radius:8px;font-size:10px;color:var(--p-dim);line-height:1.55;}
-.ph-privacy-note strong{color:var(--p-green);}
-.ph-link-btn{margin:4px 10px 10px;background:transparent;color:var(--p-gold);border:1px solid var(--p-gold-line);border-radius:8px;padding:11px;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;width:calc(100% - 20px);cursor:pointer;text-align:center;display:block;}
+/* ── SCENE: CHECK-IN ── */
+.checkin-hero{margin:9px;background:linear-gradient(145deg,#0F1F14,#162B1C);border:1.5px solid var(--p-gline);border-radius:11px;padding:16px 13px;position:relative;overflow:hidden;}
+.checkin-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--p-green),transparent);opacity:0.6;}
+.confirmed-badge{display:inline-flex;align-items:center;gap:5px;background:var(--p-gdim);border:1px solid var(--p-gline);border-radius:3px;padding:3px 8px;font-size:8px;font-weight:700;color:var(--p-green);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;}
+.checkin-time{font-family:'DM Mono',monospace;font-size:36px;color:var(--p-green);letter-spacing:2px;line-height:1;margin-bottom:5px;}
+.checkin-hole{font-size:10px;color:var(--p-gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;}
+.checkin-name{font-size:14px;color:var(--p-white);font-weight:500;margin-bottom:3px;}
+.checkin-detail{font-size:11px;color:var(--p-dim);line-height:1.5;}
+
+/* ── SCENE: DISCOVER ── */
+.discover-hero{margin:9px 9px 7px;background:var(--p-card);border:1px solid var(--p-sep);border-radius:9px;padding:12px;display:flex;gap:10px;}
+.discover-icon{font-size:26px;flex-shrink:0;margin-top:1px;}
+.discover-title{font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--p-white);font-weight:600;margin-bottom:3px;}
+.discover-body{font-size:10px;color:var(--p-dim);line-height:1.5;}
+.discover-tag{display:inline-block;margin-top:6px;font-size:8px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--p-gold);background:var(--p-qdim);padding:2px 7px;border-radius:10px;border:1px solid var(--p-qline);}
+.lesson-row{display:flex;align-items:center;gap:9px;padding:9px 11px;border-bottom:1px solid var(--p-sep);}
+.lesson-row:last-child{border-bottom:none;}
+.lesson-icon{width:32px;height:32px;border-radius:7px;background:var(--p-raise);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.lesson-name{font-size:11px;font-weight:600;color:var(--p-white);}
+.lesson-detail{font-size:9px;color:var(--p-dim);margin-top:1px;}
+.badge{margin-left:auto;font-size:8px;font-weight:700;padding:2px 6px;border-radius:8px;flex-shrink:0;white-space:nowrap;}
+.badge.new{background:var(--p-gdim);color:var(--p-green);border:1px solid var(--p-gline);}
+.badge.live{background:rgba(201,168,76,0.1);color:var(--p-gold);border:1px solid var(--p-qline);}
+
+/* ── SCENE: EVENTS ── */
+.event-card{margin:0 9px 9px;background:var(--p-card);border:1px solid var(--p-sep);border-radius:9px;padding:11px 12px;display:flex;gap:10px;}
+.event-date{background:var(--p-gold);border-radius:5px;padding:5px 8px;text-align:center;flex-shrink:0;min-width:40px;}
+.event-month{font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#0D1F17;}
+.event-day{font-family:'Cormorant Garamond',serif;font-size:22px;color:#0D1F17;font-weight:600;line-height:1;}
+.event-name{font-size:12px;font-weight:600;color:var(--p-white);margin-bottom:3px;line-height:1.3;}
+.event-detail{font-size:10px;color:var(--p-dim);line-height:1.4;margin-bottom:5px;}
+.event-pills{display:flex;gap:4px;flex-wrap:wrap;}
+.epill{font-size:8px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:2px 6px;border-radius:8px;color:var(--p-gold);border:1px solid rgba(201,168,76,0.28);}
+.rsvp-btn{margin:3px 9px 9px;background:var(--p-gold);color:#0D1F17;border:none;border-radius:7px;padding:10px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;width:calc(100% - 18px);cursor:pointer;display:block;text-align:center;}
+
+/* ── SCENE: RUBY ── */
+.ruby-hdr{background:rgba(8,18,11,0.98);padding:6px 11px;border-bottom:1px solid rgba(201,168,76,0.14);display:flex;align-items:center;gap:7px;flex-shrink:0;}
+.ruby-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(145deg,#254A30,#162B1C);border:1.5px solid var(--p-gold);display:flex;align-items:center;justify-content:center;font-size:13px;}
+.ruby-name{font-size:11px;font-weight:600;color:var(--p-white);}
+.ruby-sub{font-size:8px;color:rgba(201,168,76,0.75);display:flex;align-items:center;gap:3px;}
+.ruby-dot{width:4px;height:4px;border-radius:50%;background:var(--p-green);animation:pulse 2s infinite;}
+.messages{flex:1;overflow:hidden;padding:7px 9px;display:flex;flex-direction:column;gap:6px;}
+.msg{display:flex;gap:5px;align-items:flex-end;}
+.msg.user{flex-direction:row-reverse;}
+.bubble{max-width:80%;padding:7px 10px;border-radius:11px;font-size:10.5px;line-height:1.55;}
+.msg.ruby .bubble{background:rgba(255,255,255,0.07);color:var(--p-white);border:1px solid rgba(201,168,76,0.16);border-bottom-left-radius:3px;}
+.msg.user .bubble{background:var(--p-gold);color:#0D1F17;font-weight:500;border-bottom-right-radius:3px;}
+.bubble b{color:var(--p-gold);}
+.msg.user .bubble b{color:#0D1F17;}
+.chips{padding:5px 7px;display:flex;flex-wrap:wrap;gap:3px;border-top:1px solid rgba(255,255,255,0.05);}
+.chip{background:rgba(255,255,255,0.05);border:1px solid rgba(201,168,76,0.18);border-radius:12px;padding:3px 8px;font-size:9px;color:rgba(242,238,230,0.65);white-space:nowrap;}
+.input-row{padding:4px 7px 10px;display:flex;gap:5px;}
+.ph-input{flex:1;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.08);border-radius:18px;padding:6px 10px;font-size:10px;color:var(--p-white);font-family:'DM Sans',sans-serif;outline:none;}
+.ph-input::placeholder{color:rgba(242,238,230,0.22);}
+.ph-send{width:28px;height:28px;border-radius:50%;background:var(--p-gold);border:none;color:#0D1F17;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+
+/* ── SCENE: PROFILE ── */
+.profile-hero{margin:9px;padding:14px;background:var(--p-card);border:1px solid var(--p-sep);border-radius:11px;display:flex;align-items:center;gap:12px;}
+.avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(145deg,#1F3525,#0F1F14);border:1.5px solid var(--p-qline);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.profile-name{font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--p-white);font-weight:600;line-height:1;margin-bottom:2px;}
+.profile-sub{font-size:9px;color:var(--p-gold);letter-spacing:1px;margin-bottom:5px;}
+.anon-badge{display:inline-flex;align-items:center;gap:4px;background:var(--p-gdim);border:1px solid var(--p-gline);border-radius:8px;padding:2px 7px;font-size:8px;color:var(--p-green);font-weight:600;letter-spacing:1px;text-transform:uppercase;}
+.stat-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin:0 9px 9px;}
+.stat-box{background:var(--p-card);border:1px solid var(--p-sep);border-radius:7px;padding:9px 7px;text-align:center;}
+.stat-val{font-family:'DM Mono',monospace;font-size:17px;color:var(--p-white);font-weight:600;line-height:1;}
+.stat-lbl{font-size:7px;letter-spacing:1.5px;text-transform:uppercase;color:var(--p-dim);margin-top:2px;}
+.privacy-note{margin:0 9px 9px;padding:9px 11px;background:var(--p-gdim);border:1px solid var(--p-gline);border-radius:7px;font-size:9px;color:var(--p-dim);line-height:1.55;}
+.privacy-note strong{color:var(--p-green);}
+.link-btn{margin:3px 9px 9px;background:transparent;color:var(--p-gold);border:1px solid var(--p-qline);border-radius:7px;padding:10px;font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;width:calc(100% - 18px);cursor:pointer;text-align:center;display:block;}
+
+/* ── SCENE: PROGRESSION ── */
+.prog-inner{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:24px 20px;text-align:center;background:var(--p-bg);}
+.prog-eyebrow{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(201,168,76,0.45);font-family:'DM Mono',monospace;margin-bottom:24px;}
+.prog-steps{display:flex;flex-direction:column;gap:0;width:100%;max-width:200px;margin:0 auto 24px;}
+.prog-step{border-radius:10px;padding:14px 12px;text-align:center;}
+.prog-step.confirm{background:linear-gradient(135deg,#0F1F14,#162B1C);border:1.5px solid rgba(61,190,114,0.3);}
+.prog-step.inform{background:linear-gradient(135deg,#1A160A,#201C0E);border:1.5px solid rgba(201,168,76,0.3);}
+.prog-step.participate{background:linear-gradient(135deg,#1A1520,#13151C);border:1.5px solid rgba(201,168,76,0.18);}
+.prog-connector{width:2px;height:16px;margin:0 auto;background:linear-gradient(180deg,rgba(61,190,114,0.3),rgba(201,168,76,0.3));}
+.prog-emoji{font-size:20px;margin-bottom:6px;}
+.prog-label{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;margin-bottom:3px;}
+.prog-step.confirm .prog-label{color:#3DBE72;}
+.prog-step.inform .prog-label{color:#C9A84C;}
+.prog-step.participate .prog-label{color:rgba(242,238,230,0.8);}
+.prog-desc{font-size:10px;color:rgba(242,238,230,0.4);line-height:1.5;}
+.prog-footer{font-size:11px;color:rgba(242,238,230,0.28);line-height:1.6;max-width:200px;}
 
 /* ── RIGHT COLUMN ── */
-.scenarios{display:flex;flex-direction:column;gap:18px;}
-.scenario-card{border:1px solid rgba(201,168,76,0.15);border-radius:12px;padding:24px 28px;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;background:rgba(255,255,255,0.02);}
-.scenario-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--gold);opacity:0;transition:opacity 0.2s;}
-.scenario-card.active{ background:rgba(201,168,76,0.06); border-color:rgba(201,168,76,0.38); box-shadow:0 0 0 1px rgba(201,168,76,0.15), 0 4px 20px rgba(201,168,76,0.08); }
-.scenario-card.active::before{opacity:1;}
-.scenario-card:hover{ background:rgba(255,255,255,0.04); border-color:rgba(201,168,76,0.25); }
-.sc-q{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,0.55);font-family:'DM Mono',monospace;margin-bottom:8px;}
-.sc-title{font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:var(--cream);font-weight:500;margin-bottom:8px;line-height:1.25;}
-.sc-desc{font-size:14px;color:rgba(250,247,242,0.52);line-height:1.7;}
-.sc-tag{display:inline-block;margin-top:12px;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);background:rgba(201,168,76,0.09);padding:3px 9px;border-radius:20px;border:1px solid rgba(201,168,76,0.2);}
+.scenarios{display:flex;flex-direction:column;gap:16px;}
+.sc-card{border:1px solid rgba(201,168,76,0.15);border-radius:12px;padding:22px 24px;cursor:pointer;transition:background 0.2s,border-color 0.2s,box-shadow 0.2s;position:relative;overflow:hidden;background:rgba(255,255,255,0.02);-webkit-tap-highlight-color:transparent;}
+.sc-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--gold);opacity:0;transition:opacity 0.2s;}
+.sc-card.active{background:rgba(201,168,76,0.07);border-color:rgba(201,168,76,0.4);box-shadow:0 0 0 1px rgba(201,168,76,0.14),0 4px 18px rgba(201,168,76,0.08);}
+.sc-card.active::before{opacity:1;}
+.sc-card:hover{background:rgba(255,255,255,0.04);border-color:rgba(201,168,76,0.22);}
+.sc-q{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,0.5);font-family:'DM Mono',monospace;margin-bottom:7px;}
+.sc-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--cream);font-weight:500;margin-bottom:7px;line-height:1.25;}
+.sc-desc{font-size:13.5px;color:rgba(250,247,242,0.5);line-height:1.7;}
+.sc-tag{display:inline-block;margin-top:10px;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);background:rgba(201,168,76,0.09);padding:3px 9px;border-radius:20px;border:1px solid rgba(201,168,76,0.2);}
+.prog-card{border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:22px 24px;cursor:pointer;transition:background 0.2s,border-color 0.2s;position:relative;overflow:hidden;background:rgba(255,255,255,0.02);border-left:3px solid var(--gold);-webkit-tap-highlight-color:transparent;}
+.prog-card.active{background:rgba(201,168,76,0.07);border-color:rgba(201,168,76,0.4);}
+.prog-card:hover{background:rgba(255,255,255,0.04);}
+.prog-eyebrow-right{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-family:'DM Mono',monospace;margin-bottom:9px;}
+.prog-body{font-size:13.5px;color:rgba(250,247,242,0.52);line-height:1.75;}
+.prog-body strong{color:var(--cream);}
 
-/* progression note — now clickable */
-.progression-card{border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:24px 28px;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;background:rgba(255,255,255,0.02);border-left:3px solid var(--gold);}
-.progression-card.active{background:rgba(201,168,76,0.06);border-color:rgba(201,168,76,0.38);box-shadow:0 0 0 1px rgba(201,168,76,0.15),0 4px 20px rgba(201,168,76,0.08);}
-.progression-card:hover{background:rgba(255,255,255,0.04);}
-.note-eyebrow{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-family:'DM Mono',monospace;margin-bottom:10px;}
-.note-body{font-size:14px;color:rgba(250,247,242,0.55);line-height:1.75;}
-.note-body strong{color:var(--cream);}
-
-/* mobile */
-@media(max-width:900px){
-  .demo-layout{ grid-template-columns:1fr; gap:36px; }
-  .phone-frame-wrap{ position:static !important; align-items:center; width:100%; }
-  .clubos-phone{ margin:0 auto; width:min(300px, 88vw); height:min(620px, 185vw); }
-  .tap-hint{ justify-content:center; }
-  .phone-hint-row{ text-align:center; }
-  .scenarios{ margin-top:8px; }
-  .scenario-card, .progression-card{ padding:20px 22px; }
-  .sc-desc{ font-size:13px; }
-  .note-body{ font-size:13px; }
-}
-
-.page-footer{margin-top:72px;padding-top:28px;border-top:1px solid rgba(201,168,76,0.15);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
-.footer-left{font-size:12px;color:rgba(250,247,242,0.28);}
-.footer-right{font-size:11px;color:rgba(250,247,242,0.18);text-align:right;font-family:'DM Mono',monospace;}
-.footer-right span{color:rgba(201,168,76,0.45);}
-
-@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-.fade-in{opacity:0;}
-.fade-in.visible{animation:fadeUp 0.6s ease forwards;}
-
-/* QR pixel pattern colors */
-.qr-d{background:#0C0F0D;}
-.qr-l{background:#F2EEE6;}
+.page-footer{margin-top:72px;padding-top:28px;border-top:1px solid rgba(201,168,76,0.14);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.footer-l{font-size:12px;color:rgba(250,247,242,0.28);}
+.footer-r{font-size:11px;color:rgba(250,247,242,0.18);text-align:right;font-family:'DM Mono',monospace;}
+.footer-r span{color:rgba(201,168,76,0.4);}
 </style>
 </head>
 <body>
-
 <div class="page">
   <div class="wordmark"><span class="club">Club</span><span class="os">OS</span></div>
-
   <div class="eyebrow">ClubOS Pass · Member Experience</div>
   <h1 class="headline">Five moments.<br><em>One scan.</em></h1>
   <p class="subhead">Every QR code in the club opens this. No app to download, no account required. What a member sees depends on where they are and what they need right now — the screen already knows.</p>
 
   <div class="demo-layout">
 
-    <!-- PHONE -->
-    <div class="phone-frame-wrap">
-      <div class="phone-hint-row">
-        <div class="tap-hint">Select a moment to see it on the phone</div>
-      </div>
-      <div class="clubos-phone">
+    <!-- ── PHONE ── -->
+    <div class="phone-wrap">
+      <div class="tap-hint">Select a moment to preview</div>
+      <div class="phone">
         <div class="phone-notch"></div>
-        <div class="phone-screen" id="phoneScreen"></div>
-      </div>
-      <div class="phone-label" style="margin-top:14px;">Scan any QR · No app · No login</div>
-    </div>
 
-    <!-- SCENARIOS -->
+        <!-- SCENE: QR SCAN -->
+        <div class="scene active" id="scene-scan">
+          <div class="scan-scene-inner">
+            <div class="scan-eyebrow">ClubOS Pass · Pro Shop</div>
+            <div class="scan-location">Lakewood Country Club</div>
+            <div class="scan-subloc">First Tee · Hole 1 Display</div>
+            <div class="scan-qr-wrap">
+              <div class="scan-qr">
+                <div class="qr-grid" id="qrGrid"></div>
+              </div>
+              <div class="scan-ring"></div>
+              <div class="scan-beam"></div>
+            </div>
+            <div class="scan-headline">Point your camera<br>at the screen.</div>
+            <div class="scan-sub">Your tee time, course conditions, and everything you need — opens instantly.</div>
+            <div class="scan-noapp">No app download · No account · Works on any phone</div>
+            <button class="scan-open-btn" onclick="showScene('checkin');setActive('sc-checkin')">Open ClubOS Pass →</button>
+            <div class="scan-camera-row">
+              <div class="scan-camera-icon">📷</div>
+              <div class="scan-camera-label">Or tap here to scan a QR in the club</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SCENE: CHECK-IN -->
+        <div class="scene" id="scene-checkin">
+          <div class="ph-hdr">
+            <div class="ph-hdr-top">
+              <div><div class="ph-club">Lakewood Country Club</div><div class="ph-sub">ClubOS Pass</div></div>
+              <div class="present-pill"><div class="live-dot"></div>Present</div>
+            </div>
+            <div class="ph-strip">
+              <div><div class="ph-strip-label">Saturday · Member Day</div><div class="ph-strip-sub">Pro Shop Check-in</div></div>
+              <div class="ph-clock" id="clock-checkin">8:14 AM</div>
+            </div>
+          </div>
+          <div class="ph-body">
+            <div class="checkin-hero">
+              <div class="confirmed-badge"><div class="live-dot"></div>Confirmed</div>
+              <div class="checkin-time">8:20 AM</div>
+              <div class="checkin-hole">Hole 1 · Cart Path Only Today</div>
+              <div class="checkin-name">Welcome back, M. Sullivan</div>
+              <div class="checkin-detail">Playing with J. Williams &amp; R. Chen<br>Group 3 of 18 · Pace target 4:15</div>
+            </div>
+            <div class="notice">
+              <div class="notice-t">🌿 Course Note</div>
+              <div class="notice-b">Overnight irrigation on holes 1–9. Carts on path only through midday. Greens at 11.5 Stimp — pace is good.</div>
+            </div>
+            <div class="ph-sec"><div class="ph-sec-t">Your Day</div><div class="ph-sec-s">What's ahead</div></div>
+            <div class="ph-card">
+              <div class="row"><div class="row-icon">⛳</div><div><div class="row-name">Tee Time</div><div class="row-detail">Hole 1 · Cart Path</div></div><div class="row-right">8:20 AM</div></div>
+              <div class="row"><div class="row-icon">🍽️</div><div><div class="row-name">Lunch Service</div><div class="row-detail">Grill Room · Specials posted</div></div><div class="row-right">11 AM</div></div>
+              <div class="row"><div class="row-icon">🍷</div><div><div class="row-name">Wine &amp; Dine</div><div class="row-detail">4-course pairing · 3 spots left</div></div><div class="row-right">Apr 12</div></div>
+            </div>
+          </div>
+          <div class="ph-sponsor"><div class="ph-sp-label">Today supported by</div><div class="ph-sp-name">Presenting Partner</div></div>
+          <div class="ph-nav">
+            <div class="ph-nav-item on"><div class="ph-nav-icon">🏠</div><div class="ph-nav-lbl">Home</div></div>
+            <div class="ph-nav-item"><div class="ph-nav-icon">🔍</div><div class="ph-nav-lbl">Discover</div></div>
+            <div class="ph-nav-item"><div class="ph-nav-icon">📅</div><div class="ph-nav-lbl">Events</div></div>
+            <div class="ph-nav-item"><div class="ph-nav-icon">💬</div><div class="ph-nav-lbl">Ask Ruby</div></div>
+            <div class="ph-nav-item"><div class="ph-nav-icon">📷</div><div class="ph-nav-lbl">Scan</div></div>
+          </div>
+        </div>
+
+        <!-- SCENE: DISCOVER -->
+        <div class="scene" id="scene-discover">
+          <div class="ph-hdr">
+            <div class="ph-hdr-top">
+              <div><div class="ph-club">Lakewood Country Club</div><div class="ph-sub">ClubOS Pass</div></div>
+              <div class="present-pill"><div class="live-dot"></div>Present</div>
+            </div>
+            <div class="ph-strip">
+              <div><div class="ph-strip-label">Saturday · Member Day</div><div class="ph-strip-sub">Member Resources</div></div>
+              <div class="ph-clock" id="clock-discover">8:14 AM</div>
+            </div>
+          </div>
+          <div class="ph-body">
+            <div class="discover-hero">
+              <div class="discover-icon">🏓</div>
+              <div>
+                <div class="discover-title">New to Pickleball?</div>
+                <div class="discover-body">Four courts just opened. We built a quick-start guide so you're not figuring out the scoring at 7am.</div>
+                <div class="discover-tag">Interactive · 5 min</div>
+              </div>
+            </div>
+            <div class="ph-sec"><div class="ph-sec-t">Learn at the Club</div><div class="ph-sec-s">On-screen guides</div></div>
+            <div class="ph-card">
+              <div class="lesson-row"><div class="lesson-icon">🏓</div><div><div class="lesson-name">Pickleball 101</div><div class="lesson-detail">Rules, scoring, court etiquette</div></div><div class="badge new">New</div></div>
+              <div class="lesson-row"><div class="lesson-icon">🀄</div><div><div class="lesson-name">American Mahjong</div><div class="lesson-detail">How to play · Game nights Thursdays</div></div><div class="badge live">Live Series</div></div>
+              <div class="lesson-row"><div class="lesson-icon">🏊</div><div><div class="lesson-name">Aquatics Programs</div><div class="lesson-detail">Lap lanes, lessons, clinics</div></div><div class="badge new">Updated</div></div>
+              <div class="lesson-row"><div class="lesson-icon">🤝</div><div><div class="lesson-name">Reciprocal Clubs</div><div class="lesson-detail">15 partner properties · What's included</div></div><div class="badge live">Guide</div></div>
+              <div class="lesson-row"><div class="lesson-icon">🎾</div><div><div class="lesson-name">Tennis Clinics</div><div class="lesson-detail">Booking, levels, pro bios</div></div><div class="badge new">New</div></div>
+            </div>
+          </div>
+          <div class="ph-sponsor"><div class="ph-sp-label">Today supported by</div><div class="ph-sp-name">Presenting Partner</div></div>
+          <div class="ph-nav">
+            <div class="ph-nav-item"><div class="ph-nav-icon">🏠</div><div class="ph-nav-lbl">Home</div></div>
+            <div class="ph-nav-item on"><div class="ph-nav-icon">🔍</div><div class="ph-nav-lbl">Discover</div></div>
+            <div class="ph-nav-item"><div class="ph-nav-icon">📅</div><div class="ph-nav-lbl">Events</div></div>
+            <div class="ph-nav-item"><div class="ph-nav-icon">💬</div><div class="ph-nav-lbl">Ask Ruby</div></div>
+            <div class="ph-nav-item"><div class="ph-nav-icon">📷</div><div class="ph-nav-lbl">Scan</div></div>
+          </div>
+        </div>
+
+        <!-- SCENE: EVENTS -->
+        <div class="scene" id="scene-events">
+          <div class="ph-hdr">
+            <div class="ph-hdr-top">
+              <div><div class="ph-club">Lakewood Country Club</div><div class="ph-sub">ClubOS Pass</div></div>
+              <div class="present-pill"><div class="live-dot"></div>Present</div>
+            </div>
+            <div class="ph-strip">
+              <div><div class="ph-strip-label">Saturday · Member Day</div><div class="ph-strip-sub">Events &amp; Calendar</div></div>
+              <div class="ph-clock" id="clock-events">8:14 AM</div>
+            </div>
+          </div>
+          <div class="ph-body">
+            <div class="ph-sec" style="margin-top:8px;"><div class="ph-sec-t">Upcoming Events</div><div class="ph-sec-s">Tap to RSVP</div></div>
+            <div class="event-card">
+              <div class="event-date"><div class="event-month">APR</div><div class="event-day">5</div></div>
+              <div><div class="event-name">Member-Guest Golf Tournament</div><div class="event-detail">18-hole shotgun · Lunch &amp; awards. Register by April 1.</div><div class="event-pills"><span class="epill">8:00 AM</span><span class="epill">Golf</span><span class="epill">Member + Guest</span></div></div>
+            </div>
+            <div class="rsvp-btn">Reserve My Spot</div>
+            <div class="event-card">
+              <div class="event-date"><div class="event-month">APR</div><div class="event-day">12</div></div>
+              <div><div class="event-name">Wine &amp; Dine: Spring Cellar</div><div class="event-detail">4-course pairing · Napa &amp; Sonoma. 3 spots left.</div><div class="event-pills"><span class="epill">6:30 PM</span><span class="epill">Dining</span><span class="epill">Reservation Required</span></div></div>
+            </div>
+            <div class="event-card">
+              <div class="event-date"><div class="event-month">APR</div><div class="event-day">19</div></div>
+              <div><div class="event-name">Easter Brunch Buffet</div><div class="event-detail">Carving stations, kids activities, egg hunt on the patio.</div><div class="event-pills"><span class="epill">10 AM–2 PM</span><span class="epill">Family</span></div></div>
+            </div>
+          </div>
+          <div class="ph-sponsor"><div class="ph-sp-label">Today supported by</div><div class="ph-sp-name">Presenting Partner</div></div>
+          <div class="ph-nav">
+            <div class="ph-nav-item"><div class="ph-nav-icon">🏠</div><div class="ph-nav-lbl">Home</div></div>
+            <div class="ph-nav-item"><div class="ph-nav-icon">🔍</div><div class="ph-nav-lbl">Discover</div></div>
+            <div class="ph-nav-item on"><div class="ph-nav-icon">📅</div><div class="ph-nav-lbl">Events</div></div>
+            <div class="ph-nav-item"><div class="ph-nav-icon">💬</div><div class="ph-nav-lbl">Ask Ruby</div></div>
+            <div class="ph-nav-item"><div class="ph-nav-icon">📷</div><div class="ph-nav-lbl">Scan</div></div>
+          </div>
+        </div>
+
+        <!-- SCENE: RUBY -->
+        <div class="scene" id="scene-ruby" style="flex-direction:column;">
+          <div class="ph-hdr">
+            <div class="ph-hdr-top">
+              <div><div class="ph-club">Lakewood Country Club</div><div class="ph-sub">ClubOS Pass</div></div>
+              <div class="present-pill"><div class="live-dot"></div>Present</div>
+            </div>
+            <div class="ph-strip">
+              <div><div class="ph-strip-label">Saturday · Member Day</div><div class="ph-strip-sub">Ask Ruby</div></div>
+              <div class="ph-clock" id="clock-ruby">8:14 AM</div>
+            </div>
+          </div>
+          <div class="ruby-hdr">
+            <div class="ruby-avatar">🦊</div>
+            <div><div class="ruby-name">Ruby</div><div class="ruby-sub"><div class="ruby-dot"></div>Your club guide</div></div>
+          </div>
+          <div class="messages">
+            <div class="msg ruby"><div class="bubble">Good morning — you're confirmed for 8:20 on Hole 1. Cart path only on 1–9 today. Anything you need before you head out?</div></div>
+            <div class="msg user"><div class="bubble">What's the lunch special?</div></div>
+            <div class="msg ruby"><div class="bubble">Grill opens at 11. Today's feature is <b>pan-seared salmon</b> — lemon-caper beurre blanc, wild rice, $34. Also a <b>spring harvest bowl</b> at $19 if you want lighter after the round.</div></div>
+            <div class="msg user"><div class="bubble">Any courts open this afternoon?</div></div>
+            <div class="msg ruby"><div class="bubble">Hard courts 2 and 4 are open 1–3pm. Clay fully booked until 4. Want me to note court 2 for you?</div></div>
+          </div>
+          <div class="chips">
+            <div class="chip">Tonight's dinner</div>
+            <div class="chip">Upcoming events</div>
+            <div class="chip">Open tee times</div>
+            <div class="chip">Pro shop hours</div>
+          </div>
+          <div class="input-row">
+            <input class="ph-input" placeholder="Ask anything about the club…" />
+            <button class="ph-send">↑</button>
+          </div>
+          <div class="ph-sponsor"><div class="ph-sp-label">Today supported by</div><div class="ph-sp-name">Presenting Partner</div></div>
+          <div class="ph-nav">
+            <div class="ph-nav-item"><div class="ph-nav-icon">🏠</div><div class="ph-nav-lbl">Home</div></div>
+            <div class="ph-nav-item"><div class="ph-nav-icon">🔍</div><div class="ph-nav-lbl">Discover</div></div>
+            <div class="ph-nav-item"><div class="ph-nav-icon">📅</div><div class="ph-nav-lbl">Events</div></div>
+            <div class="ph-nav-item on"><div class="ph-nav-icon">💬</div><div class="ph-nav-lbl">Ask Ruby</div></div>
+            <div class="ph-nav-item"><div class="ph-nav-icon">📷</div><div class="ph-nav-lbl">Scan</div></div>
+          </div>
+        </div>
+
+        <!-- SCENE: PROFILE -->
+        <div class="scene" id="scene-profile">
+          <div class="ph-hdr">
+            <div class="ph-hdr-top">
+              <div><div class="ph-club">Lakewood Country Club</div><div class="ph-sub">ClubOS Pass</div></div>
+              <div class="present-pill"><div class="live-dot"></div>Present</div>
+            </div>
+            <div class="ph-strip">
+              <div><div class="ph-strip-label">Saturday · Member Day</div><div class="ph-strip-sub">My Profile</div></div>
+              <div class="ph-clock" id="clock-profile">8:14 AM</div>
+            </div>
+          </div>
+          <div class="ph-body">
+            <div class="profile-hero">
+              <div class="avatar">👤</div>
+              <div>
+                <div class="profile-name">Guest Member</div>
+                <div class="profile-sub">Lakewood CC · Member</div>
+                <div class="anon-badge">✓ Anonymous</div>
+              </div>
+            </div>
+            <div class="stat-row">
+              <div class="stat-box"><div class="stat-val">14</div><div class="stat-lbl">Scans</div></div>
+              <div class="stat-box"><div class="stat-val">3</div><div class="stat-lbl">Events</div></div>
+              <div class="stat-box"><div class="stat-val">Sat</div><div class="stat-lbl">Usually Here</div></div>
+            </div>
+            <div class="ph-sec"><div class="ph-sec-t">Your Preferences</div><div class="ph-sec-s">Learned from scans</div></div>
+            <div class="ph-card">
+              <div class="row"><div class="row-icon">⛳</div><div class="row-name">Golf</div><div class="row-right" style="color:var(--p-dim);">Saturdays · Early</div></div>
+              <div class="row"><div class="row-icon">🍽️</div><div class="row-name">Dining</div><div class="row-right" style="color:var(--p-dim);">Grill Room · Lunch</div></div>
+              <div class="row"><div class="row-icon">📅</div><div class="row-name">Events</div><div class="row-right" style="color:var(--p-dim);">Golf · Wine Dinners</div></div>
+              <div class="row"><div class="row-icon">🔔</div><div class="row-name">Notifications</div><div class="row-right" style="color:var(--p-dim);">Off</div></div>
+            </div>
+            <div class="privacy-note"><strong>Your data stays with the club.</strong> Nothing shared, nothing sold. These preferences were built from your scan history — no account required. Export or delete anytime.</div>
+            <div class="link-btn">Link My Club Membership →</div>
+          </div>
+          <div class="ph-sponsor"><div class="ph-sp-label">Today supported by</div><div class="ph-sp-name">Presenting Partner</div></div>
+          <div class="ph-nav">
+            <div class="ph-nav-item"><div class="ph-nav-icon">🏠</div><div class="ph-nav-lbl">Home</div></div>
+            <div class="ph-nav-item"><div class="ph-nav-icon">🔍</div><div class="ph-nav-lbl">Discover</div></div>
+            <div class="ph-nav-item"><div class="ph-nav-icon">📅</div><div class="ph-nav-lbl">Events</div></div>
+            <div class="ph-nav-item"><div class="ph-nav-icon">💬</div><div class="ph-nav-lbl">Ask Ruby</div></div>
+            <div class="ph-nav-item on"><div class="ph-nav-icon">📷</div><div class="ph-nav-lbl">Scan</div></div>
+          </div>
+        </div>
+
+        <!-- SCENE: PROGRESSION -->
+        <div class="scene" id="scene-progression">
+          <div class="prog-inner">
+            <div class="prog-eyebrow">ClubOS Pass · The Loop</div>
+            <div class="prog-steps">
+              <div class="prog-step confirm">
+                <div class="prog-emoji">✓</div>
+                <div class="prog-label">Confirm</div>
+                <div class="prog-desc">Scan earns trust.<br>Does something useful right now.</div>
+              </div>
+              <div class="prog-connector"></div>
+              <div class="prog-step inform">
+                <div class="prog-emoji">💡</div>
+                <div class="prog-label">Inform</div>
+                <div class="prog-desc">The club shares knowledge.<br>Member sees real value.</div>
+              </div>
+              <div class="prog-connector"></div>
+              <div class="prog-step participate">
+                <div class="prog-emoji">🏆</div>
+                <div class="prog-label">Participate</div>
+                <div class="prog-desc">Member is engaged — not<br>because they were asked.</div>
+              </div>
+            </div>
+            <div class="prog-footer">That loop sustains itself.<br>No loyalty program required.</div>
+          </div>
+        </div>
+
+      </div><!-- /phone -->
+      <div style="margin-top:14px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(250,247,242,0.22);font-family:'DM Mono',monospace;">Scan any QR · No app · No login</div>
+    </div><!-- /phone-wrap -->
+
+    <!-- ── SCENARIOS ── -->
     <div class="scenarios">
 
-      <div class="scenario-card fade-in" id="sc-scan" onclick="loadScene('scan')">
+      <div class="sc-card" id="sc-scan" onclick="showScene('scan');setActive('sc-scan')">
         <div class="sc-q">The Entry Point</div>
-        <div class="sc-title">The moment before the app opens.</div>
-        <div class="sc-desc">A member sees a QR on the pro shop TV. They scan. No app store. No login screen. The club opens — tailored to where they are and what's happening right now.</div>
+        <div class="sc-title">The moment before the club opens.</div>
+        <div class="sc-desc">A QR code on any screen in the club. Member points their camera. No app store, no login screen — ClubOS Pass opens instantly, already knowing where they are and what's happening now.</div>
         <div class="sc-tag">No download · No friction</div>
       </div>
 
-      <div class="scenario-card active fade-in" id="sc-checkin" onclick="loadScene('checkin')">
+      <div class="sc-card active" id="sc-checkin" onclick="showScene('checkin');setActive('sc-checkin')">
         <div class="sc-q">Moment 01 · Arrival</div>
         <div class="sc-title">The scan that replaces the front desk question.</div>
         <div class="sc-desc">Confirmed tee time, course conditions, who they're playing with — before anyone has to look anything up. Staff sees the same confirmation. One scan does both jobs.</div>
         <div class="sc-tag">Utility first · Zero friction</div>
       </div>
 
-      <div class="scenario-card fade-in" id="sc-discover" onclick="loadScene('discover')">
+      <div class="sc-card" id="sc-discover" onclick="showScene('discover');setActive('sc-discover')">
         <div class="sc-q">Moment 02 · Discovery</div>
         <div class="sc-title">The club teaches itself to new members.</div>
         <div class="sc-desc">Pickleball 101. American Mahjong. Reciprocal club benefits. Every club has knowledge that lives only in staff heads — this puts it on the screen, at any hour, from any QR in the building.</div>
         <div class="sc-tag">Inform before engage</div>
       </div>
 
-      <div class="scenario-card fade-in" id="sc-events" onclick="loadScene('events')">
+      <div class="sc-card" id="sc-events" onclick="showScene('events');setActive('sc-events')">
         <div class="sc-q">Moment 03 · Events</div>
         <div class="sc-title">RSVP from wherever they're standing.</div>
         <div class="sc-desc">Member sees an event notice on the dining room TV, scans, and reserves their spot — without walking to the desk or remembering to call Monday. The scan knows which screen they came from.</div>
         <div class="sc-tag">Location-aware · Instant</div>
       </div>
 
-      <div class="scenario-card fade-in" id="sc-ruby" onclick="loadScene('ruby')">
+      <div class="sc-card" id="sc-ruby" onclick="showScene('ruby');setActive('sc-ruby')">
         <div class="sc-q">Moment 04 · Concierge</div>
         <div class="sc-title">One character. Every question.</div>
         <div class="sc-desc">Ruby is the club's AI guide — dining specials, court availability, upcoming events, tee times. Ask anything. The more a member uses it, the more Ruby learns their preferences. Always opt-in, never required.</div>
         <div class="sc-tag">Always-on intelligence</div>
       </div>
 
-      <div class="scenario-card fade-in" id="sc-profile" onclick="loadScene('profile')">
+      <div class="sc-card" id="sc-profile" onclick="showScene('profile');setActive('sc-profile')">
         <div class="sc-q">Moment 05 · Profile</div>
         <div class="sc-title">Anonymous by default. Remembered when they choose.</div>
         <div class="sc-desc">Every scan quietly builds a picture — no account needed. When a member is ready, one tap links their activity to their club membership. Their data stays with the club. Always. No exceptions.</div>
         <div class="sc-tag">Privacy by design</div>
       </div>
 
-      <div class="progression-card fade-in" id="sc-progression" onclick="loadScene('progression')">
-        <div class="note-eyebrow">The Progression</div>
-        <div class="note-body"><strong>Confirm → Inform → Participate.</strong> The first scan earns trust by doing something useful. The second delivers value. By the third, the member is engaged — not because they were asked to be, but because the experience gave them a reason. That loop sustains itself.</div>
+      <div class="prog-card" id="sc-progression" onclick="showScene('progression');setActive('sc-progression')">
+        <div class="prog-eyebrow-right">The Progression</div>
+        <div class="prog-body"><strong>Confirm → Inform → Participate.</strong> The first scan earns trust by doing something useful. The second delivers value. By the third, the member is engaged — not because they were asked to be, but because the experience gave them a reason. That loop sustains itself.</div>
       </div>
 
-    </div>
-  </div>
+    </div><!-- /scenarios -->
+  </div><!-- /demo-layout -->
 
   <div class="page-footer">
-    <div class="footer-left">ClubOS Pass · Engagement Infrastructure for Private Clubs · clubhousectv.com</div>
-    <div class="footer-right">US Patent Pending · Filed May 15, 2026<br><span>Engagement Infrastructure for Venue Networks</span></div>
+    <div class="footer-l">ClubOS Pass · Engagement Infrastructure for Private Clubs · clubhousectv.com</div>
+    <div class="footer-r">US Patent Pending · Filed May 15, 2026<br><span>Engagement Infrastructure for Venue Networks</span></div>
   </div>
 </div>
 
 <script>
-// ── UTILITIES ─────────────────────────────────────────────────
-function phTime(){
+// QR pattern — pre-built, no JS DOM injection needed for phone scenes
+(function(){
+  var p=[1,1,1,1,1,1,1,0,1,0,1,1,1,1,1,1,1,1,0,0,0,0,0,1,0,0,1,1,0,0,0,0,0,1,1,0,1,1,1,0,1,0,1,0,1,0,1,1,1,0,1,1,0,1,1,1,0,1,0,0,1,0,1,1,1,0,1,1,0,0,0,0,0,1,0,1,0,1,0,0,0,0,0,1,1,1,1,1,1,1,1,0,1,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,1,1,0,1,1,0,1,0,1,1,0,1,0,1,0,0,1,0,1,0,0,0,1,0,0,1,0,1,0,0,1,0,1,1,0,0,1,0,1,0,1,0,0,0,1,1,0,1,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,1,1,1,1,1,1,1,0,1,0,0,1,0,1,0,1,1,0,0,0,0,0,1,0,0,1,1,0,1,0,1,0,1,0,1,1,1,0,1,0,1,0,0,1,0,0,1,1,0,0,0,0,1,0,1,0,1,0,0,0,0,0,1,0,1,0,1,1,0,1,0,1,0,1,0,1,0,0,0,1,1,0,1,0,0,0,1,0,0,1,0,0,1,0,1,1,1,1,1,1,1,0,0,1,0,0,1,0,1,1,1];
+  var g=document.getElementById('qrGrid');
+  if(!g) return;
+  for(var i=0;i<p.length;i++){
+    var c=document.createElement('div');
+    c.className='qb '+(p[i]?'d':'l');
+    g.appendChild(c);
+  }
+})();
+
+// Clock
+function getTime(){
   var n=new Date(),h=n.getHours(),m=n.getMinutes();
   var ap=h>=12?'PM':'AM',hh=(h%12)||12,mm=m<10?'0'+m:''+m;
   return hh+':'+mm+' '+ap;
 }
+function updateClocks(){
+  var ids=['clock-checkin','clock-discover','clock-events','clock-ruby','clock-profile'];
+  var t=getTime();
+  for(var i=0;i<ids.length;i++){
+    var el=document.getElementById(ids[i]);
+    if(el) el.textContent=t;
+  }
+}
+updateClocks();
+setInterval(updateClocks,1000);
 
-function phHeader(sub){
-  return '<div class="ph-header">'+
-    '<div class="ph-header-top">'+
-      '<div><div class="ph-club-name">Lakewood Country Club</div><div class="ph-club-sub">ClubOS Pass</div></div>'+
-      '<div class="ph-present-pill"><div class="ph-live-dot"></div>Present</div>'+
-    '</div>'+
-    '<div class="ph-day-strip">'+
-      '<div><div class="ph-day-label">Saturday · Member Day</div><div class="ph-day-sub">'+(sub||'Pro Shop')+'</div></div>'+
-      '<div class="ph-clock" id="phClock">'+phTime()+'</div>'+
-    '</div>'+
-  '</div>';
+// Scene switcher — pure show/hide, no innerHTML
+function showScene(id){
+  var scenes=document.querySelectorAll('.scene');
+  for(var i=0;i<scenes.length;i++) scenes[i].classList.remove('active');
+  var target=document.getElementById('scene-'+id);
+  if(target) target.classList.add('active');
 }
 
-function phNav(active){
-  var items=[['🏠','Home'],['🔍','Discover'],['📅','Events'],['💬','Ask Ruby'],['👤','Profile']];
-  var h='<div class="ph-nav">';
-  for(var i=0;i<items.length;i++){
-    var a=items[i][1]===active?' active':'';
-    h+='<div class="ph-nav-item'+a+'"><div class="ph-nav-icon">'+items[i][0]+'</div><div class="ph-nav-label">'+items[i][1]+'</div></div>';
-  }
-  return h+'</div>';
-}
-
-function phSponsor(){
-  return '<div class="ph-sponsor-strip">'+
-    '<div class="ph-sponsor-label">Today supported by</div>'+
-    '<div class="ph-sponsor-name">Presenting Partner</div>'+
-  '</div>';
-}
-
-// QR pixel grid — simple fixed pattern that looks like a real QR
-function buildQR(){
-  var p=[
-    [1,1,1,1,1,1,1,0,1,0,1,1,1,1,1,1,1],
-    [1,0,0,0,0,0,1,0,0,1,1,0,0,0,0,0,1],
-    [1,0,1,1,1,0,1,0,1,0,1,0,1,1,1,0,1],
-    [1,0,1,1,1,0,1,0,0,1,0,0,1,1,1,0,1],
-    [1,0,0,0,0,0,1,0,1,0,1,0,0,0,0,0,1],
-    [1,1,1,1,1,1,1,0,1,0,1,1,1,1,1,1,1],
-    [0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
-    [1,0,1,1,0,1,1,0,1,0,1,1,0,1,0,1,0],
-    [0,1,0,1,0,0,0,1,0,1,0,1,0,0,1,0,1],
-    [1,1,0,0,1,0,1,0,1,0,0,0,1,1,0,1,0],
-    [0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,1],
-    [1,1,1,1,1,1,1,0,1,0,0,1,0,1,0,1,0],
-    [1,0,0,0,0,0,1,0,0,1,1,0,1,0,1,0,1],
-    [1,0,1,1,1,0,1,0,1,0,0,1,0,0,0,1,0],
-    [1,0,1,1,1,0,1,0,0,1,0,0,1,0,1,0,1],
-    [1,0,0,0,0,0,1,0,1,0,1,1,0,1,0,0,0],
-    [1,1,1,1,1,1,1,0,0,1,0,0,1,0,1,1,1]
-  ];
-  var html='<div style="display:grid;grid-template-columns:repeat(17,5px);grid-template-rows:repeat(17,5px);gap:1px;padding:6px;background:#F2EEE6;border-radius:6px;">';
-  for(var r=0;r<p.length;r++){
-    for(var c=0;c<p[r].length;c++){
-      html+='<div style="width:5px;height:5px;border-radius:1px;background:'+(p[r][c]?'#0C0F0D':'#F2EEE6')+';"></div>';
-    }
-  }
-  return html+'</div>';
-}
-
-// ── SCENES ────────────────────────────────────────────────────
-var SCENES = {
-
-  scan: function(){
-    return '<div class="scan-scene">'+
-      '<div class="scan-eyebrow">Pro Shop · Hole 1 Display</div>'+
-      '<div class="scan-tv-label">Member scans the QR on the TV</div>'+
-      '<div class="scan-qr-wrap">'+
-        '<div class="scan-qr-box">'+buildQR()+'</div>'+
-        '<div class="scan-ring"></div>'+
-        '<div class="scan-beam"></div>'+
-      '</div>'+
-      '<div class="scan-headline">Your tee time.<br>Right now.</div>'+
-      '<div class="scan-sub">No app to download. No account to create. Just point your camera and go.</div>'+
-      '<button class="scan-cta" onclick="loadScene(\'checkin\')">Open ClubOS →</button>'+
-      '<div class="scan-no-app">Works on any iPhone or Android · Camera app only</div>'+
-    '</div>';
-  },
-
-  checkin: function(){
-    return phHeader('Pro Shop Check-in')+
-    '<div class="ph-body">'+
-      '<div class="ph-checkin-hero">'+
-        '<div class="ph-checkin-badge"><div class="ph-live-dot"></div>Confirmed</div>'+
-        '<div class="ph-checkin-time">8:20 AM</div>'+
-        '<div class="ph-checkin-hole">Hole 1 · Cart Path Only Today</div>'+
-        '<div class="ph-checkin-member">Welcome back</div>'+
-        '<div class="ph-checkin-detail">Playing with J. Williams Playing with B. Garrity &amp; T. Reedamp; R. Chen<br>Group 3 of 18 · Pace target 4:15</div>'+
-      '</div>'+
-      '<div class="ph-notice green">'+
-        '<div class="ph-notice-title">🌿 Course Note</div>'+
-        '<div class="ph-notice-body">Overnight irrigation on holes 1–9. Carts on path only through midday. Greens rolling at 11.5 — pace is good.</div>'+
-      '</div>'+
-      '<div class="ph-sec-head"><div class="ph-sec-title">Your Day</div><div class="ph-sec-sub">What\'s ahead</div></div>'+
-      '<div class="ph-card">'+
-        '<div class="ph-today-row"><div class="ph-today-icon">⛳</div><div><div class="ph-today-name">Tee Time</div><div class="ph-today-detail">Hole 1 · Cart Path</div></div><div class="ph-today-time">8:20 AM</div></div>'+
-        '<div class="ph-today-row"><div class="ph-today-icon">🍽️</div><div><div class="ph-today-name">Lunch Service</div><div class="ph-today-detail">Grill Room · Specials posted</div></div><div class="ph-today-time">11 AM</div></div>'+
-        '<div class="ph-today-row"><div class="ph-today-icon">🍷</div><div><div class="ph-today-name">Wine &amp; Dine</div><div class="ph-today-detail">4-course pairing · 3 spots left</div></div><div class="ph-today-time">Apr 12</div></div>'+
-      '</div>'+
-    '</div>'+
-    phSponsor()+
-    phNav('Home');
-  },
-
-  discover: function(){
-    return phHeader('Member Resources')+
-    '<div class="ph-body">'+
-      '<div class="ph-discover-hero">'+
-        '<div class="ph-discover-icon">🏓</div>'+
-        '<div>'+
-          '<div class="ph-discover-title">New to Pickleball?</div>'+
-          '<div class="ph-discover-body">Four courts just opened. We built a quick-start guide so you\'re not figuring out the scoring at 7am.</div>'+
-          '<div class="ph-discover-tag">Interactive · 5 min</div>'+
-        '</div>'+
-      '</div>'+
-      '<div class="ph-sec-head"><div class="ph-sec-title">Learn at the Club</div><div class="ph-sec-sub">On-screen guides</div></div>'+
-      '<div class="ph-card">'+
-        '<div class="ph-lesson-row"><div class="ph-lesson-icon">🏓</div><div><div class="ph-lesson-name">Pickleball 101</div><div class="ph-lesson-detail">Rules, scoring, court etiquette</div></div><div class="ph-lesson-badge new">New</div></div>'+
-        '<div class="ph-lesson-row"><div class="ph-lesson-icon">🀄</div><div><div class="ph-lesson-name">American Mahjong</div><div class="ph-lesson-detail">How to play · Game nights Thursdays</div></div><div class="ph-lesson-badge live">Live Series</div></div>'+
-        '<div class="ph-lesson-row"><div class="ph-lesson-icon">🏊</div><div><div class="ph-lesson-name">Aquatics Programs</div><div class="ph-lesson-detail">Lap lanes, lessons, clinics</div></div><div class="ph-lesson-badge new">Updated</div></div>'+
-        '<div class="ph-lesson-row"><div class="ph-lesson-icon">🤝</div><div><div class="ph-lesson-name">Reciprocal Clubs</div><div class="ph-lesson-detail">15 partner properties · What\'s included</div></div><div class="ph-lesson-badge live">Guide</div></div>'+
-        '<div class="ph-lesson-row"><div class="ph-lesson-icon">🎾</div><div><div class="ph-lesson-name">Tennis Clinics</div><div class="ph-lesson-detail">Booking, levels, pro bios</div></div><div class="ph-lesson-badge new">New</div></div>'+
-      '</div>'+
-    '</div>'+
-    phSponsor()+
-    phNav('Discover');
-  },
-
-  events: function(){
-    return phHeader('Events &amp; Calendar')+
-    '<div class="ph-body">'+
-      '<div class="ph-sec-head" style="margin-top:8px;"><div class="ph-sec-title">Upcoming Events</div><div class="ph-sec-sub">Tap to RSVP</div></div>'+
-      '<div class="ph-event-card">'+
-        '<div class="ph-event-date"><div class="ph-event-month">APR</div><div class="ph-event-day">5</div></div>'+
-        '<div>'+
-          '<div class="ph-event-name">Member-Guest Golf Tournament</div>'+
-          '<div class="ph-event-detail">18-hole shotgun · Lunch &amp; awards. Register by April 1.</div>'+
-          '<div class="ph-event-tags"><span class="ph-event-pill">8:00 AM</span><span class="ph-event-pill">Golf</span><span class="ph-event-pill">Members + Guest</span></div>'+
-        '</div>'+
-      '</div>'+
-      '<div class="ph-rsvp-btn">Reserve My Spot</div>'+
-      '<div class="ph-event-card">'+
-        '<div class="ph-event-date"><div class="ph-event-month">APR</div><div class="ph-event-day">12</div></div>'+
-        '<div>'+
-          '<div class="ph-event-name">Wine &amp; Dine: Spring Cellar</div>'+
-          '<div class="ph-event-detail">4-course pairing · Napa &amp; Sonoma. 3 spots left.</div>'+
-          '<div class="ph-event-tags"><span class="ph-event-pill">6:30 PM</span><span class="ph-event-pill">Dining</span><span class="ph-event-pill">Reservation Required</span></div>'+
-        '</div>'+
-      '</div>'+
-      '<div class="ph-event-card">'+
-        '<div class="ph-event-date"><div class="ph-event-month">APR</div><div class="ph-event-day">19</div></div>'+
-        '<div>'+
-          '<div class="ph-event-name">Easter Brunch Buffet</div>'+
-          '<div class="ph-event-detail">Carving stations, kids activities, Easter egg hunt on the patio.</div>'+
-          '<div class="ph-event-tags"><span class="ph-event-pill">10 AM–2 PM</span><span class="ph-event-pill">Family</span><span class="ph-event-pill">Buffet</span></div>'+
-        '</div>'+
-      '</div>'+
-    '</div>'+
-    phSponsor()+
-    phNav('Events');
-  },
-
-  ruby: function(){
-    return phHeader('Ask Ruby')+
-    '<div style="display:flex;flex-direction:column;height:calc(100% - 84px);">'+
-      '<div class="ph-chat-header">'+
-        '<div class="ph-chat-avatar">🦊</div>'+
-        '<div><div class="ph-chat-name">Ruby</div><div class="ph-chat-sub"><div class="ph-chat-dot"></div>Your club guide</div></div>'+
-      '</div>'+
-      '<div class="ph-messages">'+
-        '<div class="ph-msg ruby"><div class="ph-bubble">Good morning — you\'re confirmed for 8:20 on Hole 1. Cart path only on 1–9 today. Anything you need before you head out?</div></div>'+
-        '<div class="ph-msg user"><div class="ph-bubble">What\'s the lunch special?</div></div>'+
-        '<div class="ph-msg ruby"><div class="ph-bubble">Grill opens at 11. Today\'s feature is <b>pan-seared salmon</b> — lemon-caper beurre blanc, wild rice, $34. Also a <b>spring harvest bowl</b> for $19 if you want lighter after the round.</div></div>'+
-        '<div class="ph-msg user"><div class="ph-bubble">Any courts open this afternoon?</div></div>'+
-        '<div class="ph-msg ruby"><div class="ph-bubble">Hard courts 2 and 4 are open 1–3pm. Clay is fully booked until 4. Want me to note court 2 for you?</div></div>'+
-      '</div>'+
-      '<div class="ph-chips">'+
-        '<div class="ph-chip">Tonight\'s dinner</div>'+
-        '<div class="ph-chip">Upcoming events</div>'+
-        '<div class="ph-chip">Open tee times</div>'+
-        '<div class="ph-chip">Pro shop hours</div>'+
-      '</div>'+
-      '<div class="ph-input-bar">'+
-        '<input class="ph-input" placeholder="Ask anything about the club…" />'+
-        '<button class="ph-send">↑</button>'+
-      '</div>'+
-    '</div>'+
-    phSponsor()+
-    phNav('Ask Ruby');
-  },
-
-  profile: function(){
-    return phHeader('My Profile')+
-    '<div class="ph-body">'+
-      '<div class="ph-profile-hero">'+
-        '<div class="ph-avatar-ring">👤</div>'+
-        '<div>'+
-          '<div class="ph-profile-name">Guest Member</div>'+
-          '<div class="ph-profile-sub">Lakewood CC · Member</div>'+
-          '<div class="ph-anon-badge">✓ Anonymous</div>'+
-        '</div>'+
-      '</div>'+
-      '<div class="ph-stat-row">'+
-        '<div class="ph-stat-box"><div class="ph-stat-val">14</div><div class="ph-stat-label">Scans</div></div>'+
-        '<div class="ph-stat-box"><div class="ph-stat-val">3</div><div class="ph-stat-label">Events</div></div>'+
-        '<div class="ph-stat-box"><div class="ph-stat-val">Sat</div><div class="ph-stat-label">Usually Here</div></div>'+
-      '</div>'+
-      '<div class="ph-sec-head"><div class="ph-sec-title">Your Preferences</div><div class="ph-sec-sub">Learned from scans</div></div>'+
-      '<div class="ph-card">'+
-        '<div class="ph-pref-row"><div class="ph-pref-icon">⛳</div><div class="ph-pref-name">Golf</div><div class="ph-pref-val">Saturdays · Early</div></div>'+
-        '<div class="ph-pref-row"><div class="ph-pref-icon">🍽️</div><div class="ph-pref-name">Dining</div><div class="ph-pref-val">Grill Room · Lunch</div></div>'+
-        '<div class="ph-pref-row"><div class="ph-pref-icon">📅</div><div class="ph-pref-name">Events</div><div class="ph-pref-val">Golf · Wine Dinners</div></div>'+
-        '<div class="ph-pref-row"><div class="ph-pref-icon">🔔</div><div class="ph-pref-name">Notifications</div><div class="ph-pref-val">Off</div></div>'+
-      '</div>'+
-      '<div class="ph-privacy-note"><strong>Your data stays with the club.</strong> Nothing shared, nothing sold. These preferences were built from your scan history — no account required. Export or delete anytime.</div>'+
-      '<div class="ph-link-btn">Link My Club Membership →</div>'+
-    '</div>'+
-    phSponsor()+
-    phNav('Profile');
-  }
-
-  progression: function(){
-    return '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;background:var(--p-bg);padding:32px 24px;text-align:center;">'+
-      '<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(201,168,76,0.45);font-family:\'DM Mono\',monospace;margin-bottom:28px;">ClubOS Pass · The Loop</div>'+
-      '<div style="display:flex;flex-direction:column;gap:0;width:100%;max-width:220px;margin:0 auto 32px;">'+
-        '<div style="background:linear-gradient(135deg,#0F1F14,#162B1C);border:1.5px solid rgba(61,190,114,0.3);border-radius:12px;padding:18px 16px;text-align:center;position:relative;">'+
-          '<div style="font-size:22px;margin-bottom:8px;">✓</div>'+
-          '<div style="font-family:\'Cormorant Garamond\',serif;font-size:20px;color:#3DBE72;font-weight:600;margin-bottom:4px;">Confirm</div>'+
-          '<div style="font-size:11px;color:rgba(242,238,230,0.45);line-height:1.5;">Scan earns trust.<br>Does something useful right now.</div>'+
-        '</div>'+
-        '<div style="width:2px;height:20px;background:linear-gradient(180deg,rgba(61,190,114,0.4),rgba(201,168,76,0.4));margin:0 auto;"></div>'+
-        '<div style="background:linear-gradient(135deg,#1A160A,#201C0E);border:1.5px solid rgba(201,168,76,0.3);border-radius:12px;padding:18px 16px;text-align:center;">'+
-          '<div style="font-size:22px;margin-bottom:8px;">💡</div>'+
-          '<div style="font-family:\'Cormorant Garamond\',serif;font-size:20px;color:#C9A84C;font-weight:600;margin-bottom:4px;">Inform</div>'+
-          '<div style="font-size:11px;color:rgba(242,238,230,0.45);line-height:1.5;">The club shares knowledge.<br>Member sees value.</div>'+
-        '</div>'+
-        '<div style="width:2px;height:20px;background:linear-gradient(180deg,rgba(201,168,76,0.4),rgba(201,168,76,0.2));margin:0 auto;"></div>'+
-        '<div style="background:linear-gradient(135deg,#1A1520,#13151C);border:1.5px solid rgba(201,168,76,0.2);border-radius:12px;padding:18px 16px;text-align:center;">'+
-          '<div style="font-size:22px;margin-bottom:8px;">🏆</div>'+
-          '<div style="font-family:\'Cormorant Garamond\',serif;font-size:20px;color:rgba(242,238,230,0.8);font-weight:600;margin-bottom:4px;">Participate</div>'+
-          '<div style="font-size:11px;color:rgba(242,238,230,0.45);line-height:1.5;">Member is engaged — not<br>because they were asked.</div>'+
-        '</div>'+
-      '</div>'+
-      '<div style="font-size:12px;color:rgba(242,238,230,0.3);line-height:1.6;max-width:220px;">That loop sustains itself.<br>No loyalty program required.</div>'+
-    '</div>';
-  }
-
-};
-
-// ── ENGINE ────────────────────────────────────────────────────
-function loadScene(id){
-  document.querySelectorAll('.scenario-card, .progression-card').forEach(function(c){ c.classList.remove('active'); });
-  var card=document.getElementById('sc-'+id);
+function setActive(cardId){
+  var cards=document.querySelectorAll('.sc-card,.prog-card');
+  for(var i=0;i<cards.length;i++) cards[i].classList.remove('active');
+  var card=document.getElementById(cardId);
   if(card) card.classList.add('active');
-  var screen=document.getElementById('phoneScreen');
-  if(screen && SCENES[id]){
-    screen.innerHTML=SCENES[id]();
-    var clk=document.getElementById('phClock');
-    if(clk) clk.textContent=phTime();
-  }
 }
 
-setInterval(function(){
-  try{ var c=document.getElementById('phClock'); if(c) c.textContent=phTime(); }catch(e){}
-},1000);
-
-// Always show all cards immediately — no scroll-gating on mobile
-document.querySelectorAll('.fade-in').forEach(function(el){ el.classList.add('visible'); });
-
-// Init on DOM ready
-if(document.readyState==='loading'){
-  document.addEventListener('DOMContentLoaded', function(){ loadScene('checkin'); });
-} else {
-  loadScene('checkin');
-}
+// Default — show checkin on load
+showScene('checkin');
 </script>
 </body>
 </html>
