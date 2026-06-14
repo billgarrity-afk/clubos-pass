@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="vercel-toolbar" content="false">
+<meta name="robots" content="noindex,nofollow">
 <title>ClubOS Pass — Member Experience</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -19,9 +21,12 @@
 html{scroll-behavior:smooth;}
 body{font-family:'DM Sans',sans-serif;background:var(--green-dark);color:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh;}
 
-.print-btn{position:fixed;top:20px;right:20px;z-index:200;background:var(--green-dark);color:var(--gold);border:1px solid var(--gold);padding:10px 22px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all 0.2s;}
-.print-btn:hover{background:var(--gold);color:var(--green-dark);}
-@media print{.print-btn{display:none;}@page{size:letter;margin:0.4in;}}
+/* clickable hint on scenario cards */
+.scenario-card{ user-select:none; }
+.scenario-card:active{ transform:scale(0.99); }
+.tap-hint{ font-size:11px; color:rgba(201,168,76,0.45); letter-spacing:1px; margin-bottom:16px; display:flex; align-items:center; gap:8px; }
+.tap-hint::before{ content:''; display:block; width:20px; height:1px; background:rgba(201,168,76,0.3); }
+.tap-hint::after{ content:''; display:block; width:20px; height:1px; background:rgba(201,168,76,0.3); }
 
 .page{max-width:1100px;margin:0 auto;padding:72px 48px 80px;}
 @media(max-width:900px){.page{padding:60px 24px 60px;}}
@@ -184,9 +189,17 @@ body{font-family:'DM Sans',sans-serif;background:var(--green-dark);color:var(--c
 .scenarios{display:flex;flex-direction:column;gap:18px;}
 .scenario-card{border:1px solid rgba(201,168,76,0.15);border-radius:12px;padding:22px 26px;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;background:rgba(255,255,255,0.02);}
 .scenario-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--gold);opacity:0;transition:opacity 0.2s;}
-.scenario-card.active{background:rgba(201,168,76,0.06);border-color:rgba(201,168,76,0.38);}
+.scenario-card.active{ background:rgba(201,168,76,0.06); border-color:rgba(201,168,76,0.38); box-shadow:0 0 0 1px rgba(201,168,76,0.15), 0 4px 20px rgba(201,168,76,0.08); }
 .scenario-card.active::before{opacity:1;}
-.scenario-card:hover{background:rgba(255,255,255,0.04);}
+.scenario-card:hover{ background:rgba(255,255,255,0.04); border-color:rgba(201,168,76,0.25); }
+
+/* mobile: phone on top, scenarios below */
+@media(max-width:900px){
+  .demo-layout{ grid-template-columns:1fr; gap:40px; }
+  .phone-frame-wrap{ position:static; align-items:center; width:100%; }
+  .clubos-phone{ margin:0 auto; }
+  .tap-hint{ justify-content:center; }
+}
 .sc-q{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,0.55);font-family:'DM Mono',monospace;margin-bottom:7px;}
 .sc-title{font-family:'Cormorant Garamond',serif;font-size:1.25rem;color:var(--cream);font-weight:500;margin-bottom:7px;line-height:1.25;}
 .sc-desc{font-size:13px;color:rgba(250,247,242,0.48);line-height:1.65;}
@@ -212,8 +225,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--green-dark);color:var(--c
 </head>
 <body>
 
-<button class="print-btn" onclick="window.print()">Print / Save PDF</button>
-
 <div class="page">
   <div class="wordmark"><span class="club">Club</span><span class="os">OS</span></div>
 
@@ -234,6 +245,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--green-dark);color:var(--c
 
     <!-- SCENARIOS -->
     <div class="scenarios">
+
+      <div class="tap-hint">Select a moment to preview it in the phone</div>
 
       <div class="scenario-card fade-in" id="sc-scan" onclick="loadScene('scan')">
         <div class="sc-q">The Entry Point</div>
