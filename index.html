@@ -24,19 +24,22 @@ body{font-family:'DM Sans',sans-serif;background:var(--green-dark);color:var(--c
 /* clickable hint on scenario cards */
 .scenario-card{ user-select:none; }
 .scenario-card:active{ transform:scale(0.99); }
-.tap-hint{ font-size:11px; color:rgba(201,168,76,0.45); letter-spacing:1px; margin-bottom:16px; display:flex; align-items:center; gap:8px; }
-.tap-hint::before{ content:''; display:block; width:20px; height:1px; background:rgba(201,168,76,0.3); }
-.tap-hint::after{ content:''; display:block; width:20px; height:1px; background:rgba(201,168,76,0.3); }
+.tap-hint{ font-size:13px; color:rgba(201,168,76,0.5); letter-spacing:1px; margin-bottom:20px; display:flex; align-items:center; gap:10px; }
+.tap-hint::before{ content:''; display:block; width:24px; height:1px; background:rgba(201,168,76,0.3); }
+.tap-hint::after{ content:''; display:block; width:24px; height:1px; background:rgba(201,168,76,0.3); }
 
 .page{max-width:1100px;margin:0 auto;padding:72px 48px 80px;}
 @media(max-width:900px){.page{padding:60px 24px 60px;}}
 
-.wordmark{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:500;letter-spacing:0.5px;margin-bottom:60px;display:inline-block;}
+.wordmark{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:500;letter-spacing:0.5px;margin-bottom:60px;display:inline-block;}
 .wordmark .club{color:rgba(250,247,242,0.4);}.wordmark .os{color:var(--gold);font-style:italic;}
-.eyebrow{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:rgba(201,168,76,0.65);font-weight:500;margin-bottom:18px;}
-.headline{font-family:'Cormorant Garamond',serif;font-size:clamp(2.4rem,5vw,4rem);font-weight:500;color:var(--cream);line-height:1.1;max-width:720px;margin-bottom:20px;}
+.eyebrow{font-size:12px;letter-spacing:4px;text-transform:uppercase;color:rgba(201,168,76,0.65);font-weight:500;margin-bottom:18px;}
+.headline{font-family:'Cormorant Garamond',serif;font-size:clamp(2.6rem,5vw,4.2rem);font-weight:500;color:var(--cream);line-height:1.1;max-width:720px;margin-bottom:20px;}
 .headline em{font-style:italic;color:var(--gold);}
-.subhead{font-size:1rem;color:rgba(250,247,242,0.5);max-width:540px;line-height:1.75;font-weight:300;margin-bottom:64px;}
+.subhead{font-size:1.1rem;color:rgba(250,247,242,0.5);max-width:560px;line-height:1.8;font-weight:300;margin-bottom:48px;}
+
+/* hint above phone */
+.phone-hint-row{ margin-bottom:16px; }
 
 .demo-layout{display:grid;grid-template-columns:320px 1fr;gap:64px;align-items:start;}
 @media(max-width:900px){.demo-layout{grid-template-columns:1fr;}}
@@ -187,27 +190,32 @@ body{font-family:'DM Sans',sans-serif;background:var(--green-dark);color:var(--c
 
 /* ── RIGHT COLUMN ── */
 .scenarios{display:flex;flex-direction:column;gap:18px;}
-.scenario-card{border:1px solid rgba(201,168,76,0.15);border-radius:12px;padding:22px 26px;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;background:rgba(255,255,255,0.02);}
+.scenario-card{border:1px solid rgba(201,168,76,0.15);border-radius:12px;padding:24px 28px;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;background:rgba(255,255,255,0.02);}
 .scenario-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--gold);opacity:0;transition:opacity 0.2s;}
 .scenario-card.active{ background:rgba(201,168,76,0.06); border-color:rgba(201,168,76,0.38); box-shadow:0 0 0 1px rgba(201,168,76,0.15), 0 4px 20px rgba(201,168,76,0.08); }
 .scenario-card.active::before{opacity:1;}
 .scenario-card:hover{ background:rgba(255,255,255,0.04); border-color:rgba(201,168,76,0.25); }
+.sc-q{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,0.55);font-family:'DM Mono',monospace;margin-bottom:8px;}
+.sc-title{font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:var(--cream);font-weight:500;margin-bottom:8px;line-height:1.25;}
+.sc-desc{font-size:14px;color:rgba(250,247,242,0.52);line-height:1.7;}
+.sc-tag{display:inline-block;margin-top:12px;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);background:rgba(201,168,76,0.09);padding:3px 9px;border-radius:20px;border:1px solid rgba(201,168,76,0.2);}
 
-/* mobile: phone on top, scenarios below */
+/* progression note — now clickable */
+.progression-card{border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:24px 28px;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;background:rgba(255,255,255,0.02);border-left:3px solid var(--gold);}
+.progression-card.active{background:rgba(201,168,76,0.06);border-color:rgba(201,168,76,0.38);box-shadow:0 0 0 1px rgba(201,168,76,0.15),0 4px 20px rgba(201,168,76,0.08);}
+.progression-card:hover{background:rgba(255,255,255,0.04);}
+.note-eyebrow{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-family:'DM Mono',monospace;margin-bottom:10px;}
+.note-body{font-size:14px;color:rgba(250,247,242,0.55);line-height:1.75;}
+.note-body strong{color:var(--cream);}
+
+/* mobile */
 @media(max-width:900px){
   .demo-layout{ grid-template-columns:1fr; gap:40px; }
   .phone-frame-wrap{ position:static; align-items:center; width:100%; }
   .clubos-phone{ margin:0 auto; }
   .tap-hint{ justify-content:center; }
+  .phone-hint-row{ text-align:center; }
 }
-.sc-q{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,0.55);font-family:'DM Mono',monospace;margin-bottom:7px;}
-.sc-title{font-family:'Cormorant Garamond',serif;font-size:1.25rem;color:var(--cream);font-weight:500;margin-bottom:7px;line-height:1.25;}
-.sc-desc{font-size:13px;color:rgba(250,247,242,0.48);line-height:1.65;}
-.sc-tag{display:inline-block;margin-top:11px;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);background:rgba(201,168,76,0.09);padding:3px 9px;border-radius:20px;border:1px solid rgba(201,168,76,0.2);}
-.note-box{padding:20px 24px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.08);border-radius:12px;border-left:3px solid var(--gold);}
-.note-eyebrow{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-family:'DM Mono',monospace;margin-bottom:9px;}
-.note-body{font-size:13px;color:rgba(250,247,242,0.55);line-height:1.7;}
-.note-body strong{color:var(--cream);}
 
 .page-footer{margin-top:72px;padding-top:28px;border-top:1px solid rgba(201,168,76,0.15);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
 .footer-left{font-size:12px;color:rgba(250,247,242,0.28);}
@@ -236,17 +244,18 @@ body{font-family:'DM Sans',sans-serif;background:var(--green-dark);color:var(--c
 
     <!-- PHONE -->
     <div class="phone-frame-wrap">
+      <div class="phone-hint-row">
+        <div class="tap-hint">Select a moment to see it on the phone</div>
+      </div>
       <div class="clubos-phone">
         <div class="phone-notch"></div>
         <div class="phone-screen" id="phoneScreen"></div>
       </div>
-      <div class="phone-label">Scan any QR · No app · No login</div>
+      <div class="phone-label" style="margin-top:14px;">Scan any QR · No app · No login</div>
     </div>
 
     <!-- SCENARIOS -->
     <div class="scenarios">
-
-      <div class="tap-hint">Select a moment to preview it in the phone</div>
 
       <div class="scenario-card fade-in" id="sc-scan" onclick="loadScene('scan')">
         <div class="sc-q">The Entry Point</div>
@@ -290,8 +299,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--green-dark);color:var(--c
         <div class="sc-tag">Privacy by design</div>
       </div>
 
-      <div class="note-box fade-in">
-        <div class="note-eyebrow">The progression</div>
+      <div class="progression-card fade-in" id="sc-progression" onclick="loadScene('progression')">
+        <div class="note-eyebrow">The Progression</div>
         <div class="note-body"><strong>Confirm → Inform → Participate.</strong> The first scan earns trust by doing something useful. The second delivers value. By the third, the member is engaged — not because they were asked to be, but because the experience gave them a reason. That loop sustains itself.</div>
       </div>
 
@@ -533,11 +542,37 @@ var SCENES = {
     phNav('Profile');
   }
 
+  progression: function(){
+    return '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;background:var(--p-bg);padding:32px 24px;text-align:center;">'+
+      '<div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(201,168,76,0.45);font-family:\'DM Mono\',monospace;margin-bottom:28px;">ClubOS Pass · The Loop</div>'+
+      '<div style="display:flex;flex-direction:column;gap:0;width:100%;max-width:220px;margin:0 auto 32px;">'+
+        '<div style="background:linear-gradient(135deg,#0F1F14,#162B1C);border:1.5px solid rgba(61,190,114,0.3);border-radius:12px;padding:18px 16px;text-align:center;position:relative;">'+
+          '<div style="font-size:22px;margin-bottom:8px;">✓</div>'+
+          '<div style="font-family:\'Cormorant Garamond\',serif;font-size:20px;color:#3DBE72;font-weight:600;margin-bottom:4px;">Confirm</div>'+
+          '<div style="font-size:11px;color:rgba(242,238,230,0.45);line-height:1.5;">Scan earns trust.<br>Does something useful right now.</div>'+
+        '</div>'+
+        '<div style="width:2px;height:20px;background:linear-gradient(180deg,rgba(61,190,114,0.4),rgba(201,168,76,0.4));margin:0 auto;"></div>'+
+        '<div style="background:linear-gradient(135deg,#1A160A,#201C0E);border:1.5px solid rgba(201,168,76,0.3);border-radius:12px;padding:18px 16px;text-align:center;">'+
+          '<div style="font-size:22px;margin-bottom:8px;">💡</div>'+
+          '<div style="font-family:\'Cormorant Garamond\',serif;font-size:20px;color:#C9A84C;font-weight:600;margin-bottom:4px;">Inform</div>'+
+          '<div style="font-size:11px;color:rgba(242,238,230,0.45);line-height:1.5;">The club shares knowledge.<br>Member sees value.</div>'+
+        '</div>'+
+        '<div style="width:2px;height:20px;background:linear-gradient(180deg,rgba(201,168,76,0.4),rgba(201,168,76,0.2));margin:0 auto;"></div>'+
+        '<div style="background:linear-gradient(135deg,#1A1520,#13151C);border:1.5px solid rgba(201,168,76,0.2);border-radius:12px;padding:18px 16px;text-align:center;">'+
+          '<div style="font-size:22px;margin-bottom:8px;">🏆</div>'+
+          '<div style="font-family:\'Cormorant Garamond\',serif;font-size:20px;color:rgba(242,238,230,0.8);font-weight:600;margin-bottom:4px;">Participate</div>'+
+          '<div style="font-size:11px;color:rgba(242,238,230,0.45);line-height:1.5;">Member is engaged — not<br>because they were asked.</div>'+
+        '</div>'+
+      '</div>'+
+      '<div style="font-size:12px;color:rgba(242,238,230,0.3);line-height:1.6;max-width:220px;">That loop sustains itself.<br>No loyalty program required.</div>'+
+    '</div>';
+  }
+
 };
 
 // ── ENGINE ────────────────────────────────────────────────────
 function loadScene(id){
-  document.querySelectorAll('.scenario-card').forEach(function(c){ c.classList.remove('active'); });
+  document.querySelectorAll('.scenario-card, .progression-card').forEach(function(c){ c.classList.remove('active'); });
   var card=document.getElementById('sc-'+id);
   if(card) card.classList.add('active');
   var screen=document.getElementById('phoneScreen');
