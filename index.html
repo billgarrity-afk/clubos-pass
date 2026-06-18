@@ -3,618 +3,901 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<meta name="vercel-toolbar" content="false">
 <meta name="robots" content="noindex,nofollow">
 <title>ClubOS Pass — Member Experience</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{
-  --cream:#FAF7F2;--green-dark:#0D1F17;--green-mid:#1A3A2A;
-  --gold:#C9A84C;--gold-dim:#8B6B28;
-  --p-bg:#0C0F0D;--p-card:#111714;--p-raise:#182018;
-  --p-green:#3DBE72;--p-gdim:rgba(61,190,114,0.12);--p-gline:rgba(61,190,114,0.22);
-  --p-gold:#C9A84C;--p-qdim:rgba(201,168,76,0.13);--p-qline:rgba(201,168,76,0.28);
-  --p-white:#F2EEE6;--p-dim:rgba(242,238,230,0.5);--p-sep:rgba(242,238,230,0.07);
+:root {
+  --bg: #0A1410;
+  --bg-mid: #0F1C16;
+  --bg-card: #111714;
+  --green-dark: #0D1F17;
+  --green-mid: #1A3A2A;
+  --green-acc: #2D5A3D;
+  --green-glow: #4E9966;
+  --gold: #C9A84C;
+  --gold-dim: #8B6B28;
+  --gold-light: rgba(201,168,76,0.12);
+  --cream: #FAF7F2;
+  --cream-dim: rgba(250,247,242,0.6);
+  --cream-faint: rgba(250,247,242,0.2);
+  --separator: rgba(201,168,76,0.2);
+  --white: #F2EEE6;
 }
-*{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{font-family:'DM Sans',sans-serif;background:var(--green-dark);color:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh;}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);
+  color:var(--white);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
 
-/* PAGE */
-.page{max-width:1100px;margin:0 auto;padding:72px 48px 80px;}
-@media(max-width:700px){.page{padding:48px 20px 60px;}}
+/* ── NAV ─────────────────────────────────────────── */
+nav {
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(10,20,16,0.95);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--separator);
+  padding:0 40px;height:60px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.wordmark { font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:500; }
+.wordmark .club { color:var(--cream); }
+.wordmark .os { color:var(--gold);font-style:italic; }
+.nav-tag { font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,0.5); }
 
-.wordmark{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:500;margin-bottom:56px;display:inline-block;}
-.wordmark .club{color:rgba(250,247,242,0.4);}.wordmark .os{color:var(--gold);font-style:italic;}
-.eyebrow{font-size:12px;letter-spacing:4px;text-transform:uppercase;color:rgba(201,168,76,0.65);font-weight:500;margin-bottom:16px;}
-.headline{font-family:'Cormorant Garamond',serif;font-size:clamp(2.6rem,7vw,4.2rem);font-weight:500;color:var(--cream);line-height:1.1;margin-bottom:18px;}
-.headline em{font-style:italic;color:var(--gold);}
-.subhead{font-size:1.05rem;color:rgba(250,247,242,0.5);max-width:560px;line-height:1.8;font-weight:300;margin-bottom:48px;}
+/* ── HERO ────────────────────────────────────────── */
+.hero {
+  min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:100px 24px 60px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.hero::before {
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 60% at 50% 40%, rgba(201,168,76,0.06) 0%, transparent 65%),
+             radial-gradient(ellipse 50% 40% at 20% 80%, rgba(45,90,61,0.25) 0%, transparent 60%);
+  pointer-events:none;
+}
+.hero-eyebrow {
+  font-size:11px;letter-spacing:4px;text-transform:uppercase;
+  color:var(--gold);font-weight:500;margin-bottom:24px;
+}
+.hero-headline {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.4rem,6vw,4.5rem);
+  font-weight:500;color:var(--cream);line-height:1.1;
+  margin-bottom:20px;
+}
+.hero-headline em { font-style:italic;color:var(--gold); }
+.hero-sub {
+  font-size:1.05rem;color:var(--cream-dim);
+  max-width:520px;line-height:1.75;margin:0 auto 48px;font-weight:300;
+}
 
-/* LAYOUT */
-.demo-layout{display:grid;grid-template-columns:300px 1fr;gap:56px;align-items:start;}
-@media(max-width:900px){.demo-layout{grid-template-columns:1fr;gap:32px;}}
+/* pass type badges */
+.pass-types {
+  display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:56px;
+}
+.pass-type-badge {
+  display:flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid var(--separator);
+  border-radius:8px;padding:10px 18px;
+}
+.pass-type-badge.active { background:rgba(201,168,76,0.1);border-color:rgba(201,168,76,0.4); }
+.ptb-label { font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase; }
+.pass-type-badge.active .ptb-label { color:var(--gold); }
+.pass-type-badge:not(.active) .ptb-label { color:var(--cream-faint); }
+.ptb-sub { font-size:11px;margin-top:1px; }
+.pass-type-badge.active .ptb-sub { color:var(--cream-dim); }
+.pass-type-badge:not(.active) .ptb-sub { color:rgba(250,247,242,0.2); }
 
-/* PHONE WRAP */
-.phone-wrap{position:sticky;top:32px;}
-@media(max-width:900px){.phone-wrap{position:static;display:flex;flex-direction:column;align-items:center;}}
+/* ── PHONE DEMO SECTION ──────────────────────────── */
+.demo-section {
+  padding:80px 24px;
+  max-width:1100px;margin:0 auto;
+}
+.demo-layout {
+  display:grid;grid-template-columns:320px 1fr;gap:64px;align-items:start;
+}
+@media(max-width:900px){.demo-layout{grid-template-columns:1fr;gap:40px;}}
 
-.tap-hint{font-size:12px;color:rgba(201,168,76,0.5);letter-spacing:1px;margin-bottom:14px;display:flex;align-items:center;gap:10px;white-space:nowrap;}
-.tap-hint::before,.tap-hint::after{content:'';display:block;width:20px;height:1px;background:rgba(201,168,76,0.28);flex-shrink:0;}
-@media(max-width:900px){.tap-hint{justify-content:center;}}
+.phone-wrap {
+  position:sticky;top:80px;
+  display:flex;flex-direction:column;align-items:center;gap:16px;
+}
+@media(max-width:900px){.phone-wrap{position:static;}}
 
-/* PHONE FRAME */
-.phone{width:280px;height:580px;background:var(--p-bg);border-radius:40px;border:2px solid var(--p-qline);box-shadow:0 0 0 1px rgba(255,255,255,0.05),0 24px 64px rgba(0,0,0,0.7);overflow:hidden;position:relative;flex-shrink:0;}
-.phone-notch{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:70px;height:4px;background:rgba(201,168,76,0.2);border-radius:3px;z-index:30;}
+.phone-hint {
+  font-size:10px;letter-spacing:2px;text-transform:uppercase;
+  color:rgba(201,168,76,0.4);font-family:'DM Mono',monospace;text-align:center;
+}
 
-/* ALL SCENES — hidden by default, shown via .active */
-.scene{position:absolute;inset:0;display:none;flex-direction:column;background:var(--p-bg);overflow:hidden;}
-.scene.active{display:flex;}
+/* Phone frame */
+.phone {
+  width:300px;height:596px;
+  background:#0C0F0D;
+  border-radius:38px;
+  border:2px solid rgba(201,168,76,0.28);
+  box-shadow:0 0 0 1px rgba(255,255,255,0.04), 0 28px 72px rgba(0,0,0,0.8);
+  overflow:hidden;position:relative;flex-shrink:0;
+}
+.phone-notch {
+  position:absolute;top:10px;left:50%;transform:translateX(-50%);
+  width:72px;height:4px;
+  background:rgba(201,168,76,0.15);border-radius:3px;z-index:30;
+}
 
-/* PHONE HEADER */
-.ph-hdr{background:var(--p-card);border-bottom:1.5px solid var(--p-qline);padding:22px 13px 9px;flex-shrink:0;}
-.ph-hdr-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;}
-.ph-club{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;color:var(--p-white);}
-.ph-sub{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--p-gold);margin-top:1px;}
-.present-pill{display:flex;align-items:center;gap:4px;background:var(--p-gdim);border:1px solid var(--p-gline);border-radius:10px;padding:3px 8px;font-size:9px;font-weight:700;color:var(--p-green);letter-spacing:1px;text-transform:uppercase;}
-.live-dot{width:5px;height:5px;border-radius:50%;background:var(--p-green);animation:pulse 2s ease infinite;}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
-.ph-strip{background:var(--p-qdim);border:1px solid var(--p-qline);border-radius:5px;padding:4px 9px;display:flex;align-items:center;justify-content:space-between;}
-.ph-strip-label{font-size:9px;color:var(--p-white);font-weight:500;}
-.ph-strip-sub{font-size:7px;color:var(--p-dim);letter-spacing:1px;text-transform:uppercase;}
-.ph-clock{font-family:'DM Mono',monospace;font-size:13px;color:var(--p-white);}
+/* Scenes */
+.p-scene { position:absolute;inset:0;display:none;flex-direction:column;background:#0C0F0D;overflow:hidden;font-size:12px; }
+.p-scene.active { display:flex; }
 
-/* PHONE BODY */
-.ph-body{flex:1;overflow-y:auto;padding:8px 0 68px;}
-.ph-body::-webkit-scrollbar{display:none;}
+/* Pass header */
+.p-hdr { background:#111714;border-bottom:1.5px solid rgba(201,168,76,0.22);padding:22px 14px 10px;flex-shrink:0; }
+.p-hdr-top { display:flex;align-items:center;justify-content:space-between;margin-bottom:8px; }
+.p-club { font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:600;color:#F2EEE6; }
+.p-sub { font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#C9A84C;margin-top:1px; }
+.p-present { display:flex;align-items:center;gap:4px;background:rgba(61,190,114,0.12);border:1px solid rgba(61,190,114,0.22);border-radius:10px;padding:3px 8px;font-size:9px;font-weight:700;color:#3DBE72;letter-spacing:1px;text-transform:uppercase; }
+.p-live-dot { width:5px;height:5px;border-radius:50%;background:#3DBE72;animation:pdot 2s ease infinite; }
+@keyframes pdot{0%,100%{opacity:1}50%{opacity:0.3}}
+.p-strip { background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.22);border-radius:5px;padding:4px 10px;display:flex;align-items:center;justify-content:space-between; }
+.p-strip-label { font-size:9px;color:#F2EEE6;font-weight:500; }
+.p-strip-sub { font-size:7px;color:rgba(242,238,230,0.45);letter-spacing:1px;text-transform:uppercase; }
+.p-clock { font-family:'DM Mono',monospace;font-size:12px;color:#F2EEE6; }
 
-/* SPONSOR STRIP */
-.ph-sponsor{position:absolute;bottom:46px;left:0;right:0;background:rgba(10,14,11,0.96);border-top:1px solid rgba(201,168,76,0.1);padding:3px 13px;display:flex;align-items:center;justify-content:space-between;z-index:5;}
-.ph-sp-label{font-size:7px;color:rgba(242,238,230,0.2);letter-spacing:1.5px;text-transform:uppercase;}
-.ph-sp-name{font-family:'Cormorant Garamond',serif;font-size:12px;color:rgba(201,168,76,0.5);font-weight:500;}
+/* Body scroll */
+.p-body { flex:1;overflow-y:auto;padding:8px 0 68px; }
+.p-body::-webkit-scrollbar { display:none; }
 
-/* NAV */
-.ph-nav{position:absolute;bottom:0;left:0;right:0;background:rgba(10,14,11,0.97);border-top:1.5px solid var(--p-qline);display:flex;padding:5px 0 7px;z-index:10;}
-.ph-nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:1px;}
-.ph-nav-icon{font-size:13px;}
-.ph-nav-lbl{font-size:6px;color:var(--p-dim);letter-spacing:0.5px;font-weight:600;text-transform:uppercase;}
-.ph-nav-item.on .ph-nav-lbl{color:var(--p-gold);}
+/* Sponsor strip */
+.p-sponsor { position:absolute;bottom:44px;left:0;right:0;background:rgba(10,14,11,0.96);border-top:1px solid rgba(201,168,76,0.1);padding:3px 13px;display:flex;align-items:center;justify-content:space-between;z-index:5; }
+.p-sp-label { font-size:7px;color:rgba(242,238,230,0.2);letter-spacing:1.5px;text-transform:uppercase; }
+.p-sp-name { font-family:'Cormorant Garamond',serif;font-size:12px;color:rgba(201,168,76,0.5);font-weight:500; }
 
-/* SHARED COMPONENTS */
-.ph-sec{display:flex;align-items:center;justify-content:space-between;padding:0 11px;margin:9px 0 4px;}
-.ph-sec-t{font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--p-white);font-weight:600;}
-.ph-sec-s{font-size:7px;letter-spacing:2px;text-transform:uppercase;color:var(--p-dim);}
-.ph-card{margin:0 9px 9px;background:var(--p-card);border:1px solid var(--p-sep);border-radius:9px;overflow:hidden;}
+/* Nav bar */
+.p-nav { position:absolute;bottom:0;left:0;right:0;background:rgba(10,14,11,0.97);border-top:1.5px solid rgba(201,168,76,0.22);display:flex;padding:5px 0 7px;z-index:10; }
+.p-nav-item { flex:1;display:flex;flex-direction:column;align-items:center;gap:1px; }
+.p-nav-icon { font-size:13px; }
+.p-nav-lbl { font-size:6px;color:rgba(242,238,230,0.35);letter-spacing:0.5px;font-weight:600;text-transform:uppercase; }
+.p-nav-item.on .p-nav-lbl { color:#C9A84C; }
 
-.row{display:flex;align-items:center;gap:9px;padding:8px 11px;border-bottom:1px solid var(--p-sep);}
-.row:last-child{border-bottom:none;}
-.row-icon{font-size:15px;width:26px;text-align:center;flex-shrink:0;}
-.row-name{font-size:11px;font-weight:500;color:var(--p-white);}
-.row-detail{font-size:9px;color:var(--p-dim);margin-top:1px;}
-.row-right{font-family:'DM Mono',monospace;font-size:9px;color:var(--p-gold);margin-left:auto;flex-shrink:0;}
+/* Shared components */
+.p-sec { display:flex;align-items:center;justify-content:space-between;padding:0 12px;margin:10px 0 5px; }
+.p-sec-t { font-family:'Cormorant Garamond',serif;font-size:14px;color:#F2EEE6;font-weight:600; }
+.p-sec-s { font-size:7px;letter-spacing:2px;text-transform:uppercase;color:rgba(242,238,230,0.4); }
+.p-card { margin:0 10px 10px;background:#111714;border:1px solid rgba(242,238,230,0.07);border-radius:9px;overflow:hidden; }
+.p-row { display:flex;align-items:center;gap:10px;padding:9px 12px;border-bottom:1px solid rgba(242,238,230,0.06); }
+.p-row:last-child { border-bottom:none; }
+.p-row-icon { font-size:14px;width:24px;text-align:center;flex-shrink:0; }
+.p-row-name { font-size:11px;font-weight:500;color:#F2EEE6; }
+.p-row-detail { font-size:9px;color:rgba(242,238,230,0.45);margin-top:1px; }
+.p-row-right { font-family:'DM Mono',monospace;font-size:9px;color:#C9A84C;margin-left:auto;flex-shrink:0; }
+.p-notice { margin:0 10px 10px;background:#182018;border-left:3px solid #3DBE72;border-radius:0 7px 7px 0;padding:9px 12px; }
+.p-notice-t { font-size:11px;font-weight:600;color:#F2EEE6;margin-bottom:2px; }
+.p-notice-b { font-size:10px;color:rgba(242,238,230,0.5);line-height:1.5; }
 
-.notice{margin:0 9px 9px;background:var(--p-raise);border-left:3px solid var(--p-green);border-radius:0 7px 7px 0;padding:9px 11px;}
-.notice-t{font-size:11px;font-weight:600;color:var(--p-white);margin-bottom:2px;}
-.notice-b{font-size:10px;color:var(--p-dim);line-height:1.5;}
+/* Check-in scene */
+.p-checkin-hero { margin:10px;background:linear-gradient(145deg,#0F1F14,#162B1C);border:1.5px solid rgba(61,190,114,0.22);border-radius:10px;padding:14px;position:relative;overflow:hidden; }
+.p-checkin-hero::before { content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#3DBE72,transparent);opacity:0.6; }
+.p-confirmed { display:inline-flex;align-items:center;gap:5px;background:rgba(61,190,114,0.12);border:1px solid rgba(61,190,114,0.22);border-radius:3px;padding:3px 8px;font-size:8px;font-weight:700;color:#3DBE72;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px; }
+.p-tee-time { font-family:'DM Mono',monospace;font-size:36px;color:#3DBE72;letter-spacing:2px;line-height:1;margin-bottom:5px; }
+.p-tee-hole { font-size:10px;color:#C9A84C;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px; }
+.p-tee-name { font-size:13px;color:#F2EEE6;font-weight:500;margin-bottom:3px; }
+.p-tee-detail { font-size:10px;color:rgba(242,238,230,0.5);line-height:1.5; }
 
-/* ── SCENE: QR SCAN ── */
-.scan-scene-inner{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:24px 20px;text-align:center;}
-.scan-eyebrow{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(201,168,76,0.55);font-family:'DM Mono',monospace;margin-bottom:8px;}
-.scan-location{font-size:13px;color:rgba(242,238,230,0.7);margin-bottom:6px;font-weight:500;}
-.scan-subloc{font-size:10px;color:rgba(242,238,230,0.35);margin-bottom:18px;letter-spacing:0.5px;}
-.scan-qr-wrap{position:relative;width:104px;height:104px;margin:0 auto 20px;}
-.scan-qr{width:104px;height:104px;background:var(--p-white);border-radius:9px;display:flex;align-items:center;justify-content:center;position:relative;z-index:2;padding:7px;}
-.scan-ring{position:absolute;inset:-7px;border-radius:14px;border:2px solid var(--p-gold);animation:scanring 2s ease-in-out infinite;}
-@keyframes scanring{0%,100%{opacity:0.35;transform:scale(1);}50%{opacity:1;transform:scale(1.05);}}
-.scan-beam{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--p-gold),transparent);animation:scanbeam 1.8s ease-in-out infinite;z-index:3;border-radius:1px;}
-@keyframes scanbeam{0%{top:12px;opacity:0;}15%{opacity:1;}85%{opacity:1;}100%{top:92px;opacity:0;}}
-.scan-headline{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--p-white);font-weight:600;line-height:1.2;margin-bottom:8px;}
-.scan-sub{font-size:11px;color:var(--p-dim);line-height:1.6;margin-bottom:6px;max-width:210px;}
-.scan-noapp{font-size:9px;color:rgba(242,238,230,0.22);letter-spacing:0.5px;margin-bottom:18px;}
-.scan-open-btn{background:var(--p-gold);color:#0D1F17;border:none;border-radius:20px;padding:10px 24px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;}
-.scan-camera-row{display:flex;align-items:center;gap:7px;margin-top:14px;padding:8px 14px;background:rgba(255,255,255,0.04);border:1px solid rgba(201,168,76,0.15);border-radius:20px;cursor:pointer;}
-.scan-camera-icon{font-size:14px;}
-.scan-camera-label{font-size:10px;color:rgba(242,238,230,0.5);letter-spacing:0.5px;}
+/* Events scene */
+.p-event-card { margin:0 10px 8px;background:#111714;border:1px solid rgba(242,238,230,0.07);border-radius:9px;padding:10px 12px;display:flex;gap:10px; }
+.p-event-date { background:#C9A84C;border-radius:5px;padding:5px 7px;text-align:center;flex-shrink:0;min-width:38px; }
+.p-event-month { font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#0D1F17; }
+.p-event-day { font-family:'Cormorant Garamond',serif;font-size:20px;color:#0D1F17;font-weight:600;line-height:1; }
+.p-event-name { font-size:11px;font-weight:600;color:#F2EEE6;margin-bottom:3px;line-height:1.3; }
+.p-event-detail { font-size:9px;color:rgba(242,238,230,0.45);line-height:1.4;margin-bottom:4px; }
+.p-event-pills { display:flex;gap:3px;flex-wrap:wrap; }
+.p-epill { font-size:7px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:2px 5px;border-radius:7px;color:#C9A84C;border:1px solid rgba(201,168,76,0.25); }
+.p-rsvp-btn { margin:2px 10px 10px;background:#C9A84C;color:#0D1F17;border:none;border-radius:7px;padding:9px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;width:calc(100% - 20px);cursor:pointer;display:block;text-align:center;font-family:'DM Sans',sans-serif; }
 
-/* QR grid */
-.qr-grid{display:grid;grid-template-columns:repeat(17,4px);grid-template-rows:repeat(17,4px);gap:1px;}
-.qb{border-radius:1px;}.qb.d{background:#0C0F0D;}.qb.l{background:#F2EEE6;}
+/* Ruby scene */
+.p-ruby-hdr { background:rgba(8,18,11,0.98);padding:7px 12px;border-bottom:1px solid rgba(201,168,76,0.14);display:flex;align-items:center;gap:8px;flex-shrink:0; }
+.p-ruby-avatar { width:28px;height:28px;border-radius:50%;background:linear-gradient(145deg,#254A30,#162B1C);border:1.5px solid #C9A84C;display:flex;align-items:center;justify-content:center;font-size:14px; }
+.p-ruby-name { font-size:11px;font-weight:600;color:#F2EEE6; }
+.p-ruby-sub { font-size:8px;color:rgba(201,168,76,0.75);display:flex;align-items:center;gap:3px; }
+.p-ruby-dot { width:4px;height:4px;border-radius:50%;background:#3DBE72;animation:pdot 2s infinite; }
+.p-messages { flex:1;overflow:hidden;padding:8px 10px;display:flex;flex-direction:column;gap:7px; }
+.p-msg { display:flex;gap:5px;align-items:flex-end; }
+.p-msg.user { flex-direction:row-reverse; }
+.p-bubble { max-width:80%;padding:7px 10px;border-radius:11px;font-size:10px;line-height:1.55; }
+.p-msg.ruby .p-bubble { background:rgba(255,255,255,0.07);color:#F2EEE6;border:1px solid rgba(201,168,76,0.16);border-bottom-left-radius:3px; }
+.p-msg.user .p-bubble { background:#C9A84C;color:#0D1F17;font-weight:500;border-bottom-right-radius:3px; }
+.p-bubble b { color:#C9A84C; }
+.p-msg.user .p-bubble b { color:#0D1F17; }
+.p-chips { padding:5px 8px;display:flex;flex-wrap:wrap;gap:3px;border-top:1px solid rgba(255,255,255,0.05); }
+.p-chip { background:rgba(255,255,255,0.05);border:1px solid rgba(201,168,76,0.18);border-radius:12px;padding:3px 8px;font-size:9px;color:rgba(242,238,230,0.6);white-space:nowrap; }
+.p-input-row { padding:4px 8px 10px;display:flex;gap:5px; }
+.p-input { flex:1;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.08);border-radius:18px;padding:6px 10px;font-size:10px;color:#F2EEE6;font-family:'DM Sans',sans-serif;outline:none; }
+.p-input::placeholder { color:rgba(242,238,230,0.22); }
+.p-send { width:28px;height:28px;border-radius:50%;background:#C9A84C;border:none;color:#0D1F17;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0; }
 
-/* ── SCENE: CHECK-IN ── */
-.checkin-hero{margin:9px;background:linear-gradient(145deg,#0F1F14,#162B1C);border:1.5px solid var(--p-gline);border-radius:11px;padding:16px 13px;position:relative;overflow:hidden;}
-.checkin-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--p-green),transparent);opacity:0.6;}
-.confirmed-badge{display:inline-flex;align-items:center;gap:5px;background:var(--p-gdim);border:1px solid var(--p-gline);border-radius:3px;padding:3px 8px;font-size:8px;font-weight:700;color:var(--p-green);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;}
-.checkin-time{font-family:'DM Mono',monospace;font-size:36px;color:var(--p-green);letter-spacing:2px;line-height:1;margin-bottom:5px;}
-.checkin-hole{font-size:10px;color:var(--p-gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;}
-.checkin-name{font-size:14px;color:var(--p-white);font-weight:500;margin-bottom:3px;}
-.checkin-detail{font-size:11px;color:var(--p-dim);line-height:1.5;}
+/* Discover scene */
+.p-discover-hero { margin:10px 10px 7px;background:#111714;border:1px solid rgba(242,238,230,0.07);border-radius:9px;padding:11px;display:flex;gap:10px; }
+.p-discover-icon { font-size:24px;flex-shrink:0;margin-top:1px; }
+.p-discover-title { font-family:'Cormorant Garamond',serif;font-size:14px;color:#F2EEE6;font-weight:600;margin-bottom:3px; }
+.p-discover-body { font-size:9.5px;color:rgba(242,238,230,0.5);line-height:1.5; }
+.p-discover-tag { display:inline-block;margin-top:5px;font-size:8px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#C9A84C;background:rgba(201,168,76,0.1);padding:2px 7px;border-radius:10px;border:1px solid rgba(201,168,76,0.22); }
+.p-lesson-row { display:flex;align-items:center;gap:9px;padding:8px 12px;border-bottom:1px solid rgba(242,238,230,0.06); }
+.p-lesson-row:last-child { border-bottom:none; }
+.p-lesson-icon { width:30px;height:30px;border-radius:7px;background:#182018;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0; }
+.p-lesson-name { font-size:11px;font-weight:600;color:#F2EEE6; }
+.p-lesson-detail { font-size:9px;color:rgba(242,238,230,0.45);margin-top:1px; }
+.p-badge { margin-left:auto;font-size:8px;font-weight:700;padding:2px 6px;border-radius:8px;flex-shrink:0;white-space:nowrap; }
+.p-badge.new { background:rgba(61,190,114,0.12);color:#3DBE72;border:1px solid rgba(61,190,114,0.22); }
+.p-badge.live { background:rgba(201,168,76,0.1);color:#C9A84C;border:1px solid rgba(201,168,76,0.22); }
 
-/* ── SCENE: DISCOVER ── */
-.discover-hero{margin:9px 9px 7px;background:var(--p-card);border:1px solid var(--p-sep);border-radius:9px;padding:12px;display:flex;gap:10px;}
-.discover-icon{font-size:26px;flex-shrink:0;margin-top:1px;}
-.discover-title{font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--p-white);font-weight:600;margin-bottom:3px;}
-.discover-body{font-size:10px;color:var(--p-dim);line-height:1.5;}
-.discover-tag{display:inline-block;margin-top:6px;font-size:8px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--p-gold);background:var(--p-qdim);padding:2px 7px;border-radius:10px;border:1px solid var(--p-qline);}
-.lesson-row{display:flex;align-items:center;gap:9px;padding:9px 11px;border-bottom:1px solid var(--p-sep);}
-.lesson-row:last-child{border-bottom:none;}
-.lesson-icon{width:32px;height:32px;border-radius:7px;background:var(--p-raise);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
-.lesson-name{font-size:11px;font-weight:600;color:var(--p-white);}
-.lesson-detail{font-size:9px;color:var(--p-dim);margin-top:1px;}
-.badge{margin-left:auto;font-size:8px;font-weight:700;padding:2px 6px;border-radius:8px;flex-shrink:0;white-space:nowrap;}
-.badge.new{background:var(--p-gdim);color:var(--p-green);border:1px solid var(--p-gline);}
-.badge.live{background:rgba(201,168,76,0.1);color:var(--p-gold);border:1px solid var(--p-qline);}
+/* ── SCENARIO CARDS ──────────────────────────────── */
+.scenarios { display:flex;flex-direction:column;gap:12px; }
+.sc-card {
+  border:1px solid rgba(201,168,76,0.15);border-radius:12px;
+  padding:20px 22px;cursor:pointer;
+  transition:background 0.2s,border-color 0.2s;
+  position:relative;overflow:hidden;
+  background:rgba(255,255,255,0.02);
+}
+.sc-card::before { content:'';position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--gold);opacity:0;transition:opacity 0.2s; }
+.sc-card.active { background:rgba(201,168,76,0.07);border-color:rgba(201,168,76,0.4); }
+.sc-card.active::before { opacity:1; }
+.sc-card:hover { background:rgba(255,255,255,0.04); }
+.sc-q { font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,0.5);font-family:'DM Mono',monospace;margin-bottom:6px; }
+.sc-title { font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--cream);font-weight:500;margin-bottom:6px;line-height:1.25; }
+.sc-desc { font-size:13px;color:rgba(250,247,242,0.5);line-height:1.7; }
+.sc-tag { display:inline-block;margin-top:8px;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);background:rgba(201,168,76,0.09);padding:3px 9px;border-radius:20px;border:1px solid rgba(201,168,76,0.2); }
 
-/* ── SCENE: EVENTS ── */
-.event-card{margin:0 9px 9px;background:var(--p-card);border:1px solid var(--p-sep);border-radius:9px;padding:11px 12px;display:flex;gap:10px;}
-.event-date{background:var(--p-gold);border-radius:5px;padding:5px 8px;text-align:center;flex-shrink:0;min-width:40px;}
-.event-month{font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#0D1F17;}
-.event-day{font-family:'Cormorant Garamond',serif;font-size:22px;color:#0D1F17;font-weight:600;line-height:1;}
-.event-name{font-size:12px;font-weight:600;color:var(--p-white);margin-bottom:3px;line-height:1.3;}
-.event-detail{font-size:10px;color:var(--p-dim);line-height:1.4;margin-bottom:5px;}
-.event-pills{display:flex;gap:4px;flex-wrap:wrap;}
-.epill{font-size:8px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:2px 6px;border-radius:8px;color:var(--p-gold);border:1px solid rgba(201,168,76,0.28);}
-.rsvp-btn{margin:3px 9px 9px;background:var(--p-gold);color:#0D1F17;border:none;border-radius:7px;padding:10px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;width:calc(100% - 18px);cursor:pointer;display:block;text-align:center;}
+/* Pass note */
+.pass-note { padding:20px 24px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;border-left:3px solid var(--gold);margin-top:4px; }
+.pass-note-eyebrow { font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-family:'DM Mono',monospace;margin-bottom:8px; }
+.pass-note-body { font-size:13px;color:rgba(250,247,242,0.65);line-height:1.7; }
+.pass-note-body strong { color:var(--cream); }
 
-/* ── SCENE: RUBY ── */
-.ruby-hdr{background:rgba(8,18,11,0.98);padding:6px 11px;border-bottom:1px solid rgba(201,168,76,0.14);display:flex;align-items:center;gap:7px;flex-shrink:0;}
-.ruby-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(145deg,#254A30,#162B1C);border:1.5px solid var(--p-gold);display:flex;align-items:center;justify-content:center;font-size:13px;}
-.ruby-name{font-size:11px;font-weight:600;color:var(--p-white);}
-.ruby-sub{font-size:8px;color:rgba(201,168,76,0.75);display:flex;align-items:center;gap:3px;}
-.ruby-dot{width:4px;height:4px;border-radius:50%;background:var(--p-green);animation:pulse 2s infinite;}
-.messages{flex:1;overflow:hidden;padding:7px 9px;display:flex;flex-direction:column;gap:6px;}
-.msg{display:flex;gap:5px;align-items:flex-end;}
-.msg.user{flex-direction:row-reverse;}
-.bubble{max-width:80%;padding:7px 10px;border-radius:11px;font-size:10.5px;line-height:1.55;}
-.msg.ruby .bubble{background:rgba(255,255,255,0.07);color:var(--p-white);border:1px solid rgba(201,168,76,0.16);border-bottom-left-radius:3px;}
-.msg.user .bubble{background:var(--p-gold);color:#0D1F17;font-weight:500;border-bottom-right-radius:3px;}
-.bubble b{color:var(--p-gold);}
-.msg.user .bubble b{color:#0D1F17;}
-.chips{padding:5px 7px;display:flex;flex-wrap:wrap;gap:3px;border-top:1px solid rgba(255,255,255,0.05);}
-.chip{background:rgba(255,255,255,0.05);border:1px solid rgba(201,168,76,0.18);border-radius:12px;padding:3px 8px;font-size:9px;color:rgba(242,238,230,0.65);white-space:nowrap;}
-.input-row{padding:4px 7px 10px;display:flex;gap:5px;}
-.ph-input{flex:1;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.08);border-radius:18px;padding:6px 10px;font-size:10px;color:var(--p-white);font-family:'DM Sans',sans-serif;outline:none;}
-.ph-input::placeholder{color:rgba(242,238,230,0.22);}
-.ph-send{width:28px;height:28px;border-radius:50%;background:var(--p-gold);border:none;color:#0D1F17;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+/* ── LOOP SECTION ────────────────────────────────── */
+.loop-section {
+  padding:100px 24px;
+  text-align:center;
+  position:relative;
+}
+.loop-section::before {
+  content:'';position:absolute;top:0;left:20%;right:20%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--separator),transparent);
+}
+.loop-eyebrow { font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:20px; }
+.loop-steps {
+  display:flex;gap:0;justify-content:center;align-items:stretch;
+  max-width:680px;margin:0 auto 40px;
+}
+.loop-step {
+  flex:1;padding:28px 20px;
+  background:rgba(255,255,255,0.03);
+  border:1px solid var(--separator);
+  position:relative;
+}
+.loop-step:first-child { border-radius:12px 0 0 12px; }
+.loop-step:last-child { border-radius:0 12px 12px 0; }
+.loop-step + .loop-step { border-left:none; }
+.loop-step-icon { font-size:22px;margin-bottom:12px; }
+.loop-step-name { font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--cream);font-weight:600;margin-bottom:6px; }
+.loop-step-desc { font-size:12px;color:var(--cream-dim);line-height:1.5; }
+.loop-arrow { display:flex;align-items:center;padding:0 2px;color:var(--gold);opacity:0.4;font-size:16px;align-self:center; }
+.loop-close { font-size:14px;color:var(--cream-dim);max-width:480px;margin:0 auto;line-height:1.75; }
+.loop-close strong { color:var(--cream); }
+.loop-tagline { margin-top:16px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,0.4);font-family:'DM Mono',monospace; }
 
-/* ── SCENE: PROFILE ── */
-.profile-hero{margin:9px;padding:14px;background:var(--p-card);border:1px solid var(--p-sep);border-radius:11px;display:flex;align-items:center;gap:12px;}
-.avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(145deg,#1F3525,#0F1F14);border:1.5px solid var(--p-qline);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
-.profile-name{font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--p-white);font-weight:600;line-height:1;margin-bottom:2px;}
-.profile-sub{font-size:9px;color:var(--p-gold);letter-spacing:1px;margin-bottom:5px;}
-.anon-badge{display:inline-flex;align-items:center;gap:4px;background:var(--p-gdim);border:1px solid var(--p-gline);border-radius:8px;padding:2px 7px;font-size:8px;color:var(--p-green);font-weight:600;letter-spacing:1px;text-transform:uppercase;}
-.stat-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin:0 9px 9px;}
-.stat-box{background:var(--p-card);border:1px solid var(--p-sep);border-radius:7px;padding:9px 7px;text-align:center;}
-.stat-val{font-family:'DM Mono',monospace;font-size:17px;color:var(--p-white);font-weight:600;line-height:1;}
-.stat-lbl{font-size:7px;letter-spacing:1.5px;text-transform:uppercase;color:var(--p-dim);margin-top:2px;}
-.privacy-note{margin:0 9px 9px;padding:9px 11px;background:var(--p-gdim);border:1px solid var(--p-gline);border-radius:7px;font-size:9px;color:var(--p-dim);line-height:1.55;}
-.privacy-note strong{color:var(--p-green);}
-.link-btn{margin:3px 9px 9px;background:transparent;color:var(--p-gold);border:1px solid var(--p-qline);border-radius:7px;padding:10px;font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;width:calc(100% - 18px);cursor:pointer;text-align:center;display:block;}
+/* ── MOMENTS SECTION ─────────────────────────────── */
+.moments-section { padding:0 24px 100px;max-width:860px;margin:0 auto; }
+.moments-eyebrow { font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:48px;text-align:center; }
 
-/* ── SCENE: PROGRESSION ── */
-.prog-inner{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:24px 20px;text-align:center;background:var(--p-bg);}
-.prog-eyebrow{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(201,168,76,0.45);font-family:'DM Mono',monospace;margin-bottom:24px;}
-.prog-steps{display:flex;flex-direction:column;gap:0;width:100%;max-width:200px;margin:0 auto 24px;}
-.prog-step{border-radius:10px;padding:14px 12px;text-align:center;}
-.prog-step.confirm{background:linear-gradient(135deg,#0F1F14,#162B1C);border:1.5px solid rgba(61,190,114,0.3);}
-.prog-step.inform{background:linear-gradient(135deg,#1A160A,#201C0E);border:1.5px solid rgba(201,168,76,0.3);}
-.prog-step.participate{background:linear-gradient(135deg,#1A1520,#13151C);border:1.5px solid rgba(201,168,76,0.18);}
-.prog-connector{width:2px;height:16px;margin:0 auto;background:linear-gradient(180deg,rgba(61,190,114,0.3),rgba(201,168,76,0.3));}
-.prog-emoji{font-size:20px;margin-bottom:6px;}
-.prog-label{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;margin-bottom:3px;}
-.prog-step.confirm .prog-label{color:#3DBE72;}
-.prog-step.inform .prog-label{color:#C9A84C;}
-.prog-step.participate .prog-label{color:rgba(242,238,230,0.8);}
-.prog-desc{font-size:10px;color:rgba(242,238,230,0.4);line-height:1.5;}
-.prog-footer{font-size:11px;color:rgba(242,238,230,0.28);line-height:1.6;max-width:200px;}
+.moment-entry { display:grid;grid-template-columns:80px 1fr;gap:0;margin-bottom:0;border-bottom:1px solid rgba(201,168,76,0.1); }
+.moment-entry:last-child { border-bottom:none; }
+.moment-num {
+  padding:36px 0 36px;
+  display:flex;flex-direction:column;align-items:center;
+  gap:12px;
+}
+.moment-num-label { font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);letter-spacing:1px; }
+.moment-num-line { flex:1;width:1px;background:linear-gradient(to bottom,rgba(201,168,76,0.3),transparent); }
+.moment-content { padding:36px 0 36px 32px;border-left:1px solid rgba(201,168,76,0.1); }
+.moment-tag { font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gold-dim);margin-bottom:8px; }
+.moment-title { font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--cream);font-weight:500;margin-bottom:10px;line-height:1.25; }
+.moment-body { font-size:14px;color:var(--cream-dim);line-height:1.75;margin-bottom:12px; }
+.moment-pill { display:inline-block;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--green-glow);background:rgba(78,153,102,0.1);padding:3px 10px;border-radius:20px;border:1px solid rgba(78,153,102,0.2); }
 
-/* ── RIGHT COLUMN ── */
-.scenarios{display:flex;flex-direction:column;gap:16px;}
-.sc-card{border:1px solid rgba(201,168,76,0.15);border-radius:12px;padding:22px 24px;cursor:pointer;transition:background 0.2s,border-color 0.2s,box-shadow 0.2s;position:relative;overflow:hidden;background:rgba(255,255,255,0.02);-webkit-tap-highlight-color:transparent;}
-.sc-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--gold);opacity:0;transition:opacity 0.2s;}
-.sc-card.active{background:rgba(201,168,76,0.07);border-color:rgba(201,168,76,0.4);box-shadow:0 0 0 1px rgba(201,168,76,0.14),0 4px 18px rgba(201,168,76,0.08);}
-.sc-card.active::before{opacity:1;}
-.sc-card:hover{background:rgba(255,255,255,0.04);border-color:rgba(201,168,76,0.22);}
-.sc-q{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,0.5);font-family:'DM Mono',monospace;margin-bottom:7px;}
-.sc-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--cream);font-weight:500;margin-bottom:7px;line-height:1.25;}
-.sc-desc{font-size:13.5px;color:rgba(250,247,242,0.5);line-height:1.7;}
-.sc-tag{display:inline-block;margin-top:10px;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);background:rgba(201,168,76,0.09);padding:3px 9px;border-radius:20px;border:1px solid rgba(201,168,76,0.2);}
-.prog-card{border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:22px 24px;cursor:pointer;transition:background 0.2s,border-color 0.2s;position:relative;overflow:hidden;background:rgba(255,255,255,0.02);border-left:3px solid var(--gold);-webkit-tap-highlight-color:transparent;}
-.prog-card.active{background:rgba(201,168,76,0.07);border-color:rgba(201,168,76,0.4);}
-.prog-card:hover{background:rgba(255,255,255,0.04);}
-.prog-eyebrow-right{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-family:'DM Mono',monospace;margin-bottom:9px;}
-.prog-body{font-size:13.5px;color:rgba(250,247,242,0.52);line-height:1.75;}
-.prog-body strong{color:var(--cream);}
+/* Entry point card */
+.entry-card {
+  background:rgba(255,255,255,0.03);border:1px solid var(--separator);
+  border-radius:12px;padding:32px;margin-bottom:48px;
+  display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;
+}
+.entry-card-title { font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--cream);font-weight:500;margin-bottom:6px; }
+.entry-card-body { font-size:13px;color:var(--cream-dim);line-height:1.65; }
+.entry-card-tag { font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-top:10px;display:block; }
+.entry-qr {
+  width:72px;height:72px;background:var(--cream);border-radius:8px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
 
-.page-footer{margin-top:72px;padding-top:28px;border-top:1px solid rgba(201,168,76,0.14);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
-.footer-l{font-size:12px;color:rgba(250,247,242,0.28);}
-.footer-r{font-size:11px;color:rgba(250,247,242,0.18);text-align:right;font-family:'DM Mono',monospace;}
-.footer-r span{color:rgba(201,168,76,0.4);}
+/* ── FOOTER ──────────────────────────────────────── */
+footer {
+  border-top:1px solid var(--separator);
+  padding:36px 40px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(6,12,9,0.8);
+}
+.footer-left { font-size:12px;color:rgba(250,247,242,0.3); }
+.footer-right { font-size:11px;color:rgba(250,247,242,0.2);text-align:right;line-height:1.6; }
+@media(max-width:600px){footer{flex-direction:column;gap:12px;text-align:center;}}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
 <body>
-<div class="page">
-  <div class="wordmark"><span class="club">Club</span><span class="os">OS</span></div>
-  <div class="eyebrow">ClubOS Pass · Member Experience</div>
-  <h1 class="headline">Five moments.<br><em>One scan.</em></h1>
-  <p class="subhead">Every QR code in the club opens this. No app to download, no account required. What a member sees depends on where they are and what they need right now — the screen already knows.</p>
 
+<nav>
+  <div class="wordmark"><span class="club">Club</span><span class="os">OS</span></div>
+  <div class="nav-tag">Pass · Member Experience</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">ClubOS Pass · Not Just for Members</div>
+  <h1 class="hero-headline">Every pass is the club.<br><em>Scoped to who you are.</em></h1>
+  <p class="hero-sub">ClubOS Pass opens from any QR in the club. No app. No account. What a member, guest, or event attendee sees depends on who they are and why they're there — because the pass already knows.</p>
+
+  <div class="pass-types">
+    <div class="pass-type-badge active">
+      <div>
+        <div class="ptb-label">Member Pass</div>
+        <div class="ptb-sub">Full club relationship</div>
+      </div>
+    </div>
+    <div class="pass-type-badge">
+      <div>
+        <div class="ptb-label">Guest Pass</div>
+        <div class="ptb-sub">Hosted by a member</div>
+      </div>
+    </div>
+    <div class="pass-type-badge">
+      <div>
+        <div class="ptb-label">Event Pass</div>
+        <div class="ptb-sub">Scoped to one occasion</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEMO SECTION -->
+<section class="demo-section">
   <div class="demo-layout">
 
-    <!-- ── PHONE ── -->
+    <!-- PHONE -->
     <div class="phone-wrap">
-      <div class="tap-hint">Select a moment to preview</div>
+      <div class="phone-hint">Select a moment to preview</div>
       <div class="phone">
         <div class="phone-notch"></div>
 
-        <!-- SCENE: QR SCAN -->
-        <div class="scene active" id="scene-scan">
-          <div class="scan-scene-inner">
-            <div class="scan-eyebrow">ClubOS Pass · Pro Shop</div>
-            <div class="scan-location">Lakewood Country Club</div>
-            <div class="scan-subloc">First Tee · Hole 1 Display</div>
-            <div class="scan-qr-wrap">
-              <div class="scan-qr">
-                <div class="qr-grid" id="qrGrid"></div>
-              </div>
-              <div class="scan-ring"></div>
-              <div class="scan-beam"></div>
+        <!-- SCENE 1: CHECK-IN (ARRIVAL) -->
+        <div class="p-scene active" id="ps-checkin">
+          <div class="p-hdr">
+            <div class="p-hdr-top">
+              <div><div class="p-club">Harborstone Country Club</div><div class="p-sub">Member Pass · ClubOS</div></div>
+              <div class="p-present"><div class="p-live-dot"></div>Present</div>
             </div>
-            <div class="scan-headline">Point your camera<br>at the screen.</div>
-            <div class="scan-sub">Your tee time, course conditions, and everything you need — opens instantly.</div>
-            <div class="scan-noapp">No app download · No account · Works on any phone</div>
-            <button class="scan-open-btn" onclick="showScene('checkin');setActive('sc-checkin')">Open ClubOS Pass →</button>
-            <div class="scan-camera-row">
-              <div class="scan-camera-icon">📷</div>
-              <div class="scan-camera-label">Or tap here to scan a QR in the club</div>
+            <div class="p-strip">
+              <div><div class="p-strip-label">Saturday · Member Day</div><div class="p-strip-sub">Pro Shop Check-in</div></div>
+              <div class="p-clock" id="clk-1">8:14 AM</div>
             </div>
+          </div>
+          <div class="p-body">
+            <div class="p-checkin-hero">
+              <div class="p-confirmed"><div class="p-live-dot"></div>Confirmed</div>
+              <div class="p-tee-time">8:20 AM</div>
+              <div class="p-tee-hole">Hole 1 · Cart Path Only Today</div>
+              <div class="p-tee-name">Welcome back, M. Sullivan</div>
+              <div class="p-tee-detail">Playing with J. Williams &amp; R. Chen<br>Group 3 of 18 · Pace target 4:15</div>
+            </div>
+            <div class="p-notice"><div class="p-notice-t">🌿 Course Note</div><div class="p-notice-b">Overnight irrigation on holes 1–9. Carts on path only through midday. Greens at 11.5 Stimp — pace is good.</div></div>
+            <div class="p-sec"><div class="p-sec-t">Your Day</div><div class="p-sec-s">What's ahead</div></div>
+            <div class="p-card">
+              <div class="p-row"><div class="p-row-icon">⛳</div><div><div class="p-row-name">Tee Time</div><div class="p-row-detail">Hole 1 · Cart Path</div></div><div class="p-row-right">8:20 AM</div></div>
+              <div class="p-row"><div class="p-row-icon">🍽️</div><div><div class="p-row-name">Lunch Service</div><div class="p-row-detail">Grill Room · Specials posted</div></div><div class="p-row-right">11 AM</div></div>
+              <div class="p-row"><div class="p-row-icon">🍷</div><div><div class="p-row-name">Wine &amp; Dine</div><div class="p-row-detail">4-course pairing · 3 spots left</div></div><div class="p-row-right">Apr 12</div></div>
+            </div>
+          </div>
+          <div class="p-sponsor"><div class="p-sp-label">Presenting partner</div><div class="p-sp-name">Sponsor Name</div></div>
+          <div class="p-nav">
+            <div class="p-nav-item on"><div class="p-nav-icon">🏠</div><div class="p-nav-lbl">Home</div></div>
+            <div class="p-nav-item"><div class="p-nav-icon">🔍</div><div class="p-nav-lbl">Discover</div></div>
+            <div class="p-nav-item"><div class="p-nav-icon">📅</div><div class="p-nav-lbl">Events</div></div>
+            <div class="p-nav-item"><div class="p-nav-icon">💬</div><div class="p-nav-lbl">Ask Ruby</div></div>
+            <div class="p-nav-item"><div class="p-nav-icon">🎫</div><div class="p-nav-lbl">My Pass</div></div>
           </div>
         </div>
 
-        <!-- SCENE: CHECK-IN -->
-        <div class="scene" id="scene-checkin">
-          <div class="ph-hdr">
-            <div class="ph-hdr-top">
-              <div><div class="ph-club">Lakewood Country Club</div><div class="ph-sub">ClubOS Pass</div></div>
-              <div class="present-pill"><div class="live-dot"></div>Present</div>
+        <!-- SCENE 2: DISCOVER -->
+        <div class="p-scene" id="ps-discover">
+          <div class="p-hdr">
+            <div class="p-hdr-top">
+              <div><div class="p-club">Harborstone Country Club</div><div class="p-sub">Member Pass · ClubOS</div></div>
+              <div class="p-present"><div class="p-live-dot"></div>Present</div>
             </div>
-            <div class="ph-strip">
-              <div><div class="ph-strip-label">Saturday · Member Day</div><div class="ph-strip-sub">Pro Shop Check-in</div></div>
-              <div class="ph-clock" id="clock-checkin">8:14 AM</div>
-            </div>
-          </div>
-          <div class="ph-body">
-            <div class="checkin-hero">
-              <div class="confirmed-badge"><div class="live-dot"></div>Confirmed</div>
-              <div class="checkin-time">8:20 AM</div>
-              <div class="checkin-hole">Hole 1 · Cart Path Only Today</div>
-              <div class="checkin-name">Welcome back, M. Sullivan</div>
-              <div class="checkin-detail">Playing with J. Williams &amp; R. Chen<br>Group 3 of 18 · Pace target 4:15</div>
-            </div>
-            <div class="notice">
-              <div class="notice-t">🌿 Course Note</div>
-              <div class="notice-b">Overnight irrigation on holes 1–9. Carts on path only through midday. Greens at 11.5 Stimp — pace is good.</div>
-            </div>
-            <div class="ph-sec"><div class="ph-sec-t">Your Day</div><div class="ph-sec-s">What's ahead</div></div>
-            <div class="ph-card">
-              <div class="row"><div class="row-icon">⛳</div><div><div class="row-name">Tee Time</div><div class="row-detail">Hole 1 · Cart Path</div></div><div class="row-right">8:20 AM</div></div>
-              <div class="row"><div class="row-icon">🍽️</div><div><div class="row-name">Lunch Service</div><div class="row-detail">Grill Room · Specials posted</div></div><div class="row-right">11 AM</div></div>
-              <div class="row"><div class="row-icon">🍷</div><div><div class="row-name">Wine &amp; Dine</div><div class="row-detail">4-course pairing · 3 spots left</div></div><div class="row-right">Apr 12</div></div>
+            <div class="p-strip">
+              <div><div class="p-strip-label">Saturday · Member Day</div><div class="p-strip-sub">Member Resources</div></div>
+              <div class="p-clock" id="clk-2">8:14 AM</div>
             </div>
           </div>
-          <div class="ph-sponsor"><div class="ph-sp-label">Today supported by</div><div class="ph-sp-name">Presenting Partner</div></div>
-          <div class="ph-nav">
-            <div class="ph-nav-item on"><div class="ph-nav-icon">🏠</div><div class="ph-nav-lbl">Home</div></div>
-            <div class="ph-nav-item"><div class="ph-nav-icon">🔍</div><div class="ph-nav-lbl">Discover</div></div>
-            <div class="ph-nav-item"><div class="ph-nav-icon">📅</div><div class="ph-nav-lbl">Events</div></div>
-            <div class="ph-nav-item"><div class="ph-nav-icon">💬</div><div class="ph-nav-lbl">Ask Ruby</div></div>
-            <div class="ph-nav-item"><div class="ph-nav-icon">📷</div><div class="ph-nav-lbl">Scan</div></div>
+          <div class="p-body">
+            <div class="p-discover-hero"><div class="p-discover-icon">🏓</div><div><div class="p-discover-title">New to Pickleball?</div><div class="p-discover-body">Four courts just opened. Quick-start guide so you're not figuring out scoring at 7am.</div><div class="p-discover-tag">Interactive · 5 min</div></div></div>
+            <div class="p-sec"><div class="p-sec-t">Learn at the Club</div><div class="p-sec-s">On-screen guides</div></div>
+            <div class="p-card">
+              <div class="p-lesson-row"><div class="p-lesson-icon">🏓</div><div><div class="p-lesson-name">Pickleball 101</div><div class="p-lesson-detail">Rules, scoring, court etiquette</div></div><div class="p-badge new">New</div></div>
+              <div class="p-lesson-row"><div class="p-lesson-icon">🀄</div><div><div class="p-lesson-name">American Mahjong</div><div class="p-lesson-detail">How to play · Game nights Thursdays</div></div><div class="p-badge live">Live Series</div></div>
+              <div class="p-lesson-row"><div class="p-lesson-icon">🤝</div><div><div class="p-lesson-name">Reciprocal Clubs</div><div class="p-lesson-detail">15 partner properties · What's included</div></div><div class="p-badge live">Guide</div></div>
+              <div class="p-lesson-row"><div class="p-lesson-icon">🎾</div><div><div class="p-lesson-name">Tennis Clinics</div><div class="p-lesson-detail">Booking, levels, pro bios</div></div><div class="p-badge new">New</div></div>
+            </div>
+          </div>
+          <div class="p-sponsor"><div class="p-sp-label">Presenting partner</div><div class="p-sp-name">Sponsor Name</div></div>
+          <div class="p-nav">
+            <div class="p-nav-item"><div class="p-nav-icon">🏠</div><div class="p-nav-lbl">Home</div></div>
+            <div class="p-nav-item on"><div class="p-nav-icon">🔍</div><div class="p-nav-lbl">Discover</div></div>
+            <div class="p-nav-item"><div class="p-nav-icon">📅</div><div class="p-nav-lbl">Events</div></div>
+            <div class="p-nav-item"><div class="p-nav-icon">💬</div><div class="p-nav-lbl">Ask Ruby</div></div>
+            <div class="p-nav-item"><div class="p-nav-icon">🎫</div><div class="p-nav-lbl">My Pass</div></div>
           </div>
         </div>
 
-        <!-- SCENE: DISCOVER -->
-        <div class="scene" id="scene-discover">
-          <div class="ph-hdr">
-            <div class="ph-hdr-top">
-              <div><div class="ph-club">Lakewood Country Club</div><div class="ph-sub">ClubOS Pass</div></div>
-              <div class="present-pill"><div class="live-dot"></div>Present</div>
+        <!-- SCENE 3: EVENTS -->
+        <div class="p-scene" id="ps-events">
+          <div class="p-hdr">
+            <div class="p-hdr-top">
+              <div><div class="p-club">Harborstone Country Club</div><div class="p-sub">Member Pass · ClubOS</div></div>
+              <div class="p-present"><div class="p-live-dot"></div>Present</div>
             </div>
-            <div class="ph-strip">
-              <div><div class="ph-strip-label">Saturday · Member Day</div><div class="ph-strip-sub">Member Resources</div></div>
-              <div class="ph-clock" id="clock-discover">8:14 AM</div>
-            </div>
-          </div>
-          <div class="ph-body">
-            <div class="discover-hero">
-              <div class="discover-icon">🏓</div>
-              <div>
-                <div class="discover-title">New to Pickleball?</div>
-                <div class="discover-body">Four courts just opened. We built a quick-start guide so you're not figuring out the scoring at 7am.</div>
-                <div class="discover-tag">Interactive · 5 min</div>
-              </div>
-            </div>
-            <div class="ph-sec"><div class="ph-sec-t">Learn at the Club</div><div class="ph-sec-s">On-screen guides</div></div>
-            <div class="ph-card">
-              <div class="lesson-row"><div class="lesson-icon">🏓</div><div><div class="lesson-name">Pickleball 101</div><div class="lesson-detail">Rules, scoring, court etiquette</div></div><div class="badge new">New</div></div>
-              <div class="lesson-row"><div class="lesson-icon">🀄</div><div><div class="lesson-name">American Mahjong</div><div class="lesson-detail">How to play · Game nights Thursdays</div></div><div class="badge live">Live Series</div></div>
-              <div class="lesson-row"><div class="lesson-icon">🏊</div><div><div class="lesson-name">Aquatics Programs</div><div class="lesson-detail">Lap lanes, lessons, clinics</div></div><div class="badge new">Updated</div></div>
-              <div class="lesson-row"><div class="lesson-icon">🤝</div><div><div class="lesson-name">Reciprocal Clubs</div><div class="lesson-detail">15 partner properties · What's included</div></div><div class="badge live">Guide</div></div>
-              <div class="lesson-row"><div class="lesson-icon">🎾</div><div><div class="lesson-name">Tennis Clinics</div><div class="lesson-detail">Booking, levels, pro bios</div></div><div class="badge new">New</div></div>
+            <div class="p-strip">
+              <div><div class="p-strip-label">Saturday · Member Day</div><div class="p-strip-sub">Events &amp; Calendar</div></div>
+              <div class="p-clock" id="clk-3">8:14 AM</div>
             </div>
           </div>
-          <div class="ph-sponsor"><div class="ph-sp-label">Today supported by</div><div class="ph-sp-name">Presenting Partner</div></div>
-          <div class="ph-nav">
-            <div class="ph-nav-item"><div class="ph-nav-icon">🏠</div><div class="ph-nav-lbl">Home</div></div>
-            <div class="ph-nav-item on"><div class="ph-nav-icon">🔍</div><div class="ph-nav-lbl">Discover</div></div>
-            <div class="ph-nav-item"><div class="ph-nav-icon">📅</div><div class="ph-nav-lbl">Events</div></div>
-            <div class="ph-nav-item"><div class="ph-nav-icon">💬</div><div class="ph-nav-lbl">Ask Ruby</div></div>
-            <div class="ph-nav-item"><div class="ph-nav-icon">📷</div><div class="ph-nav-lbl">Scan</div></div>
+          <div class="p-body">
+            <div class="p-sec" style="margin-top:8px;"><div class="p-sec-t">Upcoming Events</div><div class="p-sec-s">Tap to RSVP</div></div>
+            <div class="p-event-card"><div class="p-event-date"><div class="p-event-month">APR</div><div class="p-event-day">5</div></div><div><div class="p-event-name">Member-Guest Golf Tournament</div><div class="p-event-detail">18-hole shotgun · Lunch &amp; awards. Register by April 1.</div><div class="p-event-pills"><span class="p-epill">8:00 AM</span><span class="p-epill">Golf</span><span class="p-epill">Member + Guest</span></div></div></div>
+            <div class="p-rsvp-btn">Reserve My Spot</div>
+            <div class="p-event-card"><div class="p-event-date"><div class="p-event-month">APR</div><div class="p-event-day">12</div></div><div><div class="p-event-name">Wine &amp; Dine: Spring Cellar</div><div class="p-event-detail">4-course pairing · Napa &amp; Sonoma. 3 spots left.</div><div class="p-event-pills"><span class="p-epill">6:30 PM</span><span class="p-epill">Dining</span><span class="p-epill">Reservation Required</span></div></div></div>
+            <div class="p-event-card"><div class="p-event-date"><div class="p-event-month">APR</div><div class="p-event-day">19</div></div><div><div class="p-event-name">Easter Brunch Buffet</div><div class="p-event-detail">Carving stations, kids activities, egg hunt on the patio.</div><div class="p-event-pills"><span class="p-epill">10 AM–2 PM</span><span class="p-epill">Family</span></div></div></div>
+          </div>
+          <div class="p-sponsor"><div class="p-sp-label">Presenting partner</div><div class="p-sp-name">Sponsor Name</div></div>
+          <div class="p-nav">
+            <div class="p-nav-item"><div class="p-nav-icon">🏠</div><div class="p-nav-lbl">Home</div></div>
+            <div class="p-nav-item"><div class="p-nav-icon">🔍</div><div class="p-nav-lbl">Discover</div></div>
+            <div class="p-nav-item on"><div class="p-nav-icon">📅</div><div class="p-nav-lbl">Events</div></div>
+            <div class="p-nav-item"><div class="p-nav-icon">💬</div><div class="p-nav-lbl">Ask Ruby</div></div>
+            <div class="p-nav-item"><div class="p-nav-icon">🎫</div><div class="p-nav-lbl">My Pass</div></div>
           </div>
         </div>
 
-        <!-- SCENE: EVENTS -->
-        <div class="scene" id="scene-events">
-          <div class="ph-hdr">
-            <div class="ph-hdr-top">
-              <div><div class="ph-club">Lakewood Country Club</div><div class="ph-sub">ClubOS Pass</div></div>
-              <div class="present-pill"><div class="live-dot"></div>Present</div>
+        <!-- SCENE 4: RUBY -->
+        <div class="p-scene" id="ps-ruby" style="flex-direction:column;">
+          <div class="p-hdr">
+            <div class="p-hdr-top">
+              <div><div class="p-club">Harborstone Country Club</div><div class="p-sub">Member Pass · ClubOS</div></div>
+              <div class="p-present"><div class="p-live-dot"></div>Present</div>
             </div>
-            <div class="ph-strip">
-              <div><div class="ph-strip-label">Saturday · Member Day</div><div class="ph-strip-sub">Events &amp; Calendar</div></div>
-              <div class="ph-clock" id="clock-events">8:14 AM</div>
-            </div>
-          </div>
-          <div class="ph-body">
-            <div class="ph-sec" style="margin-top:8px;"><div class="ph-sec-t">Upcoming Events</div><div class="ph-sec-s">Tap to RSVP</div></div>
-            <div class="event-card">
-              <div class="event-date"><div class="event-month">APR</div><div class="event-day">5</div></div>
-              <div><div class="event-name">Member-Guest Golf Tournament</div><div class="event-detail">18-hole shotgun · Lunch &amp; awards. Register by April 1.</div><div class="event-pills"><span class="epill">8:00 AM</span><span class="epill">Golf</span><span class="epill">Member + Guest</span></div></div>
-            </div>
-            <div class="rsvp-btn">Reserve My Spot</div>
-            <div class="event-card">
-              <div class="event-date"><div class="event-month">APR</div><div class="event-day">12</div></div>
-              <div><div class="event-name">Wine &amp; Dine: Spring Cellar</div><div class="event-detail">4-course pairing · Napa &amp; Sonoma. 3 spots left.</div><div class="event-pills"><span class="epill">6:30 PM</span><span class="epill">Dining</span><span class="epill">Reservation Required</span></div></div>
-            </div>
-            <div class="event-card">
-              <div class="event-date"><div class="event-month">APR</div><div class="event-day">19</div></div>
-              <div><div class="event-name">Easter Brunch Buffet</div><div class="event-detail">Carving stations, kids activities, egg hunt on the patio.</div><div class="event-pills"><span class="epill">10 AM–2 PM</span><span class="epill">Family</span></div></div>
+            <div class="p-strip">
+              <div><div class="p-strip-label">Saturday · Member Day</div><div class="p-strip-sub">Ask Ruby</div></div>
+              <div class="p-clock" id="clk-4">8:14 AM</div>
             </div>
           </div>
-          <div class="ph-sponsor"><div class="ph-sp-label">Today supported by</div><div class="ph-sp-name">Presenting Partner</div></div>
-          <div class="ph-nav">
-            <div class="ph-nav-item"><div class="ph-nav-icon">🏠</div><div class="ph-nav-lbl">Home</div></div>
-            <div class="ph-nav-item"><div class="ph-nav-icon">🔍</div><div class="ph-nav-lbl">Discover</div></div>
-            <div class="ph-nav-item on"><div class="ph-nav-icon">📅</div><div class="ph-nav-lbl">Events</div></div>
-            <div class="ph-nav-item"><div class="ph-nav-icon">💬</div><div class="ph-nav-lbl">Ask Ruby</div></div>
-            <div class="ph-nav-item"><div class="ph-nav-icon">📷</div><div class="ph-nav-lbl">Scan</div></div>
+          <div class="p-ruby-hdr">
+            <div class="p-ruby-avatar">🦊</div>
+            <div><div class="p-ruby-name">Ruby</div><div class="p-ruby-sub"><div class="p-ruby-dot"></div>Your club guide</div></div>
           </div>
-        </div>
-
-        <!-- SCENE: RUBY -->
-        <div class="scene" id="scene-ruby" style="flex-direction:column;">
-          <div class="ph-hdr">
-            <div class="ph-hdr-top">
-              <div><div class="ph-club">Lakewood Country Club</div><div class="ph-sub">ClubOS Pass</div></div>
-              <div class="present-pill"><div class="live-dot"></div>Present</div>
-            </div>
-            <div class="ph-strip">
-              <div><div class="ph-strip-label">Saturday · Member Day</div><div class="ph-strip-sub">Ask Ruby</div></div>
-              <div class="ph-clock" id="clock-ruby">8:14 AM</div>
-            </div>
+          <div class="p-messages">
+            <div class="p-msg ruby"><div class="p-bubble">Good morning — you're confirmed for 8:20 on Hole 1. Cart path only on 1–9 today. Anything you need before you head out?</div></div>
+            <div class="p-msg user"><div class="p-bubble">What's the lunch special?</div></div>
+            <div class="p-msg ruby"><div class="p-bubble">Grill opens at 11. Today's feature is <b>pan-seared salmon</b> — lemon-caper beurre blanc, wild rice, $34. Also a spring harvest bowl at $19 if you want lighter after the round.</div></div>
+            <div class="p-msg user"><div class="p-bubble">Any courts open this afternoon?</div></div>
+            <div class="p-msg ruby"><div class="p-bubble">Hard courts 2 and 4 are open 1–3pm. Clay fully booked until 4. Want me to note court 2 for you?</div></div>
           </div>
-          <div class="ruby-hdr">
-            <div class="ruby-avatar">🦊</div>
-            <div><div class="ruby-name">Ruby</div><div class="ruby-sub"><div class="ruby-dot"></div>Your club guide</div></div>
+          <div class="p-chips">
+            <div class="p-chip">Tonight's dinner</div><div class="p-chip">Upcoming events</div><div class="p-chip">Open tee times</div><div class="p-chip">Pro shop hours</div>
           </div>
-          <div class="messages">
-            <div class="msg ruby"><div class="bubble">Good morning — you're confirmed for 8:20 on Hole 1. Cart path only on 1–9 today. Anything you need before you head out?</div></div>
-            <div class="msg user"><div class="bubble">What's the lunch special?</div></div>
-            <div class="msg ruby"><div class="bubble">Grill opens at 11. Today's feature is <b>pan-seared salmon</b> — lemon-caper beurre blanc, wild rice, $34. Also a <b>spring harvest bowl</b> at $19 if you want lighter after the round.</div></div>
-            <div class="msg user"><div class="bubble">Any courts open this afternoon?</div></div>
-            <div class="msg ruby"><div class="bubble">Hard courts 2 and 4 are open 1–3pm. Clay fully booked until 4. Want me to note court 2 for you?</div></div>
-          </div>
-          <div class="chips">
-            <div class="chip">Tonight's dinner</div>
-            <div class="chip">Upcoming events</div>
-            <div class="chip">Open tee times</div>
-            <div class="chip">Pro shop hours</div>
-          </div>
-          <div class="input-row">
-            <input class="ph-input" placeholder="Ask anything about the club…" />
-            <button class="ph-send">↑</button>
-          </div>
-          <div class="ph-sponsor"><div class="ph-sp-label">Today supported by</div><div class="ph-sp-name">Presenting Partner</div></div>
-          <div class="ph-nav">
-            <div class="ph-nav-item"><div class="ph-nav-icon">🏠</div><div class="ph-nav-lbl">Home</div></div>
-            <div class="ph-nav-item"><div class="ph-nav-icon">🔍</div><div class="ph-nav-lbl">Discover</div></div>
-            <div class="ph-nav-item"><div class="ph-nav-icon">📅</div><div class="ph-nav-lbl">Events</div></div>
-            <div class="ph-nav-item on"><div class="ph-nav-icon">💬</div><div class="ph-nav-lbl">Ask Ruby</div></div>
-            <div class="ph-nav-item"><div class="ph-nav-icon">📷</div><div class="ph-nav-lbl">Scan</div></div>
+          <div class="p-input-row"><input class="p-input" placeholder="Ask anything about the club…" /><button class="p-send">↑</button></div>
+          <div class="p-sponsor"><div class="p-sp-label">Presenting partner</div><div class="p-sp-name">Sponsor Name</div></div>
+          <div class="p-nav">
+            <div class="p-nav-item"><div class="p-nav-icon">🏠</div><div class="p-nav-lbl">Home</div></div>
+            <div class="p-nav-item"><div class="p-nav-icon">🔍</div><div class="p-nav-lbl">Discover</div></div>
+            <div class="p-nav-item"><div class="p-nav-icon">📅</div><div class="p-nav-lbl">Events</div></div>
+            <div class="p-nav-item on"><div class="p-nav-icon">💬</div><div class="p-nav-lbl">Ask Ruby</div></div>
+            <div class="p-nav-item"><div class="p-nav-icon">🎫</div><div class="p-nav-lbl">My Pass</div></div>
           </div>
         </div>
 
-        <!-- SCENE: PROFILE -->
-        <div class="scene" id="scene-profile">
-          <div class="ph-hdr">
-            <div class="ph-hdr-top">
-              <div><div class="ph-club">Lakewood Country Club</div><div class="ph-sub">ClubOS Pass</div></div>
-              <div class="present-pill"><div class="live-dot"></div>Present</div>
+        <!-- SCENE 5: MEMBER PASS (QR) -->
+        <div class="p-scene" id="ps-pass">
+          <div class="p-hdr">
+            <div class="p-hdr-top">
+              <div><div class="p-club">Harborstone Country Club</div><div class="p-sub">Member Pass · ClubOS</div></div>
+              <div class="p-present"><div class="p-live-dot"></div>Present</div>
             </div>
-            <div class="ph-strip">
-              <div><div class="ph-strip-label">Saturday · Member Day</div><div class="ph-strip-sub">My Profile</div></div>
-              <div class="ph-clock" id="clock-profile">8:14 AM</div>
+            <div class="p-strip">
+              <div><div class="p-strip-label">Saturday · Member Day</div><div class="p-strip-sub">Your Pass</div></div>
+              <div class="p-clock" id="clk-5">8:14 AM</div>
             </div>
           </div>
-          <div class="ph-body">
-            <div class="profile-hero">
-              <div class="avatar">👤</div>
-              <div>
-                <div class="profile-name">Guest Member</div>
-                <div class="profile-sub">Lakewood CC · Member</div>
-                <div class="anon-badge">✓ Anonymous</div>
+          <div class="p-body">
+            <!-- Pass type selector -->
+            <div style="margin:10px 10px 8px;display:flex;gap:5px;">
+              <div style="flex:1;background:#1A3A2A;border:1.5px solid #C9A84C;border-radius:7px;padding:7px 5px;text-align:center;">
+                <div style="font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#C9A84C;">Member</div>
+                <div style="font-size:9px;color:#F2EEE6;margin-top:2px;">Pass</div>
+              </div>
+              <div style="flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(242,238,230,0.1);border-radius:7px;padding:7px 5px;text-align:center;">
+                <div style="font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(242,238,230,0.35);">Guest</div>
+                <div style="font-size:9px;color:rgba(242,238,230,0.25);margin-top:2px;">Pass</div>
+              </div>
+              <div style="flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(242,238,230,0.1);border-radius:7px;padding:7px 5px;text-align:center;">
+                <div style="font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(242,238,230,0.35);">Event</div>
+                <div style="font-size:9px;color:rgba(242,238,230,0.25);margin-top:2px;">Pass</div>
               </div>
             </div>
-            <div class="stat-row">
-              <div class="stat-box"><div class="stat-val">14</div><div class="stat-lbl">Scans</div></div>
-              <div class="stat-box"><div class="stat-val">3</div><div class="stat-lbl">Events</div></div>
-              <div class="stat-box"><div class="stat-val">Sat</div><div class="stat-lbl">Usually Here</div></div>
+            <!-- QR card -->
+            <div style="margin:0 10px 10px;background:#111714;border:1px solid rgba(242,238,230,0.07);border-radius:10px;padding:16px;display:flex;flex-direction:column;align-items:center;gap:10px;">
+              <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,0.6);font-family:'DM Mono',monospace;">Harborstone Member Pass</div>
+              <svg width="108" height="108" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+                <rect width="100" height="100" fill="#F2EEE6" rx="4"/>
+                <rect x="8" y="8" width="26" height="26" fill="#0D1F17" rx="2"/>
+                <rect x="12" y="12" width="18" height="18" fill="#F2EEE6" rx="1"/>
+                <rect x="16" y="16" width="10" height="10" fill="#0D1F17" rx="1"/>
+                <rect x="66" y="8" width="26" height="26" fill="#0D1F17" rx="2"/>
+                <rect x="70" y="12" width="18" height="18" fill="#F2EEE6" rx="1"/>
+                <rect x="74" y="16" width="10" height="10" fill="#0D1F17" rx="1"/>
+                <rect x="8" y="66" width="26" height="26" fill="#0D1F17" rx="2"/>
+                <rect x="12" y="70" width="18" height="18" fill="#F2EEE6" rx="1"/>
+                <rect x="16" y="74" width="10" height="10" fill="#0D1F17" rx="1"/>
+                <rect x="40" y="8" width="5" height="5" fill="#0D1F17"/>
+                <rect x="48" y="8" width="5" height="5" fill="#0D1F17"/>
+                <rect x="56" y="8" width="5" height="5" fill="#0D1F17"/>
+                <rect x="40" y="16" width="5" height="5" fill="#0D1F17"/>
+                <rect x="56" y="16" width="5" height="5" fill="#0D1F17"/>
+                <rect x="48" y="24" width="5" height="5" fill="#0D1F17"/>
+                <rect x="8" y="40" width="5" height="5" fill="#0D1F17"/>
+                <rect x="16" y="40" width="5" height="5" fill="#0D1F17"/>
+                <rect x="24" y="40" width="5" height="5" fill="#0D1F17"/>
+                <rect x="8" y="48" width="5" height="5" fill="#0D1F17"/>
+                <rect x="24" y="56" width="5" height="5" fill="#0D1F17"/>
+                <rect x="40" y="40" width="5" height="5" fill="#C9A84C"/>
+                <rect x="48" y="40" width="5" height="5" fill="#0D1F17"/>
+                <rect x="56" y="40" width="5" height="5" fill="#0D1F17"/>
+                <rect x="64" y="40" width="5" height="5" fill="#0D1F17"/>
+                <rect x="40" y="48" width="5" height="5" fill="#0D1F17"/>
+                <rect x="56" y="48" width="5" height="5" fill="#C9A84C"/>
+                <rect x="64" y="56" width="5" height="5" fill="#0D1F17"/>
+                <rect x="72" y="40" width="5" height="5" fill="#0D1F17"/>
+                <rect x="80" y="48" width="5" height="5" fill="#0D1F17"/>
+                <rect x="72" y="56" width="5" height="5" fill="#0D1F17"/>
+                <rect x="40" y="64" width="5" height="5" fill="#0D1F17"/>
+                <rect x="56" y="64" width="5" height="5" fill="#0D1F17"/>
+                <rect x="48" y="72" width="5" height="5" fill="#0D1F17"/>
+                <rect x="64" y="72" width="5" height="5" fill="#C9A84C"/>
+                <rect x="40" y="80" width="5" height="5" fill="#0D1F17"/>
+                <rect x="56" y="80" width="5" height="5" fill="#0D1F17"/>
+                <rect x="72" y="64" width="5" height="5" fill="#0D1F17"/>
+                <rect x="80" y="80" width="5" height="5" fill="#0D1F17"/>
+              </svg>
+              <div style="font-size:12px;font-weight:600;color:#F2EEE6;letter-spacing:0.5px;">M. Sullivan</div>
+              <div style="font-size:9px;color:#C9A84C;letter-spacing:1.5px;text-transform:uppercase;">Full Member · 14 Visits</div>
             </div>
-            <div class="ph-sec"><div class="ph-sec-t">Your Preferences</div><div class="ph-sec-s">Learned from scans</div></div>
-            <div class="ph-card">
-              <div class="row"><div class="row-icon">⛳</div><div class="row-name">Golf</div><div class="row-right" style="color:var(--p-dim);">Saturdays · Early</div></div>
-              <div class="row"><div class="row-icon">🍽️</div><div class="row-name">Dining</div><div class="row-right" style="color:var(--p-dim);">Grill Room · Lunch</div></div>
-              <div class="row"><div class="row-icon">📅</div><div class="row-name">Events</div><div class="row-right" style="color:var(--p-dim);">Golf · Wine Dinners</div></div>
-              <div class="row"><div class="row-icon">🔔</div><div class="row-name">Notifications</div><div class="row-right" style="color:var(--p-dim);">Off</div></div>
-            </div>
-            <div class="privacy-note"><strong>Your data stays with the club.</strong> Nothing shared, nothing sold. These preferences were built from your scan history — no account required. Export or delete anytime.</div>
-            <div class="link-btn">Link My Club Membership →</div>
+            <div style="margin:0 10px 10px;padding:9px 11px;background:rgba(61,190,114,0.08);border:1px solid rgba(61,190,114,0.18);border-radius:7px;font-size:9px;color:rgba(242,238,230,0.55);line-height:1.55;"><strong style="color:#3DBE72;">Your data stays with the club.</strong> Nothing shared, nothing sold. Export or delete anytime.</div>
+            <div style="margin:0 10px 10px;background:transparent;color:#C9A84C;border:1px solid rgba(201,168,76,0.22);border-radius:7px;padding:9px;font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;text-align:center;">Manage My Pass →</div>
           </div>
-          <div class="ph-sponsor"><div class="ph-sp-label">Today supported by</div><div class="ph-sp-name">Presenting Partner</div></div>
-          <div class="ph-nav">
-            <div class="ph-nav-item"><div class="ph-nav-icon">🏠</div><div class="ph-nav-lbl">Home</div></div>
-            <div class="ph-nav-item"><div class="ph-nav-icon">🔍</div><div class="ph-nav-lbl">Discover</div></div>
-            <div class="ph-nav-item"><div class="ph-nav-icon">📅</div><div class="ph-nav-lbl">Events</div></div>
-            <div class="ph-nav-item"><div class="ph-nav-icon">💬</div><div class="ph-nav-lbl">Ask Ruby</div></div>
-            <div class="ph-nav-item on"><div class="ph-nav-icon">📷</div><div class="ph-nav-lbl">Scan</div></div>
+          <div class="p-sponsor"><div class="p-sp-label">Presenting partner</div><div class="p-sp-name">Sponsor Name</div></div>
+          <div class="p-nav">
+            <div class="p-nav-item"><div class="p-nav-icon">🏠</div><div class="p-nav-lbl">Home</div></div>
+            <div class="p-nav-item"><div class="p-nav-icon">🔍</div><div class="p-nav-lbl">Discover</div></div>
+            <div class="p-nav-item"><div class="p-nav-icon">📅</div><div class="p-nav-lbl">Events</div></div>
+            <div class="p-nav-item"><div class="p-nav-icon">💬</div><div class="p-nav-lbl">Ask Ruby</div></div>
+            <div class="p-nav-item on"><div class="p-nav-icon">🎫</div><div class="p-nav-lbl">My Pass</div></div>
           </div>
         </div>
 
-        <!-- SCENE: PROGRESSION -->
-        <div class="scene" id="scene-progression">
-          <div class="prog-inner">
-            <div class="prog-eyebrow">ClubOS Pass · The Loop</div>
-            <div class="prog-steps">
-              <div class="prog-step confirm">
-                <div class="prog-emoji">✓</div>
-                <div class="prog-label">Confirm</div>
-                <div class="prog-desc">Scan earns trust.<br>Does something useful right now.</div>
-              </div>
-              <div class="prog-connector"></div>
-              <div class="prog-step inform">
-                <div class="prog-emoji">💡</div>
-                <div class="prog-label">Inform</div>
-                <div class="prog-desc">The club shares knowledge.<br>Member sees real value.</div>
-              </div>
-              <div class="prog-connector"></div>
-              <div class="prog-step participate">
-                <div class="prog-emoji">🏆</div>
-                <div class="prog-label">Participate</div>
-                <div class="prog-desc">Member is engaged — not<br>because they were asked.</div>
-              </div>
+        <!-- SCENE 6: EVENT PASS (GUEST) -->
+        <div class="p-scene" id="ps-guest">
+          <div class="p-hdr">
+            <div class="p-hdr-top">
+              <div><div class="p-club">Harborstone Country Club</div><div class="p-sub">Event Pass · ClubOS</div></div>
+              <div class="p-present"><div class="p-live-dot"></div>Present</div>
             </div>
-            <div class="prog-footer">That loop sustains itself.<br>No loyalty program required.</div>
+            <div class="p-strip">
+              <div><div class="p-strip-label">Wine &amp; Dine · April 12</div><div class="p-strip-sub">Event Pass · Guest of J. Williams</div></div>
+              <div class="p-clock" id="clk-6">6:28 PM</div>
+            </div>
+          </div>
+          <div class="p-body">
+            <div style="margin:10px;background:linear-gradient(145deg,#1A1200,#2A1F00);border:1.5px solid rgba(201,168,76,0.4);border-radius:10px;padding:14px;position:relative;overflow:hidden;">
+              <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#C9A84C,transparent);opacity:0.8;"></div>
+              <div style="font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,0.7);margin-bottom:8px;">Event Pass · Harborstone CC</div>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#F2EEE6;font-weight:600;line-height:1.2;margin-bottom:4px;">Wine &amp; Dine<br>Spring Cellar</div>
+              <div style="font-size:10px;color:#C9A84C;letter-spacing:1px;margin-bottom:12px;">April 12 · 6:30 PM · Private Dining Room</div>
+              <div style="background:#F2EEE6;border-radius:6px;padding:8px;display:inline-block;margin-bottom:10px;">
+                <svg width="64" height="64" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="100" height="100" fill="#F2EEE6"/>
+                  <rect x="8" y="8" width="26" height="26" fill="#0D1F17" rx="2"/>
+                  <rect x="12" y="12" width="18" height="18" fill="#F2EEE6" rx="1"/>
+                  <rect x="16" y="16" width="10" height="10" fill="#C9A84C" rx="1"/>
+                  <rect x="66" y="8" width="26" height="26" fill="#0D1F17" rx="2"/>
+                  <rect x="70" y="12" width="18" height="18" fill="#F2EEE6" rx="1"/>
+                  <rect x="74" y="16" width="10" height="10" fill="#0D1F17" rx="1"/>
+                  <rect x="8" y="66" width="26" height="26" fill="#0D1F17" rx="2"/>
+                  <rect x="12" y="70" width="18" height="18" fill="#F2EEE6" rx="1"/>
+                  <rect x="16" y="74" width="10" height="10" fill="#0D1F17" rx="1"/>
+                  <rect x="40" y="8" width="5" height="5" fill="#0D1F17"/>
+                  <rect x="50" y="8" width="5" height="5" fill="#0D1F17"/>
+                  <rect x="40" y="20" width="5" height="5" fill="#0D1F17"/>
+                  <rect x="55" y="20" width="5" height="5" fill="#0D1F17"/>
+                  <rect x="8" y="40" width="5" height="5" fill="#0D1F17"/>
+                  <rect x="20" y="40" width="5" height="5" fill="#0D1F17"/>
+                  <rect x="8" y="50" width="5" height="5" fill="#0D1F17"/>
+                  <rect x="40" y="40" width="5" height="5" fill="#C9A84C"/>
+                  <rect x="50" y="45" width="5" height="5" fill="#0D1F17"/>
+                  <rect x="60" y="40" width="5" height="5" fill="#0D1F17"/>
+                  <rect x="70" y="50" width="5" height="5" fill="#0D1F17"/>
+                  <rect x="80" y="40" width="5" height="5" fill="#0D1F17"/>
+                  <rect x="40" y="60" width="5" height="5" fill="#0D1F17"/>
+                  <rect x="55" y="65" width="5" height="5" fill="#C9A84C"/>
+                  <rect x="70" y="70" width="5" height="5" fill="#0D1F17"/>
+                  <rect x="80" y="80" width="5" height="5" fill="#0D1F17"/>
+                </svg>
+              </div>
+              <div style="font-size:10px;color:rgba(242,238,230,0.5);line-height:1.4;">Show this QR at check-in.<br>Guest of J. Williams · Table 4</div>
+            </div>
+            <div class="p-sec"><div class="p-sec-t">Tonight's Experience</div><div class="p-sec-s">4 courses</div></div>
+            <div class="p-card">
+              <div class="p-row"><div class="p-row-icon">🍾</div><div><div class="p-row-name">Champagne Reception</div><div class="p-row-detail">Private lounge · 6:30 PM</div></div></div>
+              <div class="p-row"><div class="p-row-icon">🥗</div><div><div class="p-row-name">Spring Harvest Salad</div><div class="p-row-detail">Paired: Sancerre 2022</div></div></div>
+              <div class="p-row"><div class="p-row-icon">🥩</div><div><div class="p-row-name">Wagyu Filet</div><div class="p-row-detail">Paired: Napa Cab 2019</div></div></div>
+            </div>
+            <div style="margin:0 10px 10px;padding:9px 11px;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:8px;font-size:9px;color:rgba(242,238,230,0.55);line-height:1.6;">Interested in membership? Every scan tonight is already building your profile — when you're ready, the club already knows you.</div>
+          </div>
+          <div class="p-sponsor"><div class="p-sp-label">Presenting partner</div><div class="p-sp-name">Sponsor Name</div></div>
+          <div class="p-nav">
+            <div class="p-nav-item"><div class="p-nav-icon">🏠</div><div class="p-nav-lbl">Home</div></div>
+            <div class="p-nav-item"><div class="p-nav-icon">🍽️</div><div class="p-nav-lbl">Menu</div></div>
+            <div class="p-nav-item on"><div class="p-nav-icon">🎫</div><div class="p-nav-lbl">My Pass</div></div>
+            <div class="p-nav-item"><div class="p-nav-icon">💬</div><div class="p-nav-lbl">Ask Ruby</div></div>
+            <div class="p-nav-item"><div class="p-nav-icon">📷</div><div class="p-nav-lbl">Scan</div></div>
           </div>
         </div>
 
       </div><!-- /phone -->
-      <div style="margin-top:14px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(250,247,242,0.22);font-family:'DM Mono',monospace;">Scan any QR · No app · No login</div>
+      <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,0.22);font-family:'DM Mono',monospace;text-align:center;">Scan any QR · No app · No login</div>
     </div><!-- /phone-wrap -->
 
-    <!-- ── SCENARIOS ── -->
+    <!-- SCENARIO CARDS -->
     <div class="scenarios">
 
-      <div class="sc-card" id="sc-scan" onclick="showScene('scan');setActive('sc-scan')">
-        <div class="sc-q">The Entry Point</div>
-        <div class="sc-title">The moment before the club opens.</div>
-        <div class="sc-desc">A QR code on any screen in the club. Member points their camera. No app store, no login screen — ClubOS Pass opens instantly, already knowing where they are and what's happening now.</div>
-        <div class="sc-tag">No download · No friction</div>
-      </div>
-
-      <div class="sc-card active" id="sc-checkin" onclick="showScene('checkin');setActive('sc-checkin')">
+      <div class="sc-card active" id="sc-checkin" onclick="showScene('checkin','sc-checkin')">
         <div class="sc-q">Moment 01 · Arrival</div>
         <div class="sc-title">The scan that replaces the front desk question.</div>
         <div class="sc-desc">Confirmed tee time, course conditions, who they're playing with — before anyone has to look anything up. Staff sees the same confirmation. One scan does both jobs.</div>
         <div class="sc-tag">Utility first · Zero friction</div>
       </div>
 
-      <div class="sc-card" id="sc-discover" onclick="showScene('discover');setActive('sc-discover')">
+      <div class="sc-card" id="sc-discover" onclick="showScene('discover','sc-discover')">
         <div class="sc-q">Moment 02 · Discovery</div>
         <div class="sc-title">The club teaches itself to new members.</div>
-        <div class="sc-desc">Pickleball 101. American Mahjong. Reciprocal club benefits. Every club has knowledge that lives only in staff heads — this puts it on the screen, at any hour, from any QR in the building.</div>
+        <div class="sc-desc">Pickleball 101. American Mahjong. Reciprocal club benefits. Every club has knowledge that lives only in staff heads — ClubOS Pass puts it on any screen, at any hour, from any QR in the building.</div>
         <div class="sc-tag">Inform before engage</div>
       </div>
 
-      <div class="sc-card" id="sc-events" onclick="showScene('events');setActive('sc-events')">
+      <div class="sc-card" id="sc-events" onclick="showScene('events','sc-events')">
         <div class="sc-q">Moment 03 · Events</div>
         <div class="sc-title">RSVP from wherever they're standing.</div>
-        <div class="sc-desc">Member sees an event notice on the dining room TV, scans, and reserves their spot — without walking to the desk or remembering to call Monday. The scan knows which screen they came from.</div>
+        <div class="sc-desc">Member sees the event on the dining room TV, scans, and reserves their spot — without walking to the desk or remembering to call Monday. The scan already knows which screen they came from.</div>
         <div class="sc-tag">Location-aware · Instant</div>
       </div>
 
-      <div class="sc-card" id="sc-ruby" onclick="showScene('ruby');setActive('sc-ruby')">
+      <div class="sc-card" id="sc-ruby" onclick="showScene('ruby','sc-ruby')">
         <div class="sc-q">Moment 04 · Concierge</div>
         <div class="sc-title">One character. Every question.</div>
-        <div class="sc-desc">Ruby is the club's AI guide — dining specials, court availability, upcoming events, tee times. Ask anything. The more a member uses it, the more Ruby learns their preferences. Always opt-in, never required.</div>
+        <div class="sc-desc">Ruby is the club's AI guide — dining specials, court availability, upcoming events, tee times. The more a member uses it, the more Ruby learns their preferences. Always opt-in, never required.</div>
         <div class="sc-tag">Always-on intelligence</div>
       </div>
 
-      <div class="sc-card" id="sc-profile" onclick="showScene('profile');setActive('sc-profile')">
-        <div class="sc-q">Moment 05 · Profile</div>
-        <div class="sc-title">Anonymous by default. Remembered when they choose.</div>
-        <div class="sc-desc">Every scan quietly builds a picture — no account needed. When a member is ready, one tap links their activity to their club membership. Their data stays with the club. Always. No exceptions.</div>
-        <div class="sc-tag">Privacy by design</div>
+      <div class="sc-card" id="sc-pass" onclick="showScene('pass','sc-pass')">
+        <div class="sc-q">Moment 05 · Your Pass</div>
+        <div class="sc-title">Member Pass. Guest Pass. Event Pass. Same infrastructure.</div>
+        <div class="sc-desc">A Member Pass carries the full club relationship. A Guest Pass gives a member's guest a measured experience without needing membership. An Event Pass is scoped to one occasion — check-in, course details, the evening's flow. White-labeled to the club. Owned by the club.</div>
+        <div class="sc-tag">Member · Guest · Event</div>
       </div>
 
-      <div class="prog-card" id="sc-progression" onclick="showScene('progression');setActive('sc-progression')">
-        <div class="prog-eyebrow-right">The Progression</div>
-        <div class="prog-body"><strong>Confirm → Inform → Participate.</strong> The first scan earns trust by doing something useful. The second delivers value. By the third, the member is engaged — not because they were asked to be, but because the experience gave them a reason. That loop sustains itself.</div>
+      <div class="sc-card" id="sc-guest" onclick="showScene('guest','sc-guest')">
+        <div class="sc-q">Moment 06 · Guest &amp; Event Experience</div>
+        <div class="sc-title">A prospective member's first real experience of the club.</div>
+        <div class="sc-desc">A guest at Wine &amp; Dine gets an Event Pass scoped to the evening. Their QR handles check-in. The course detail is built in. And a quiet note at the bottom: every scan tonight is already building their profile. When they're ready to explore membership, the club already knows them. That's a different kind of pipeline.</div>
+        <div class="sc-tag">Acquisition · Not just retention</div>
+      </div>
+
+      <div class="pass-note">
+        <div class="pass-note-eyebrow">Worth saying clearly</div>
+        <div class="pass-note-body">The competitive layer is optional. <strong>The intelligence layer is always on.</strong> The same infrastructure that runs a live trivia leaderboard runs a quiet guest experience or a private event pass. Every pass is the club — just scoped to who's holding it.</div>
       </div>
 
     </div><!-- /scenarios -->
-  </div><!-- /demo-layout -->
-
-  <div class="page-footer">
-    <div class="footer-l">ClubOS Pass · Engagement Infrastructure for Private Clubs · clubhousectv.com</div>
-    <div class="footer-r">US Patent Pending · Filed May 15, 2026<br><span>Engagement Infrastructure for Venue Networks</span></div>
   </div>
-</div>
+</section>
+
+<!-- LOOP SECTION -->
+<section class="loop-section">
+  <div class="loop-eyebrow">ClubOS Pass · The Loop</div>
+  <div class="loop-steps">
+    <div class="loop-step">
+      <div class="loop-step-icon">✓</div>
+      <div class="loop-step-name">Confirm</div>
+      <div class="loop-step-desc">Scan earns trust. Does something useful right now.</div>
+    </div>
+    <div class="loop-arrow">→</div>
+    <div class="loop-step">
+      <div class="loop-step-icon">💡</div>
+      <div class="loop-step-name">Inform</div>
+      <div class="loop-step-desc">The club shares knowledge. Member sees real value.</div>
+    </div>
+    <div class="loop-arrow">→</div>
+    <div class="loop-step">
+      <div class="loop-step-icon">🏆</div>
+      <div class="loop-step-name">Participate</div>
+      <div class="loop-step-desc">Member is engaged — not because they were asked.</div>
+    </div>
+  </div>
+  <div class="loop-close"><strong>That loop sustains itself.</strong> No loyalty program required.</div>
+  <div class="loop-tagline">Scan any QR · No app · No login</div>
+</section>
+
+<!-- MOMENTS DETAIL -->
+<section class="moments-section">
+  <div class="moments-eyebrow">The Progression</div>
+
+  <div class="entry-card">
+    <div>
+      <div class="entry-card-title">The Entry Point</div>
+      <div class="entry-card-body">A QR code on any screen in the club. Member points their camera. No app store, no login screen — the pass opens instantly, already knowing where they are and what's happening now.</div>
+      <span class="entry-card-tag">No download · No friction</span>
+    </div>
+    <div class="entry-qr">
+      <svg width="52" height="52" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <rect width="100" height="100" fill="#0D1F17"/>
+        <rect x="8" y="8" width="26" height="26" fill="#C9A84C" rx="2"/>
+        <rect x="12" y="12" width="18" height="18" fill="#0D1F17" rx="1"/>
+        <rect x="16" y="16" width="10" height="10" fill="#C9A84C" rx="1"/>
+        <rect x="66" y="8" width="26" height="26" fill="#C9A84C" rx="2"/>
+        <rect x="70" y="12" width="18" height="18" fill="#0D1F17" rx="1"/>
+        <rect x="74" y="16" width="10" height="10" fill="#C9A84C" rx="1"/>
+        <rect x="8" y="66" width="26" height="26" fill="#C9A84C" rx="2"/>
+        <rect x="12" y="70" width="18" height="18" fill="#0D1F17" rx="1"/>
+        <rect x="16" y="74" width="10" height="10" fill="#C9A84C" rx="1"/>
+        <rect x="40" y="10" width="5" height="5" fill="#C9A84C"/>
+        <rect x="48" y="10" width="5" height="5" fill="#C9A84C"/>
+        <rect x="40" y="22" width="5" height="5" fill="#C9A84C"/>
+        <rect x="10" y="40" width="5" height="5" fill="#C9A84C"/>
+        <rect x="22" y="40" width="5" height="5" fill="#C9A84C"/>
+        <rect x="40" y="40" width="5" height="5" fill="#FAF7F2"/>
+        <rect x="48" y="48" width="5" height="5" fill="#C9A84C"/>
+        <rect x="60" y="40" width="5" height="5" fill="#C9A84C"/>
+        <rect x="72" y="48" width="5" height="5" fill="#C9A84C"/>
+        <rect x="80" y="40" width="5" height="5" fill="#C9A84C"/>
+        <rect x="40" y="60" width="5" height="5" fill="#C9A84C"/>
+        <rect x="60" y="72" width="5" height="5" fill="#C9A84C"/>
+        <rect x="72" y="60" width="5" height="5" fill="#C9A84C"/>
+        <rect x="80" y="80" width="5" height="5" fill="#C9A84C"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="moment-entry">
+    <div class="moment-num"><div class="moment-num-label">01</div><div class="moment-num-line"></div></div>
+    <div class="moment-content">
+      <div class="moment-tag">Moment 01 · Arrival</div>
+      <div class="moment-title">The scan that replaces the front desk question.</div>
+      <div class="moment-body">Confirmed tee time, course conditions, who they're playing with — before anyone has to look anything up. Staff sees the same confirmation. One scan does both jobs.</div>
+      <span class="moment-pill">Utility first · Zero friction</span>
+    </div>
+  </div>
+
+  <div class="moment-entry">
+    <div class="moment-num"><div class="moment-num-label">02</div><div class="moment-num-line"></div></div>
+    <div class="moment-content">
+      <div class="moment-tag">Moment 02 · Discovery</div>
+      <div class="moment-title">The club teaches itself to new members.</div>
+      <div class="moment-body">Pickleball 101. American Mahjong. Reciprocal club benefits. Every club has knowledge that lives only in staff heads — ClubOS Pass puts it on any screen, at any hour, from any QR in the building.</div>
+      <span class="moment-pill">Inform before engage</span>
+    </div>
+  </div>
+
+  <div class="moment-entry">
+    <div class="moment-num"><div class="moment-num-label">03</div><div class="moment-num-line"></div></div>
+    <div class="moment-content">
+      <div class="moment-tag">Moment 03 · Events</div>
+      <div class="moment-title">RSVP from wherever they're standing.</div>
+      <div class="moment-body">Member sees an event notice on the dining room TV, scans, and reserves their spot — without walking to the desk or remembering to call Monday. The scan knows which screen they came from.</div>
+      <span class="moment-pill">Location-aware · Instant</span>
+    </div>
+  </div>
+
+  <div class="moment-entry">
+    <div class="moment-num"><div class="moment-num-label">04</div><div class="moment-num-line"></div></div>
+    <div class="moment-content">
+      <div class="moment-tag">Moment 04 · Concierge</div>
+      <div class="moment-title">One character. Every question.</div>
+      <div class="moment-body">Ruby is the club's AI guide — dining specials, court availability, upcoming events, tee times. Ask anything. The more a member uses it, the more Ruby learns their preferences. Always opt-in, never required.</div>
+      <span class="moment-pill">Always-on intelligence</span>
+    </div>
+  </div>
+
+  <div class="moment-entry">
+    <div class="moment-num"><div class="moment-num-label">05</div><div class="moment-num-line"></div></div>
+    <div class="moment-content">
+      <div class="moment-tag">Moment 05 · Your Pass</div>
+      <div class="moment-title">Member Pass. Guest Pass. Event Pass.</div>
+      <div class="moment-body">The same infrastructure serves three different people. A Member Pass carries the full club relationship — history, preferences, engagement. A Guest Pass gives a member's guest a real experience without needing to be a member. An Event Pass is scoped to one occasion — check-in QR, event details, membership nudge at the end. All white-labeled to the club. All data owned by the club.</div>
+      <span class="moment-pill">Member · Guest · Event</span>
+    </div>
+  </div>
+
+  <div class="moment-entry">
+    <div class="moment-num"><div class="moment-num-label">06</div></div>
+    <div class="moment-content">
+      <div class="moment-tag">Moment 06 · The Acquisition Layer</div>
+      <div class="moment-title">When the guest becomes the prospect.</div>
+      <div class="moment-body">A guest attending Wine &amp; Dine gets an Event Pass scoped to the evening. Their scans that night quietly build a profile — no account required. A note at the bottom of their pass: when they're ready to explore membership, the club already knows them. That's a pipeline the membership committee didn't have to build.</div>
+      <span class="moment-pill">Acquisition · Not just retention</span>
+    </div>
+  </div>
+
+  <div style="margin-top:48px;padding:28px 32px;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-left:3px solid var(--gold);border-radius:0 12px 12px 0;">
+    <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-family:'DM Mono',monospace;margin-bottom:10px;">The Progression</div>
+    <div style="font-size:15px;color:var(--cream-dim);line-height:1.75;"><strong style="color:var(--cream);">Confirm → Inform → Participate.</strong> The first scan earns trust by doing something useful. The second delivers value. By the third, the member is engaged — not because they were asked to be, but because the experience gave them a reason. That loop sustains itself.</div>
+  </div>
+</section>
+
+<footer>
+  <div class="wordmark"><span class="club" style="color:rgba(250,247,242,0.35);">Club</span><span class="os" style="color:rgba(201,168,76,0.45);">OS</span></div>
+  <div class="footer-left">ClubOS Pass · Engagement Infrastructure for Private Clubs · clubhousectv.com</div>
+  <div class="footer-right">
+    US Patent Pending · Filed May 15, 2026<br>
+    Engagement Infrastructure for Venue Networks<br>
+    <span style="color:rgba(250,247,242,0.15);">© 2026 Clubhouse CTV LLC · All Rights Reserved</span>
+  </div>
+</footer>
 
 <script>
-// QR pattern — pre-built, no JS DOM injection needed for phone scenes
-(function(){
-  var p=[1,1,1,1,1,1,1,0,1,0,1,1,1,1,1,1,1,1,0,0,0,0,0,1,0,0,1,1,0,0,0,0,0,1,1,0,1,1,1,0,1,0,1,0,1,0,1,1,1,0,1,1,0,1,1,1,0,1,0,0,1,0,1,1,1,0,1,1,0,0,0,0,0,1,0,1,0,1,0,0,0,0,0,1,1,1,1,1,1,1,1,0,1,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,1,1,0,1,1,0,1,0,1,1,0,1,0,1,0,0,1,0,1,0,0,0,1,0,0,1,0,1,0,0,1,0,1,1,0,0,1,0,1,0,1,0,0,0,1,1,0,1,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,1,1,1,1,1,1,1,0,1,0,0,1,0,1,0,1,1,0,0,0,0,0,1,0,0,1,1,0,1,0,1,0,1,0,1,1,1,0,1,0,1,0,0,1,0,0,1,1,0,0,0,0,1,0,1,0,1,0,0,0,0,0,1,0,1,0,1,1,0,1,0,1,0,1,0,1,0,0,0,1,1,0,1,0,0,0,1,0,0,1,0,0,1,0,1,1,1,1,1,1,1,0,0,1,0,0,1,0,1,1,1];
-  var g=document.getElementById('qrGrid');
-  if(!g) return;
-  for(var i=0;i<p.length;i++){
-    var c=document.createElement('div');
-    c.className='qb '+(p[i]?'d':'l');
-    g.appendChild(c);
-  }
-})();
-
-// Clock
-function getTime(){
-  var n=new Date(),h=n.getHours(),m=n.getMinutes();
-  var ap=h>=12?'PM':'AM',hh=(h%12)||12,mm=m<10?'0'+m:''+m;
-  return hh+':'+mm+' '+ap;
+function showScene(id, cardId) {
+  document.querySelectorAll('.p-scene').forEach(function(s){ s.classList.remove('active'); });
+  var t = document.getElementById('ps-' + id);
+  if(t) t.classList.add('active');
+  document.querySelectorAll('.sc-card').forEach(function(c){ c.classList.remove('active'); });
+  var c = document.getElementById(cardId);
+  if(c) c.classList.add('active');
 }
-function updateClocks(){
-  var ids=['clock-checkin','clock-discover','clock-events','clock-ruby','clock-profile'];
-  var t=getTime();
-  for(var i=0;i<ids.length;i++){
-    var el=document.getElementById(ids[i]);
-    if(el) el.textContent=t;
+
+function updateClocks() {
+  var now = new Date(), h = now.getHours(), m = now.getMinutes();
+  var ap = h >= 12 ? 'PM' : 'AM', hh = (h % 12) || 12, mm = m < 10 ? '0'+m : ''+m;
+  var t = hh + ':' + mm + ' ' + ap;
+  for(var i = 1; i <= 5; i++) {
+    var el = document.getElementById('clk-' + i);
+    if(el) el.textContent = t;
   }
 }
 updateClocks();
-setInterval(updateClocks,1000);
-
-// Scene switcher — pure show/hide, no innerHTML
-function showScene(id){
-  var scenes=document.querySelectorAll('.scene');
-  for(var i=0;i<scenes.length;i++) scenes[i].classList.remove('active');
-  var target=document.getElementById('scene-'+id);
-  if(target) target.classList.add('active');
-}
-
-function setActive(cardId){
-  var cards=document.querySelectorAll('.sc-card,.prog-card');
-  for(var i=0;i<cards.length;i++) cards[i].classList.remove('active');
-  var card=document.getElementById(cardId);
-  if(card) card.classList.add('active');
-}
-
-// Default — show checkin on load
-showScene('checkin');
+setInterval(updateClocks, 1000);
 </script>
 </body>
 </html>
